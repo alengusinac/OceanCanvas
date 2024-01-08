@@ -17,8 +17,7 @@ export async function connectDatabase(): Promise<void> {
     });
 
     if (mongoose.connection.readyState !== 1 && mongoose.connection.readyState !== 2) {
-      const conn = await mongoose.connect('mongodb://localhost:27017/ocean-canvas', {
-        // <- replace connection string if necessary
+      const conn = await mongoose.connect(process.env.DB_HOST, {
         autoIndex: true,
         serverSelectionTimeoutMS: 5000,
       });
