@@ -1,7 +1,10 @@
 import styled from 'styled-components';
+import { MaterialIcon } from './Wrappers';
+import React from 'react';
 
 interface MaterialIconButtonProps {
   icon: string;
+  onClick: React.MouseEventHandler;
 }
 
 const Button = styled.button`
@@ -17,13 +20,9 @@ const Button = styled.button`
   margin: 0;
 `;
 
-const MaterialIcon = styled.span`
-  font-size: 3rem;
-`;
-
-const MaterialIconButton = ({ icon }: MaterialIconButtonProps) => {
+const MaterialIconButton = ({ icon, onClick }: MaterialIconButtonProps) => {
   return (
-    <Button>
+    <Button onClick={onClick}>
       <MaterialIcon className="material-symbols-outlined">{icon}</MaterialIcon>
     </Button>
   );
