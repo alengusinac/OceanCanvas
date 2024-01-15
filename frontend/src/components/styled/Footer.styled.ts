@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { colors } from '@/styles/variables';
 
 export const FooterWrapper = styled.footer`
+  position: relative;
+  z-index: 10;
   background-color: ${colors.sand};
   width: 100%;
   padding: 10px 10px;

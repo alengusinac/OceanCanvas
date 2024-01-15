@@ -3,6 +3,8 @@ import { colors } from '@/styles/variables';
 import { LogoWrapper } from './Logo.styled';
 
 export const HeaderWrapper = styled.header`
+  position: relative;
+  z-index: 10;
   background-color: ${colors.sand};
   height: 75px;
   width: 100%;
