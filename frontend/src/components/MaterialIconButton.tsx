@@ -1,31 +1,13 @@
-import styled from 'styled-components';
-import { MaterialIcon } from './Wrappers';
-import React from 'react';
+import React, { ReactNode } from 'react';
+import { IconButton } from './styled/IconButton.styled';
 
 interface MaterialIconButtonProps {
-  icon: string;
+  icon: ReactNode;
   onClick: React.MouseEventHandler;
 }
 
-const Button = styled.button`
-  width: 50px;
-  height: 50px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  margin: 0;
-`;
-
 const MaterialIconButton = ({ icon, onClick }: MaterialIconButtonProps) => {
-  return (
-    <Button onClick={onClick}>
-      <MaterialIcon className="material-symbols-outlined">{icon}</MaterialIcon>
-    </Button>
-  );
+  return <IconButton onClick={onClick}>{icon}</IconButton>;
 };
 
 export default MaterialIconButton;

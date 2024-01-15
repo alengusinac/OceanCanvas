@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { colors } from '@/styles/variables';
+import { LogoWrapper } from './Logo.styled';
 
 export const HeaderWrapper = styled.header`
   background-color: ${colors.sand};
@@ -12,14 +13,8 @@ export const HeaderWrapper = styled.header`
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
-export const FlexWrapper = styled.div`
-  display: flex;
-`;
-
-export const LogoWrapper = styled.img`
-  width: 46px;
-`;
-
-export const MaterialIcon = styled.span`
-  font-size: 3rem;
+export const Logo = styled(LogoWrapper)`
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
 `;
