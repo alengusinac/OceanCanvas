@@ -6,6 +6,7 @@ import Products from '@/pages/Products';
 import About from '@/pages/About';
 import Contact from '@/pages/Contact';
 import Product from '@/pages/Product';
+import Admin from './pages/Admin';
 
 const router = createBrowserRouter([
   {
@@ -38,15 +39,8 @@ const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <Layout></Layout>,
+    element: <Admin></Admin>,
     errorElement: <Error />,
-    children: [
-      {
-        path: '',
-        element: <p>ADMIN</p>,
-        index: true,
-      },
-    ],
   },
 ]);
 
