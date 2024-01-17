@@ -1,5 +1,7 @@
+import Dashboard from '@/components/Dashboard/Dashboard';
+
 const Admin = () => {
-  return <p>Admin</p>;
+  return <Dashboard />;
 };
 
 export default Admin;
