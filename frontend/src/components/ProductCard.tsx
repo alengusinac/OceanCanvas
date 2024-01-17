@@ -1,15 +1,10 @@
+import { Item } from '../models/IItem';
 import {
   ImageContainer,
   ProductImage,
   StyledProductCard,
 } from './styled/Products.styled';
 
-interface Item {
-  title: string;
-  description: string;
-  price: number;
-  image: string;
-}
 interface Props {
   item: Item;
 }

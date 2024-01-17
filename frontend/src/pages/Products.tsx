@@ -1,3 +1,4 @@
+import FilterAndSort from '@/components/FilterAndSort';
 import ProductCard from '@/components/ProductCard';
 import { ProductsList } from '@/components/styled/Products.styled';
 
@@ -40,17 +41,7 @@ const Products = () => {
     <>
       <h1>Photo Prints</h1>
       <p>Explore the Depths Through Captivating Prints</p>
-      <div>
-        <div>
-          <button>Categories</button>
-          <button>Filters</button>
-        </div>
-        <div>
-          <p>66 products</p>
-          <button>12 per page</button>
-          <button>Sort</button>
-        </div>
-      </div>
+      <FilterAndSort />
       <ProductsList>
         {data.products.map((item) => (
           <ProductCard key={item.id} item={item} />
