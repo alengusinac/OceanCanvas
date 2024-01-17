@@ -4,14 +4,14 @@ import {
   MdOutlineFavoriteBorder,
   MdOutlineShoppingCart,
   MdMenu,
+  MdClose,
 } from 'react-icons/md';
 import { HeaderWrapper, Logo, StyledNav } from './styled/Header.styled';
 import { FlexWrapper } from './styled/Flex.styled';
 import Drawer from '@mui/material/Drawer';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
-useNavigate;
 
 const handleClick = () => {
   console.log('CLICK');
@@ -29,8 +29,8 @@ const Header = () => {
   return (
     <HeaderWrapper>
       <MaterialIconButton
-        onClick={() => setDrawerOpen(true)}
-        icon={<MdMenu />}
+        onClick={() => setDrawerOpen(!drawerOpen)}
+        icon={drawerOpen ? <MdClose /> : <MdMenu />}
       />
       <Drawer
         anchor={'left'}
@@ -54,7 +54,9 @@ const Header = () => {
           <Divider />
         </StyledNav>
       </Drawer>
-      <Logo src={logo} />
+      <Link to={'/'}>
+        <Logo src={logo} />
+      </Link>
       <FlexWrapper>
         <MaterialIconButton
           onClick={handleClick}
