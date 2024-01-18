@@ -14,16 +14,7 @@ export const StyledProductCard = styled.div`
 
   h4,
   p {
-    text-align: center;
     margin: 0;
-  }
-
-  h4 {
-    margin-top: 10px;
-  }
-
-  p {
-    font-style: italic;
   }
 `;
 
@@ -34,6 +25,7 @@ export const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10px;
 `;
 
 export const ProductImage = styled.img`

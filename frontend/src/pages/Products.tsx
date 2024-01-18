@@ -1,6 +1,7 @@
 import FilterAndSort from '@/components/FilterAndSort';
 import ProductCard from '@/components/ProductCard';
 import { ProductsList } from '@/components/styled/Products.styled';
+import { BodyText, Heading1 } from '@/components/styled/Text.styled';
 
 const data = {
   total: 65,
@@ -39,8 +40,8 @@ const data = {
 const Products = () => {
   return (
     <>
-      <h1>Photo Prints</h1>
-      <p>Explore the Depths Through Captivating Prints</p>
+      <Heading1>Photo Prints</Heading1>
+      <BodyText>Explore the Depths Through Captivating Prints</BodyText>
       <FilterAndSort />
       <ProductsList>
         {data.products.map((item) => (

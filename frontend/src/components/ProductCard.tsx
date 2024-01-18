@@ -4,6 +4,7 @@ import {
   ProductImage,
   StyledProductCard,
 } from './styled/Products.styled';
+import { BodyText, SmallBodyText } from './styled/Text.styled';
 
 interface Props {
   item: Item;
@@ -15,8 +16,8 @@ const ProductCard = ({ item }: Props) => {
       <ImageContainer>
         <ProductImage src={item.image} />
       </ImageContainer>
-      <h4>{item.title}</h4>
-      <p>From: ${item.price}</p>
+      <BodyText>{item.title}</BodyText>
+      <SmallBodyText>From ${item.price}</SmallBodyText>
     </StyledProductCard>
   );
 };
