@@ -7,3 +7,8 @@ export const colors = {
   coral: '#FF6F61',
   lightGrey: '#CECECE',
 };
+
+export const fonts = {
+  heading: '"Montserrat", sans-serif',
+  body: '"Lato", sans-serif',
+};
