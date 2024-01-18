@@ -1,22 +1,22 @@
 import { fonts } from '@/styles/variables';
 import styled from 'styled-components';
 
-export const Header1 = styled.h1`
+export const Heading1 = styled.h1`
   font-family: ${fonts.heading};
   text-align: center;
   padding: 0 20px;
 `;
-export const Header2 = styled.h2`
+export const Heading2 = styled.h2`
   font-family: ${fonts.heading};
   text-align: center;
   padding: 0 20px;
 `;
-export const Header3 = styled.h3`
+export const Heading3 = styled.h3`
   font-family: ${fonts.heading};
   text-align: center;
   padding: 0 20px;
 `;
-export const Header4 = styled.h4`
+export const Heading4 = styled.h4`
   font-family: ${fonts.heading};
   text-align: center;
   padding: 0 20px;

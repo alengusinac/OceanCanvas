@@ -4,14 +4,14 @@ import { ImagesContainer } from '@/components/styled/About.styled';
 import {
   BodyText,
   BoldBodyText,
-  Header1,
-  Header4,
+  Heading1,
+  Heading4,
 } from '@/components/styled/Text.styled';
 
 const About = () => {
   return (
     <>
-      <Header1>About Us</Header1>
+      <Heading1>About Us</Heading1>
       <BodyText>
         Welcome to OceanCanvas, where the mesmerizing world beneath the waves
         comes to life through the lens of the exceptionally talented
@@ -23,7 +23,7 @@ const About = () => {
         <img src={photographer1} alt="" />
         <img src={photographer2} alt="" />
       </ImagesContainer>
-      <Header4>Our Mission: Capturing the Essence of the Ocean</Header4>
+      <Heading4>Our Mission: Capturing the Essence of the Ocean</Heading4>
       <BodyText>
         At OceanCanvas, our mission is to showcase Alen Gusinac's extraordinary
         ability to capture the essence of marine life, vibrant coral reefs, and
@@ -31,7 +31,7 @@ const About = () => {
         story, inviting you to explore, connect, and bring the wonders of the
         ocean into your everyday life.
       </BodyText>
-      <Header4>Why OceanCanvas?</Header4>
+      <Heading4>Why OceanCanvas?</Heading4>
       <BodyText>
         <BoldBodyText>Quality Beyond Measure:</BoldBodyText> Alen's prints are
         meticulously crafted to ensure the highest quality, allowing you to
@@ -44,7 +44,7 @@ const About = () => {
         sustainability in mind, and we actively support initiatives dedicated to
         preserving our oceans.
       </BodyText>
-      <Header4>Our Promise: Dive into Excellence</Header4>
+      <Heading4>Our Promise: Dive into Excellence</Heading4>
       <BodyText>
         When you choose OceanCanvas, you're not just acquiring a piece of art;
         you're investing in a journey beneath the waves curated by Alen Gusinac.
