@@ -6,7 +6,9 @@ import Products from '@/pages/Products';
 import About from '@/pages/About';
 import Contact from '@/pages/Contact';
 import Product from '@/pages/Product';
-import Admin from './pages/Admin';
+import Admin from '@/pages/Admin';
+import Checkout from '@/pages/Checkout';
+import OrderConfirmation from '@/pages/OrderConfirmation';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
       {
         path: '/contact',
         element: <Contact />,
+      },
+      {
+        path: '/checkout',
+        element: <Checkout />,
+      },
+      {
+        path: '/confirm-order',
+        element: <OrderConfirmation />,
       },
     ],
   },
