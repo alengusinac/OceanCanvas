@@ -1,4 +1,4 @@
-import { Item } from '../models/IItem';
+import { IItem } from '../models/IItem';
 import {
   ImageContainer,
   ProductImage,
@@ -7,7 +7,7 @@ import {
 import { BodyText, SmallBodyText } from './styled/Text.styled';
 
 interface Props {
-  item: Item;
+  item: IItem;
 }
 
 const ProductCard = ({ item }: Props) => {
