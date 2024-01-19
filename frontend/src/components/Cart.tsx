@@ -45,7 +45,11 @@ const items = [
   },
 ];
 
-const Cart = () => {
+interface Props {
+  setCartDrawerOpen: (boolean: boolean) => void;
+}
+
+const Cart = ({ setCartDrawerOpen }: Props) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const navigate = useNavigate();
@@ -77,7 +81,13 @@ const Cart = () => {
       ))}
       <SmallBodyText>Total quantity: {totalAmount} pcs</SmallBodyText>
       <BodyText>Total price: ${totalPrice}</BodyText>
-      <Button onClick={() => navigate('/checkout')} variant="contained">
+      <Button
+        onClick={() => {
+          navigate('/checkout');
+          setCartDrawerOpen(false);
+        }}
+        variant="contained"
+      >
         Checkout
       </Button>
     </StyledCart>

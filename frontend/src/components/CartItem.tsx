@@ -1,7 +1,11 @@
 import ButtonGroup from '@mui/material/ButtonGroup';
 import MaterialIconButton from './MaterialIconButton';
 
-import { CartImageContainer, StyledCartItem } from './styled/Cart.styled';
+import {
+  CartImageContainer,
+  ItemActionButtons,
+  StyledCartItem,
+} from './styled/Cart.styled';
 import { ProductImage } from './styled/Products.styled';
 import { BodyText, SmallBodyText } from './styled/Text.styled';
 import { ICartItem } from '@/models/IItem';
@@ -10,6 +14,7 @@ import {
   MdRemoveCircleOutline,
   MdAddCircleOutline,
 } from 'react-icons/md';
+import { FlexWrapper } from './styled/Flex.styled';
 
 interface Props {
   item: ICartItem;
@@ -22,15 +27,17 @@ const CartItem = ({ item }: Props) => {
 
   return (
     <StyledCartItem>
-      <CartImageContainer>
-        <ProductImage src={item.image} />
-      </CartImageContainer>
-      <div>
-        <BodyText>{item.title}</BodyText>
-        <SmallBodyText>{item.size} cm</SmallBodyText>
-        <SmallBodyText>Quantity: {item.amount}</SmallBodyText>
-      </div>
-      <div>
+      <FlexWrapper>
+        <CartImageContainer>
+          <ProductImage src={item.image} />
+        </CartImageContainer>
+        <div>
+          <BodyText>{item.title}</BodyText>
+          <SmallBodyText>{item.size} cm</SmallBodyText>
+          <SmallBodyText>Quantity: {item.amount}</SmallBodyText>
+        </div>
+      </FlexWrapper>
+      <ItemActionButtons>
         <MaterialIconButton
           $size={30}
           icon={<MdDeleteForever />}
@@ -49,7 +56,7 @@ const CartItem = ({ item }: Props) => {
           />
         </ButtonGroup>
         <SmallBodyText>{`$${item.price * item.amount}`}</SmallBodyText>
-      </div>
+      </ItemActionButtons>
     </StyledCartItem>
   );
 };

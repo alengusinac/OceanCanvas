@@ -65,7 +65,7 @@ const Header = () => {
           open={cartDrawerOpen}
           onClose={() => setCartDrawerOpen(false)}
         >
-          <Cart />
+          <Cart setCartDrawerOpen={setCartDrawerOpen} />
         </Drawer>
       </FlexWrapper>
     </HeaderWrapper>

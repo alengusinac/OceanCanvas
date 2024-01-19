@@ -9,6 +9,7 @@ export const StyledCart = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 75px;
+  padding: 0 10px;
   padding-bottom: 30px;
 `;
 
@@ -23,4 +24,11 @@ export const StyledCartItem = styled.div`
 export const CartImageContainer = styled(ImageContainer)`
   width: 75px;
   height: 100px;
+`;
+
+export const ItemActionButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
