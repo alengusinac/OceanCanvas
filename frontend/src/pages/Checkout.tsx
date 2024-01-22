@@ -1,96 +1,46 @@
-import CartItem from '@/components/CartItem';
+import Cart from '@/components/Cart';
 import { CheckoutForm } from '@/components/styled/Checkout.styled';
-import {
-  BodyText,
-  Heading4,
-  SmallBodyText,
-} from '@/components/styled/Text.styled';
-import { Button, Divider } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-const items = [
-  {
-    id: 0,
-    title: 'Fish',
-    description: 'This is a lovely fish.',
-    price: 20,
-    size: '20x30',
-    amount: 1,
-    image: 'src/assets/images/ocean1.jpg',
-  },
-  {
-    id: 1,
-    title: 'Shark',
-    description: 'This is a lovely fish.',
-    price: 20,
-    size: '20x30',
-    amount: 2,
-    image: 'src/assets/images/ocean2.jpg',
-  },
-  {
-    id: 2,
-    title: 'Coral',
-    description: 'This is a lovely fish.',
-    price: 20,
-    size: '20x30',
-    amount: 1,
-    image: 'src/assets/images/ocean1.jpg',
-  },
-  {
-    id: 3,
-    title: 'Diver',
-    description: 'This is a lovely fish.',
-    price: 20,
-    size: '20x30',
-    amount: 1,
-    image: 'src/assets/images/ocean2.jpg',
-  },
-];
+import { Heading4 } from '@/components/styled/Text.styled';
+import { Divider, TextField } from '@mui/material';
+// import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [totalAmount, setTotalAmount] = useState(0);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    calculateTotal();
-  });
-
-  const calculateTotal = () => {
-    let totalPrice = 0;
-    items.forEach((item) => {
-      totalPrice += item.amount * item.price;
-    });
-    setTotalPrice(totalPrice);
-
-    setTotalAmount(
-      items.reduce(function (acc, obj) {
-        return acc + obj.amount;
-      }, 0)
-    );
-  };
+  // const navigate = useNavigate();
 
   return (
     <>
       <div>
         <Heading4>Checkout</Heading4>
         <Divider />
-        {items.map((item) => (
-          <CartItem key={item.id} item={item} />
-        ))}
-        <SmallBodyText>Total quantity: {totalAmount} pcs</SmallBodyText>
-        <BodyText>Total price: ${totalPrice}</BodyText>
+        <Cart />
       </div>
       <Divider />
-      <Heading4>Shipping Information</Heading4>
-      <CheckoutForm>
-        <input type="text" />
-        <input type="text" />
-        <input type="text" />
-        <input type="text" />
-        <input type="text" />
-      </CheckoutForm>
+      <div>
+        <Heading4>Shipping Information</Heading4>
+        <CheckoutForm>
+          <TextField label="E-mail" variant="filled" required />
+          <TextField label="Firstname" variant="filled" required />
+          <TextField label="Lastname" variant="filled" required />
+          <TextField label="Address" variant="filled" required />
+          <TextField label="Zipcode" variant="filled" required />
+          <TextField label="City" variant="filled" required />
+          <TextField label="Country" variant="filled" required />
+          <TextField label="Phone number" variant="filled" required />
+        </CheckoutForm>
+      </div>
+      <Divider />
+      <div>
+        <Heading4>Payment information</Heading4>
+        <CheckoutForm>
+          <TextField
+            label="Credit/Debit Card Number"
+            variant="filled"
+            required
+          />
+          <TextField label="Expiration Date" variant="filled" required />
+          <TextField label="CCV" variant="filled" required />
+        </CheckoutForm>
+      </div>
     </>
   );
 };
