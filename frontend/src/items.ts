@@ -1,0 +1,38 @@
+export const items = [
+  {
+    id: 0,
+    title: 'Fish',
+    description: 'This is a lovely fish.',
+    price: 20,
+    size: '20x30',
+    amount: 1,
+    image: 'src/assets/images/ocean1.jpg',
+  },
+  {
+    id: 1,
+    title: 'Shark',
+    description: 'This is a lovely fish.',
+    price: 20,
+    size: '20x30',
+    amount: 2,
+    image: 'src/assets/images/ocean2.jpg',
+  },
+  {
+    id: 2,
+    title: 'Coral',
+    description: 'This is a lovely fish.',
+    price: 20,
+    size: '20x30',
+    amount: 1,
+    image: 'src/assets/images/ocean1.jpg',
+  },
+  {
+    id: 3,
+    title: 'Diver',
+    description: 'This is a lovely fish.',
+    price: 20,
+    size: '20x30',
+    amount: 1,
+    image: 'src/assets/images/ocean2.jpg',
+  },
+];
