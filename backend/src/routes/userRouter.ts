@@ -9,11 +9,11 @@ router.post('/register', async (req, res) => {
     const user = req.body;
     const { name, email, password } = user;
 
-    const isEmailAllReadyExist = await User.findOne({
+    const doesEmailExist = await User.findOne({
       email: email,
     });
 
-    if (isEmailAllReadyExist) {
+    if (doesEmailExist) {
       res.status(400).json({
         status: 400,
         message: 'Email already in use.',
@@ -45,14 +45,14 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    const user = req.body;
-    const { email, password } = user;
+    const userReq = req.body;
+    const { email, password } = userReq;
 
-    const isUserExist = await User.findOne({
+    const user = await User.findOne({
       email: email,
     });
 
-    if (!isUserExist) {
+    if (!user) {
       res.status(404).json({
         status: 404,
         success: false,
@@ -61,7 +61,7 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    const isPasswordMatched = isUserExist?.password === password;
+    const isPasswordMatched = user?.password === password;
 
     if (!isPasswordMatched) {
       res.status(400).json({
@@ -72,13 +72,9 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    const token = jwt.sign(
-      { _id: isUserExist?._id, email: isUserExist?.email, admin: isUserExist?.admin },
-      process.env.JWT_SECRET as Secret,
-      {
-        expiresIn: '1d',
-      }
-    );
+    const token = jwt.sign({ _id: user?._id, email: user?.email, admin: user?.admin }, process.env.JWT_SECRET as Secret, {
+      expiresIn: '1d',
+    });
 
     res.status(200).json({
       status: 200,
