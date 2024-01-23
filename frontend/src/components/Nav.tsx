@@ -12,8 +12,8 @@ const Nav = ({ handleNavClick }: Props) => {
       <Divider />
       <button onClick={() => handleNavClick('/products')}>Photo Prints</button>
       <Divider />
-      <button onClick={() => handleNavClick('/user/login')}>Login</button>
-      <button onClick={() => handleNavClick('/user/signup')}>Sign Up</button>
+      <button onClick={() => handleNavClick('/login')}>Login</button>
+      <button onClick={() => handleNavClick('/signup')}>Sign Up</button>
       <Divider />
       <button onClick={() => handleNavClick('/about')}>About Us</button>
       <button onClick={() => handleNavClick('/contact')}>Contact Us</button>
