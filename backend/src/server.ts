@@ -4,6 +4,8 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { connectDatabase } from './services/databaseConnection';
 import userRouter from './routes/userRouter';
+import productRouter from './routes/productRouter';
+import orderRouter from './routes/orderRouter';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -30,6 +32,8 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/users', userRouter);
+app.use('/products', productRouter);
+app.use('/orders', orderRouter);
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log(`Application started on port ${process.env.SERVER_PORT}!`);
