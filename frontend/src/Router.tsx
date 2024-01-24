@@ -9,8 +9,9 @@ import Product from '@/pages/Product';
 import Admin from '@/pages/Admin';
 import Checkout from '@/pages/Checkout';
 import OrderConfirmation from '@/pages/OrderConfirmation';
-import Login from '@/components/Login';
-import Signup from '@/components/Signup';
+import Login from '@/pages/Login';
+import Signup from '@/pages/Signup';
+import Profile from './pages/Profile';
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: '/signup',
         element: <Signup />,
+      },
+      {
+        path: '/profile',
+        element: <Profile />,
       },
       {
         path: '/checkout',
