@@ -11,7 +11,6 @@ import { FlexWrapper } from './styled/Flex.styled';
 import Drawer from '@mui/material/Drawer';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
 import Cart from './CartDrawer';
 import Nav from './Nav';
 

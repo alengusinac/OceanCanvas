@@ -1,6 +1,7 @@
 import express from 'express';
 import jwt, { Secret } from 'jsonwebtoken';
 import { User } from '../models/UserSchema';
+import { stat } from 'fs';
 
 const router = express.Router();
 
@@ -84,6 +85,33 @@ router.post('/login', async (req, res) => {
     });
   } catch (error: any) {
     console.log('LoginError: ', error);
+
+    res.status(400).json({
+      status: 400,
+      message: error.message.toString(),
+    });
+  }
+});
+
+router.post('/validate', async (req, res) => {
+  try {
+    const token = req.body.token;
+    jwt.verify(token, process.env.JWT_SECRET as Secret, (err: any, decoded: any) => {
+      if (err) {
+        res.status(401).json({
+          status: 401,
+          message: 'Unauthorized',
+        });
+        return;
+      }
+
+      res.status(200).json({
+        status: 200,
+        message: 'Valid token',
+      });
+    });
+  } catch (error: any) {
+    console.log('ValidateError: ', error);
 
     res.status(400).json({
       status: 400,
