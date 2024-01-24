@@ -1,28 +1,37 @@
 import { CheckoutForm } from '@/components/styled/Checkout.styled';
 import {
   BodyText,
+  Heading1,
   Heading3,
+  Heading4,
   SmallBodyText,
 } from '@/components/styled/Text.styled';
 import { useUserContext } from '@/hooks/useUserContext';
+import { IFormField } from '@/models/IFormField';
 import { changeUserPassword } from '@/services/userService';
 import { Button, TextField } from '@mui/material';
 import { useState } from 'react';
-
-interface FormField {
-  value: string;
-  error: boolean;
-  errorMessage: string;
-}
+import { useNavigate } from 'react-router-dom';
 
 interface PasswordFormValues {
-  password1: FormField;
-  password2: FormField;
+  password1: IFormField;
+  password2: IFormField;
 }
 
 const Profile = () => {
   const { user, logout } = useUserContext();
+  const navigate = useNavigate();
   const [passwordMessage, setPasswordMessage] = useState('');
+  const [addressFormValues, setAddressFormValues] = useState({
+    email: '',
+    firstname: '',
+    lastname: '',
+    address: '',
+    zipcode: '',
+    city: '',
+    country: '',
+    phonenumber: '',
+  });
   const [passwordFormValues, setPasswordFormValues] = useState({
     password1: {
       value: '',
@@ -90,32 +99,103 @@ const Profile = () => {
     });
   };
 
+  const onAddressSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('Address submit');
+  };
+
+  const onChangeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target as HTMLInputElement;
+    setAddressFormValues({
+      ...addressFormValues,
+      [name]: value,
+    });
+  };
+
   return (
     <div>
-      <h1>Profile</h1>
-      <p>{user.email}</p>
-      <button onClick={() => logout()}>Logout</button>
+      <Heading1>Profile</Heading1>
+      <SmallBodyText>{user.email}</SmallBodyText>
+      <Button
+        variant="contained"
+        onClick={() => {
+          logout();
+          navigate('/');
+        }}
+      >
+        Logout
+      </Button>
       <div>
-        <h2>Orders</h2>
-        <p>Order 1</p>
-        <p>Order 2</p>
-        <p>Order 3</p>
+        <Heading3>Orders</Heading3>
+        <BodyText>Order 1</BodyText>
+        <BodyText>Order 2</BodyText>
+        <BodyText>Order 3</BodyText>
       </div>
       <div>
         <Heading3>Settings</Heading3>
-        <BodyText>Change Address</BodyText>
-        <CheckoutForm>
-          <TextField label="E-mail" variant="filled" />
-          <TextField label="Firstname" variant="filled" />
-          <TextField label="Lastname" variant="filled" />
-          <TextField label="Address" variant="filled" />
-          <TextField label="Zipcode" variant="filled" />
-          <TextField label="City" variant="filled" />
-          <TextField label="Country" variant="filled" />
-          <TextField label="Phone number" variant="filled" />
-          <Button variant="contained">Save Address</Button>
+        <Heading4>Change Address</Heading4>
+        <CheckoutForm onSubmit={onAddressSubmit}>
+          <TextField
+            value={addressFormValues.email}
+            onChange={onChangeAddress}
+            name="email"
+            label="E-mail"
+            variant="filled"
+          />
+          <TextField
+            value={addressFormValues.firstname}
+            onChange={onChangeAddress}
+            name="firstname"
+            label="Firstname"
+            variant="filled"
+          />
+          <TextField
+            value={addressFormValues.lastname}
+            onChange={onChangeAddress}
+            name="lastname"
+            label="Lastname"
+            variant="filled"
+          />
+          <TextField
+            value={addressFormValues.address}
+            onChange={onChangeAddress}
+            name="address"
+            label="Address"
+            variant="filled"
+          />
+          <TextField
+            value={addressFormValues.zipcode}
+            onChange={onChangeAddress}
+            name="zipcode"
+            label="Zipcode"
+            variant="filled"
+          />
+          <TextField
+            value={addressFormValues.city}
+            onChange={onChangeAddress}
+            name="city"
+            label="City"
+            variant="filled"
+          />
+          <TextField
+            value={addressFormValues.country}
+            onChange={onChangeAddress}
+            name="country"
+            label="Country"
+            variant="filled"
+          />
+          <TextField
+            value={addressFormValues.phonenumber}
+            onChange={onChangeAddress}
+            name="phonenumber"
+            label="Phone number"
+            variant="filled"
+          />
+          <Button type="submit" variant="contained">
+            Save Address
+          </Button>
         </CheckoutForm>
-        <BodyText>Change Password</BodyText>
+        <Heading4>Change Password</Heading4>
         <SmallBodyText>{passwordMessage}</SmallBodyText>
         <CheckoutForm onSubmit={onPasswordSubmit}>
           <TextField
