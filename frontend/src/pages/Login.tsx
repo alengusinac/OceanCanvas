@@ -1,11 +1,11 @@
 import { Button, TextField } from '@mui/material';
-import { LoginSignupContainer } from './styled/LoginSignup';
-import { Heading2 } from './styled/Text.styled';
+import { LoginSignupContainer } from '../components/styled/LoginSignup';
+import { Heading2 } from '../components/styled/Text.styled';
 import { ChangeEvent, useState } from 'react';
-import { post } from '@/services/baseService';
-import { IUserResponse } from '@/models/IUserResponse';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '@/hooks/useUserContext';
+import { loginUser } from '@/services/userService';
 
 interface FormField {
   value: string;
@@ -31,6 +31,7 @@ const Login = () => {
       errorMessage: 'You must enter a password',
     },
   });
+  const { checkUser } = useUserContext();
   const navigate = useNavigate();
 
   const onFormChange = (e: ChangeEvent) => {
@@ -74,13 +75,12 @@ const Login = () => {
       email: formValues.email.value,
       password: formValues.password.value,
     };
-    const response = await post<IUserResponse>(
-      'http://localhost:3000/users/login',
-      values
-    );
+
+    const response = await loginUser(values);
 
     if (response.status === 200) {
       Cookies.set('token', response.token, { expires: 1 });
+      checkUser();
       navigate(-1);
     }
   };

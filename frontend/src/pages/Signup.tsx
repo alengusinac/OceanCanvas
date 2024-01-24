@@ -1,6 +1,6 @@
 import { Button, TextField } from '@mui/material';
-import { LoginSignupContainer } from './styled/LoginSignup';
-import { Heading2 } from './styled/Text.styled';
+import { LoginSignupContainer } from '../components/styled/LoginSignup';
+import { Heading2 } from '../components/styled/Text.styled';
 
 const Signup = () => {
   const signup = () => {
