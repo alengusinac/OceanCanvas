@@ -18,10 +18,12 @@ app.use(
     methods: ['GET', 'POST'],
   })
 );
-app.use(express.json());
+
+app.use(express.json({ limit: '5000kb' }));
 app.use(
   express.urlencoded({
     extended: true,
+    limit: '5000kb',
   })
 );
 app.use(morgan('dev'));
