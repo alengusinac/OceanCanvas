@@ -3,6 +3,11 @@ import { post } from './baseService';
 
 const BASE_URL = 'http://localhost:3000/users';
 
+export const registerUser = async (values: object) => {
+  const response = await post<IUserResponse>(`${BASE_URL}/register`, values);
+  return response;
+};
+
 export const loginUser = async (values: object) => {
   const response = await post<IUserResponse>(`${BASE_URL}/login`, values);
   return response;
@@ -16,12 +21,8 @@ export const validateUser = (token: string) => {
 };
 
 export const changeUserPassword = (value: string) => {
-  try {
-    const response = post<IUserResponse>(`${BASE_URL}/change-password`, {
-      newPassword: value,
-    });
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = post<IUserResponse>(`${BASE_URL}/change-password`, {
+    newPassword: value,
+  });
+  return response;
 };
