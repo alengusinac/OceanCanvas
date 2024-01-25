@@ -40,7 +40,7 @@ const Nav = ({ handleNavClick }: Props) => {
       <Divider />
       <button onClick={() => handleNavClick('/products')}>Photo Prints</button>
       <Divider />
-      {user.email === '' ? <LoginButtons /> : <LoggedInButtons />}
+      {user ? <LoggedInButtons /> : <LoginButtons />}
       <Divider />
       <button onClick={() => handleNavClick('/about')}>About Us</button>
       <button onClick={() => handleNavClick('/contact')}>Contact Us</button>

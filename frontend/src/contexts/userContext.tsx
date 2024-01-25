@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { IUser } from '@/models/IUser';
 
 interface ContextType {
-  user: { email: string; admin: boolean };
+  user: IUser | null;
   checkUser: () => void;
   login: (values: object) => void;
   logout: () => void;
@@ -14,38 +14,54 @@ interface ContextType {
 export const UserContext = createContext<ContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
-  const [user, setuser] = useState({ email: '', admin: false });
+  const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(() => {
     checkUser();
   }, []);
+
+  useEffect(() => {
+    console.log('user', user);
+  }, [user]);
 
   const checkUser = async () => {
     const token = Cookies.get('token');
     if (token) {
       try {
         const response = await validateUser(token);
-        if (response.status === 200) {
+        if (response?.status === 200) {
           const decoded = jwtDecode(token) as IUser;
-          setuser({ email: decoded.email, admin: decoded.admin });
+          setUser({
+            email: decoded.email,
+            admin: decoded.admin,
+            name: decoded.name,
+            _id: decoded._id,
+          });
         } else {
-          setuser({ email: '', admin: false });
+          setUser(null);
         }
       } catch (error) {
         console.log(error);
       }
     } else {
-      setuser({ email: '', admin: false });
+      setUser(null);
     }
   };
 
   const login = async (values: object) => {
     try {
       const response = await loginUser(values);
-      if (response.status === 200) {
+      console.log(response);
+
+      if (response?.status === 200) {
         Cookies.set('token', response.token, { expires: 1 });
         const decoded = jwtDecode(response.token) as IUser;
-        setuser({ email: decoded.email, admin: decoded.admin });
+        setUser({
+          email: decoded.email,
+          admin: decoded.admin,
+          name: decoded.name,
+          _id: decoded._id,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -57,7 +73,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     checkUser();
   };
 
-  const value = { user, checkUser, login, logout };
+  const value = { user, login, checkUser, logout };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

@@ -8,8 +8,7 @@ export interface IUser {
   _id: string;
   email: string;
   admin: boolean;
-  createdAt: string;
-  updatedAt: string;
+  name: string;
 }
 
 export interface IValidateUserResponse {

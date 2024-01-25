@@ -115,7 +115,8 @@ const Profile = () => {
   return (
     <div>
       <Heading1>Profile</Heading1>
-      <SmallBodyText>{user.email}</SmallBodyText>
+      <BodyText>{user?.name}</BodyText>
+      <SmallBodyText>{user?.email}</SmallBodyText>
       <Button
         variant="contained"
         onClick={() => {
@@ -125,6 +126,16 @@ const Profile = () => {
       >
         Logout
       </Button>
+      {user?.admin && (
+        <Button
+          variant="contained"
+          onClick={() => {
+            navigate('/admin');
+          }}
+        >
+          Admin Dashboard
+        </Button>
+      )}
       <div>
         <Heading3>Orders</Heading3>
         <BodyText>Order 1</BodyText>
