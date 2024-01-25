@@ -74,7 +74,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function Dashboard() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState('Dashboard');
   const toggleDrawer = () => {
     setOpen(!open);
