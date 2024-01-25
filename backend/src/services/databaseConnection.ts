@@ -25,5 +25,8 @@ export async function connectDatabase(): Promise<void> {
     }
   } catch (error) {
     console.log(`Error connecting to DB`, error);
+    console.log(`Retrying in 5 seconds...`);
+
+    setTimeout(connectDatabase, 5000);
   }
 }
