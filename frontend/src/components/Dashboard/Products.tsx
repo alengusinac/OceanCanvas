@@ -2,114 +2,155 @@ import Paper from '@mui/material/Paper';
 import MaterialIconButton from '../MaterialIconButton';
 import { MdAddCircleOutline } from 'react-icons/md';
 import { FlexWrapper } from '../styled/Flex.styled';
-import { useState } from 'react';
-import { Heading4 } from '../styled/Text.styled';
-import { Button, TextField } from '@mui/material';
-import FileResizer from 'react-image-file-resizer';
-import { CheckoutForm } from '../styled/Checkout.styled';
-import { addProduct } from '@/services/productService';
+import { useEffect, useState } from 'react';
+import {
+  BodyText,
+  Heading2,
+  Heading4,
+  SmallBodyText,
+} from '../styled/Text.styled';
+import { getProducts } from '@/services/productService';
+import { ICategory, IProduct, ISize } from '@/models/IProduct';
+import PrintProducts from './PrintProducts';
+import AddProductForm from './AddProductForm';
+import AddSizeForm from './AddSizeForm';
+import { getSizes } from '@/services/sizesService';
+import { getCategories } from '@/services/categoryService';
+import AddCategoryForm from './AddCategoryForm';
 
 const Products = () => {
   const [openAddProduct, setOpenAddProduct] = useState(false);
-  const [image, setImage] = useState('');
-  const [formValues, setFormValues] = useState({
-    title: '',
-    description: '',
-    priceMultiplier: 0,
-  });
+  const [openAddCategory, setOpenAddCategory] = useState(false);
+  const [openAddSize, setOpenAddSize] = useState(false);
+  const [sizes, setSizes] = useState<ISize[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
 
-  const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target as HTMLInputElement;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
-  };
+  useEffect(() => {
+    getProductsAsync();
+    getSizesAsync();
+    getCategoriesAsync();
+  }, []);
 
-  const convertImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const newImage = await resizeFile(file);
-      setImage(newImage as string);
-    }
-  };
-
-  const sendNewProduct = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const values = {
-      ...formValues,
-      image,
-      categories: ['fish'],
-    };
-
+  const getProductsAsync = async () => {
     try {
-      const response = await addProduct(values);
-      console.log(response);
+      const products = await getProducts();
+      setProducts(products as IProduct[]);
     } catch (error) {
       console.log(error);
+      setProducts([]);
     }
   };
 
-  const resizeFile = async (file: File) =>
-    new Promise((resolve) => {
-      FileResizer.imageFileResizer(
-        file,
-        1920,
-        1080,
-        'WEBP',
-        80,
-        0,
-        (uri) => {
-          resolve(uri);
-        },
-        'WEBP'
-      );
-    });
+  const getSizesAsync = async () => {
+    try {
+      const sizes = await getSizes();
+      setSizes(sizes as ISize[]);
+    } catch (error) {
+      console.log(error);
+      setSizes([]);
+    }
+  };
+
+  const getCategoriesAsync = async () => {
+    try {
+      const categories = await getCategories();
+      setCategories(categories as ICategory[]);
+    } catch (error) {
+      console.log(error);
+      setCategories([]);
+    }
+  };
 
   return (
-    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-      <FlexWrapper>
-        <h2>Products</h2>
-        <MaterialIconButton
-          onClick={() => setOpenAddProduct(!openAddProduct)}
-          icon={<MdAddCircleOutline />}
+    <>
+      <Paper
+        sx={{
+          p: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          mb: 2,
+        }}
+      >
+        <FlexWrapper style={{ justifyContent: 'space-between' }}>
+          <Heading2>Categories</Heading2>
+          <MaterialIconButton
+            onClick={() => setOpenAddCategory(!openAddCategory)}
+            icon={<MdAddCircleOutline />}
+          />
+        </FlexWrapper>
+
+        {openAddCategory && (
+          <AddCategoryForm getCategoriesAsync={getCategoriesAsync} />
+        )}
+
+        <SmallBodyText>{categories.length} categories</SmallBodyText>
+
+        <FlexWrapper
+          style={{ justifyContent: 'space-between', flexWrap: 'wrap' }}
+        >
+          {categories.map((category) => (
+            <div key={category._id}>
+              <Heading4>{category.category}</Heading4>
+            </div>
+          ))}
+        </FlexWrapper>
+      </Paper>
+
+      <Paper
+        sx={{
+          p: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          mb: 2,
+        }}
+      >
+        <FlexWrapper style={{ justifyContent: 'space-between' }}>
+          <Heading2>Sizes</Heading2>
+          <MaterialIconButton
+            onClick={() => setOpenAddSize(!openAddSize)}
+            icon={<MdAddCircleOutline />}
+          />
+        </FlexWrapper>
+
+        {openAddSize && <AddSizeForm getSizesAsync={getSizesAsync} />}
+
+        <SmallBodyText>{sizes.length} sizes</SmallBodyText>
+
+        <FlexWrapper
+          style={{ justifyContent: 'space-between', flexWrap: 'wrap' }}
+        >
+          {sizes.map((size) => (
+            <div key={size._id}>
+              <Heading4>
+                {size.width} x {size.height}
+              </Heading4>
+              <BodyText>$ {size.price}</BodyText>
+            </div>
+          ))}
+        </FlexWrapper>
+      </Paper>
+
+      <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+        <FlexWrapper style={{ justifyContent: 'space-between' }}>
+          <Heading2>Products</Heading2>
+          <MaterialIconButton
+            onClick={() => setOpenAddProduct(!openAddProduct)}
+            icon={<MdAddCircleOutline />}
+          />
+        </FlexWrapper>
+
+        {openAddProduct && (
+          <AddProductForm getProductsAsync={getProductsAsync} />
+        )}
+
+        <SmallBodyText>{products.length} products</SmallBodyText>
+        <PrintProducts
+          products={products}
+          getProductsAsync={getProductsAsync}
         />
-      </FlexWrapper>
-      {openAddProduct && (
-        <div>
-          <Heading4>Add Product</Heading4>
-          <CheckoutForm onSubmit={sendNewProduct}>
-            <TextField
-              name="title"
-              value={formValues.title}
-              onChange={onFormChange}
-              label="Title"
-            />
-            <TextField
-              name="description"
-              value={formValues.description}
-              onChange={onFormChange}
-              label="Description"
-              multiline
-              rows={4}
-            />
-            <TextField
-              name="priceMultiplier"
-              type="number"
-              value={formValues.priceMultiplier}
-              onChange={onFormChange}
-              label="Price multiplier"
-            />
-            <TextField onChange={convertImage} id="imageFile" type="file" />
-            <img src={image} alt="" width={150} />
-            <Button type="submit" variant="contained">
-              Add
-            </Button>
-          </CheckoutForm>
-        </div>
-      )}
-    </Paper>
+      </Paper>
+    </>
   );
 };
 
