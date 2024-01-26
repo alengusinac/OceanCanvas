@@ -1,7 +1,28 @@
 import express from 'express';
 import { v2 as cloudinary } from 'cloudinary';
+import { Product } from '../models/ProductSchema';
 
 const router = express.Router();
+
+router.get('/', async (req, res) => {
+  try {
+    const products = await Product.find({ isDeleted: false });
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Products retrieved successfully.',
+      data: products,
+    });
+  } catch (error: any) {
+    console.log('GetProducts Error: ', error);
+
+    res.status(400).json({
+      status: 400,
+      message: error.message.toString(),
+    });
+  }
+});
 
 router.post('/add', async (req, res) => {
   cloudinary.config({
@@ -9,18 +30,65 @@ router.post('/add', async (req, res) => {
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
+  let imageUrl: string = '';
 
   try {
-    cloudinary.uploader.upload(req.body.image, { public_id: req.body.title }, function (error, result) {
-      console.log(result);
+    await cloudinary.uploader.upload(req.body.image, { public_id: req.body.title }, function (error, result) {
+      result ? (imageUrl = result?.secure_url) : '';
     });
-  } catch (error) {
-    console.log(error);
+
+    const newProduct = await Product.create({
+      title: req.body.title,
+      description: req.body.description,
+      // sizes: req.body.sizes,
+      priceMultiplier: req.body.priceMultiplier,
+      imageUrl: imageUrl,
+    });
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Product created successfully.',
+      product: newProduct,
+    });
+  } catch (error: any) {
+    console.log('AddProduct Error: ', error);
+
+    res.status(400).json({
+      status: 400,
+      message: error.message.toString(),
+    });
   }
 });
 
 router.put('/edit', async (req, res) => {});
 
-router.put('/delete', async (req, res) => {});
+router.put('/delete', async (req, res) => {
+  const productId = req.body.productId;
+
+  try {
+    const product = await Product.findOne({ _id: productId });
+
+    if (!product) {
+      throw new Error('Product not found.');
+    }
+
+    product.isDeleted = true;
+    await product.save();
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Product deleted successfully.',
+    });
+  } catch (error: any) {
+    console.log('DeleteProduct Error: ', error);
+
+    res.status(400).json({
+      status: 400,
+      message: error.message.toString(),
+    });
+  }
+});
 
 export default router;

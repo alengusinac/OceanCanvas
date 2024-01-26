@@ -12,10 +12,14 @@ const ProductSchema = new mongoose.Schema(
     sizes: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Sizes',
-      required: true,
+      // required: true,
     },
     priceMultiplier: {
       type: Number,
+      required: true,
+    },
+    imageUrl: {
+      type: String,
       required: true,
     },
     isDeleted: { type: Boolean, default: false },
