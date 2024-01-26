@@ -20,10 +20,6 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     checkUser();
   }, []);
 
-  useEffect(() => {
-    console.log('user', user);
-  }, [user]);
-
   const checkUser = async () => {
     const token = Cookies.get('token');
     if (token) {
