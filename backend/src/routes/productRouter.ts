@@ -40,7 +40,6 @@ router.post('/add', async (req, res) => {
     const newProduct = await Product.create({
       title: req.body.title,
       description: req.body.description,
-      // sizes: req.body.sizes,
       priceMultiplier: req.body.priceMultiplier,
       imageUrl: imageUrl,
     });

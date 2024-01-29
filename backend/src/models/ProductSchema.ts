@@ -9,11 +9,6 @@ const ProductSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-    sizes: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Sizes',
-      // required: true,
-    },
     priceMultiplier: {
       type: Number,
       required: true,

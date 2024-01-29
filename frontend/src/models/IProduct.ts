@@ -7,6 +7,14 @@ export interface IProduct {
   categories: string[];
 }
 
+export interface IProductAdd {
+  title: string;
+  description: string;
+  priceMultiplier: number;
+  image: string;
+  categories: string[];
+}
+
 export interface IProductDelete {
   message: string;
 }

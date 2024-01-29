@@ -64,37 +64,27 @@ const Products = () => {
 
   return (
     <>
-      <Paper
-        sx={{
-          p: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          mb: 2,
-        }}
-      >
+      <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', mb: 2 }}>
         <FlexWrapper style={{ justifyContent: 'space-between' }}>
-          <Heading2>Categories</Heading2>
+          <Heading2>Products</Heading2>
           <MaterialIconButton
-            onClick={() => setOpenAddCategory(!openAddCategory)}
+            onClick={() => setOpenAddProduct(!openAddProduct)}
             icon={<MdAddCircleOutline />}
           />
         </FlexWrapper>
 
-        {openAddCategory && (
-          <AddCategoryForm getCategoriesAsync={getCategoriesAsync} />
+        {openAddProduct && (
+          <AddProductForm
+            getProductsAsync={getProductsAsync}
+            categories={categories}
+          />
         )}
 
-        <SmallBodyText>{categories.length} categories</SmallBodyText>
-
-        <FlexWrapper
-          style={{ justifyContent: 'space-between', flexWrap: 'wrap' }}
-        >
-          {categories.map((category) => (
-            <div key={category._id}>
-              <Heading4>{category.category}</Heading4>
-            </div>
-          ))}
-        </FlexWrapper>
+        <SmallBodyText>{products.length} products</SmallBodyText>
+        <PrintProducts
+          products={products}
+          getProductsAsync={getProductsAsync}
+        />
       </Paper>
 
       <Paper
@@ -131,24 +121,37 @@ const Products = () => {
         </FlexWrapper>
       </Paper>
 
-      <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+      <Paper
+        sx={{
+          p: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          mb: 2,
+        }}
+      >
         <FlexWrapper style={{ justifyContent: 'space-between' }}>
-          <Heading2>Products</Heading2>
+          <Heading2>Categories</Heading2>
           <MaterialIconButton
-            onClick={() => setOpenAddProduct(!openAddProduct)}
+            onClick={() => setOpenAddCategory(!openAddCategory)}
             icon={<MdAddCircleOutline />}
           />
         </FlexWrapper>
 
-        {openAddProduct && (
-          <AddProductForm getProductsAsync={getProductsAsync} />
+        {openAddCategory && (
+          <AddCategoryForm getCategoriesAsync={getCategoriesAsync} />
         )}
 
-        <SmallBodyText>{products.length} products</SmallBodyText>
-        <PrintProducts
-          products={products}
-          getProductsAsync={getProductsAsync}
-        />
+        <SmallBodyText>{categories.length} categories</SmallBodyText>
+
+        <FlexWrapper
+          style={{ justifyContent: 'space-between', flexWrap: 'wrap' }}
+        >
+          {categories.map((category) => (
+            <div key={category._id}>
+              <Heading4>{category.category}</Heading4>
+            </div>
+          ))}
+        </FlexWrapper>
       </Paper>
     </>
   );

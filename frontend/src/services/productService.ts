@@ -1,4 +1,9 @@
-import { IProduct, IProductDelete, IProductsResponse } from '@/models/IProduct';
+import {
+  IProduct,
+  IProductAdd,
+  IProductDelete,
+  IProductsResponse,
+} from '@/models/IProduct';
 import { get, post, put } from './baseService';
 
 const BASE_URL = 'http://localhost:3000/products';
@@ -12,7 +17,7 @@ export const getProducts = async () => {
   }
 };
 
-export const addProduct = async (product: IProduct) => {
+export const addProduct = async (product: IProductAdd) => {
   try {
     const response = await post<IProduct>(`${BASE_URL}/add`, product);
     return response;

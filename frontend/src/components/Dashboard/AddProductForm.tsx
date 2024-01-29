@@ -4,13 +4,16 @@ import { Heading4 } from '../styled/Text.styled';
 import { useState } from 'react';
 import { addProduct } from '@/services/productService';
 import FileResizer from 'react-image-file-resizer';
+import { ICategory } from '@/models/IProduct';
 
 interface Props {
   getProductsAsync: () => void;
+  categories: ICategory[];
 }
 
-const AddProductForm = ({ getProductsAsync }: Props) => {
-  const [imageUrl, setImageUrl] = useState('');
+const AddProductForm = ({ getProductsAsync, categories }: Props) => {
+  const [image, setImage] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [formValues, setFormValues] = useState({
     title: '',
     description: '',
@@ -25,13 +28,24 @@ const AddProductForm = ({ getProductsAsync }: Props) => {
     });
   };
 
+  const onCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target as HTMLInputElement;
+    if (selectedCategories.includes(value)) {
+      setSelectedCategories(
+        selectedCategories.filter((category) => category !== value)
+      );
+    } else {
+      setSelectedCategories([...selectedCategories, value]);
+    }
+  };
+
   const sendNewProduct = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const values = {
       ...formValues,
-      imageUrl,
-      categories: ['fish'],
+      image,
+      categories: selectedCategories,
     };
 
     try {
@@ -59,7 +73,7 @@ const AddProductForm = ({ getProductsAsync }: Props) => {
           'WEBP'
         );
       });
-      setImageUrl(newImage as string);
+      setImage(newImage as string);
     }
   };
 
@@ -81,6 +95,21 @@ const AddProductForm = ({ getProductsAsync }: Props) => {
           multiline
           rows={4}
         />
+
+        {categories.map((category) => (
+          <div key={category._id}>
+            <label>
+              <input
+                type="checkbox"
+                name="categories"
+                value={category._id}
+                onChange={onCategoryChange}
+              />
+              {category.category}
+            </label>
+          </div>
+        ))}
+
         <TextField
           name="priceMultiplier"
           type="number"
@@ -89,7 +118,7 @@ const AddProductForm = ({ getProductsAsync }: Props) => {
           label="Price multiplier"
         />
         <TextField onChange={convertImage} id="imageFile" type="file" />
-        <img src={imageUrl} alt="" width={150} />
+        <img src={image} alt="" width={150} />
         <Button type="submit" variant="contained">
           Add
         </Button>
