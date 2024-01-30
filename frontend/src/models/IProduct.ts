@@ -23,7 +23,7 @@ export interface IProductsResponse {
   status: number;
   success: boolean;
   message: string;
-  data: IProduct[];
+  data: { total: number; products: IProduct[] };
 }
 
 export interface ISize {

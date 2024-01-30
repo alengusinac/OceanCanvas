@@ -35,7 +35,8 @@ const Products = () => {
   const getProductsAsync = async () => {
     try {
       const products = await getProducts();
-      setProducts(products as IProduct[]);
+
+      if (products) setProducts(products?.products);
     } catch (error) {
       console.log(error);
       setProducts([]);

@@ -1,4 +1,4 @@
-import { IItem } from '../models/IItem';
+import { IProduct } from '@/models/IProduct';
 import {
   ImageContainer,
   ProductImage,
@@ -7,17 +7,17 @@ import {
 import { BodyText, SmallBodyText } from './styled/Text.styled';
 
 interface Props {
-  item: IItem;
+  item: IProduct;
 }
 
 const ProductCard = ({ item }: Props) => {
   return (
     <StyledProductCard>
       <ImageContainer>
-        <ProductImage src={item.image} />
+        <ProductImage src={item.imageUrl} />
       </ImageContainer>
       <BodyText>{item.title}</BodyText>
-      <SmallBodyText>From ${item.price}</SmallBodyText>
+      <SmallBodyText>From ${item.priceMultiplier}</SmallBodyText>
     </StyledProductCard>
   );
 };
