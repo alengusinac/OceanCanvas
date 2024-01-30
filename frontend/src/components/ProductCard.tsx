@@ -8,11 +8,12 @@ import { BodyText, SmallBodyText } from './styled/Text.styled';
 
 interface Props {
   item: IProduct;
+  onClick: () => void;
 }
 
-const ProductCard = ({ item }: Props) => {
+const ProductCard = ({ item, onClick }: Props) => {
   return (
-    <StyledProductCard>
+    <StyledProductCard onClick={onClick}>
       <ImageContainer>
         <ProductImage src={item.imageUrl} />
       </ImageContainer>

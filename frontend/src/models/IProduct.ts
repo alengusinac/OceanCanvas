@@ -15,7 +15,7 @@ export interface IProductAdd {
   categories: string[];
 }
 
-export interface IProductDelete {
+export interface IProductDeleteResponse {
   message: string;
 }
 
@@ -24,6 +24,12 @@ export interface IProductsResponse {
   success: boolean;
   message: string;
   data: { total: number; products: IProduct[] };
+}
+export interface IProductResponse {
+  status: number;
+  success: boolean;
+  message: string;
+  data: IProduct;
 }
 
 export interface ISize {

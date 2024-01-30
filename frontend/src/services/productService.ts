@@ -1,7 +1,8 @@
 import {
   IProduct,
   IProductAdd,
-  IProductDelete,
+  IProductDeleteResponse,
+  IProductResponse,
   IProductsResponse,
 } from '@/models/IProduct';
 import { get, post, put } from './baseService';
@@ -34,6 +35,15 @@ export const getProducts = async (
   }
 };
 
+export const getProduct = async (productId: string) => {
+  try {
+    const response = await get<IProductResponse>(`${BASE_URL}/${productId}`);
+    return response.data;
+  } catch (error) {
+    console.log('Error while fetching product', error);
+  }
+};
+
 export const addProduct = async (product: IProductAdd) => {
   try {
     const response = await post<IProduct>(`${BASE_URL}/add`, product);
@@ -45,7 +55,7 @@ export const addProduct = async (product: IProductAdd) => {
 
 export const deleteProduct = async (productId: string) => {
   try {
-    const response = await put<IProductDelete>(`${BASE_URL}/delete`, {
+    const response = await put<IProductDeleteResponse>(`${BASE_URL}/delete`, {
       productId,
     });
     console.log('response', response);

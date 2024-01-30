@@ -7,6 +7,7 @@ import { IProduct } from '@/models/IProduct';
 import { getProducts } from '@/services/productService';
 import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Products = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -17,6 +18,7 @@ const Products = () => {
     productsPerPage: 12,
     sort: '-createdAt',
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadProducts();
@@ -64,7 +66,13 @@ const Products = () => {
       />
       <ProductsList>
         {products?.map((item) => (
-          <ProductCard key={item._id} item={item} />
+          <ProductCard
+            onClick={() =>
+              navigate(`/products/${item._id}`, { state: { product: item } })
+            }
+            key={item._id}
+            item={item}
+          />
         ))}
       </ProductsList>
       {products.length < totalProducts && (

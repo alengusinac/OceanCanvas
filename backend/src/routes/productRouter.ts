@@ -105,4 +105,28 @@ router.put('/delete', async (req, res) => {
   }
 });
 
+router.get('/:productId', async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.productId);
+
+    if (!product) {
+      throw new Error('Product not found.');
+    }
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Product retrieved successfully.',
+      data: product,
+    });
+  } catch (error: any) {
+    console.log('GetProduct Error: ', error);
+
+    res.status(400).json({
+      status: 400,
+      message: error.message.toString(),
+    });
+  }
+});
+
 export default router;
