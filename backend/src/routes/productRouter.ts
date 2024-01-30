@@ -4,15 +4,28 @@ import { Product } from '../models/ProductSchema';
 
 const router = express.Router();
 
+interface IFindProductQuery {
+  categories?: string;
+  isDeleted: boolean;
+}
+
 router.get('/', async (req, res) => {
   try {
-    const products = await Product.find({ isDeleted: false });
+    let query: IFindProductQuery = { isDeleted: false };
+    const categories = req.query.category as string;
+    console.log(req.query);
+
+    const limit = req.query.limit ? req.query.limit : 0;
+    categories && (query = { ...query, categories });
+
+    const products = await Product.find(query).limit(Number(limit)).sort({ createdAt: -1 });
+    const totalProducts = await Product.countDocuments(query);
 
     res.status(200).json({
       status: 200,
       success: true,
       message: 'Products retrieved successfully.',
-      data: products,
+      data: { total: totalProducts, products },
     });
   } catch (error: any) {
     console.log('GetProducts Error: ', error);
@@ -40,6 +53,7 @@ router.post('/add', async (req, res) => {
     const newProduct = await Product.create({
       title: req.body.title,
       description: req.body.description,
+      categories: req.body.categories,
       priceMultiplier: req.body.priceMultiplier,
       imageUrl: imageUrl,
     });

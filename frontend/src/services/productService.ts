@@ -5,12 +5,26 @@ import {
   IProductsResponse,
 } from '@/models/IProduct';
 import { get, post, put } from './baseService';
+import { IProductFiltersSort } from '@/models/IFilters';
 
 const BASE_URL = 'http://localhost:3000/products';
 
-export const getProducts = async () => {
+export const getProducts = async (filters?: IProductFiltersSort) => {
   try {
-    const response = await get<IProductsResponse>(`${BASE_URL}`);
+    const url = new URL(BASE_URL);
+    if (filters) {
+      filters.productsPerPage &&
+        url.searchParams.append('limit', filters.productsPerPage.toString());
+
+      filters.offset &&
+        url.searchParams.append('offset', filters.offset.toString());
+
+      filters.category && url.searchParams.append('category', filters.category);
+
+      filters.sort && url.searchParams.append('sort', filters.sort);
+    }
+
+    const response = await get<IProductsResponse>(url.href);
     return response.data;
   } catch (error) {
     console.log('Error while fetching products', error);

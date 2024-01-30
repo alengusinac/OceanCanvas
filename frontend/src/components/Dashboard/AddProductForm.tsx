@@ -47,6 +47,7 @@ const AddProductForm = ({ getProductsAsync, categories }: Props) => {
       image,
       categories: selectedCategories,
     };
+    console.log('values: ', values);
 
     try {
       await addProduct(values);
@@ -102,7 +103,7 @@ const AddProductForm = ({ getProductsAsync, categories }: Props) => {
               <input
                 type="checkbox"
                 name="categories"
-                value={category._id}
+                value={category.category.toLowerCase()}
                 onChange={onCategoryChange}
               />
               {category.category}
