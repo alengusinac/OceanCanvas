@@ -82,13 +82,41 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
       <SecondFlexItem>
         <p>{totalProducts} products</p>
         <div>
-          <select>
+          <select
+            onChange={(e) => {
+              setFilters({
+                ...filters,
+                productsPerPage: parseInt(e.target.value),
+              });
+            }}
+          >
             <option>12 per page</option>
             <option>24 per page</option>
             <option>36 per page</option>
           </select>
 
-          <select>
+          <select
+            onChange={(e) => {
+              console.log(e.target.value);
+              let value = '';
+
+              switch (e.target.value) {
+                case 'Latest':
+                  value = '-createdAt';
+                  break;
+                case 'Price Low':
+                  value = 'priceMultiplier';
+                  break;
+                case 'Price High':
+                  value = '-priceMultiplier';
+                  break;
+              }
+              setFilters({
+                ...filters,
+                sort: value,
+              });
+            }}
+          >
             <option>Latest</option>
             <option>Price Low</option>
             <option>Price High</option>

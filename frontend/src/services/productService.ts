@@ -9,15 +9,18 @@ import { IProductFiltersSort } from '@/models/IFilters';
 
 const BASE_URL = 'http://localhost:3000/products';
 
-export const getProducts = async (filters?: IProductFiltersSort) => {
+export const getProducts = async (
+  filters?: IProductFiltersSort,
+  offset?: number
+) => {
   try {
     const url = new URL(BASE_URL);
+
     if (filters) {
       filters.productsPerPage &&
         url.searchParams.append('limit', filters.productsPerPage.toString());
 
-      filters.offset &&
-        url.searchParams.append('offset', filters.offset.toString());
+      offset && url.searchParams.append('offset', offset.toString());
 
       filters.category && url.searchParams.append('category', filters.category);
 

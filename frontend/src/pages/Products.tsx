@@ -5,33 +5,51 @@ import { BodyText, Heading1 } from '@/components/styled/Text.styled';
 import { IProductFiltersSort } from '@/models/IFilters';
 import { IProduct } from '@/models/IProduct';
 import { getProducts } from '@/services/productService';
+import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 const Products = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
-  const [totalProducts, setTotalProducts] = useState<number | undefined>(0);
+  const [totalProducts, setTotalProducts] = useState<number>(0);
+  const [offset, setOffset] = useState<number>(0);
   const [filters, setFilters] = useState<IProductFiltersSort>({
     category: '',
     productsPerPage: 12,
-    sort: 'ReleaseDesc',
-    offset: 0,
+    sort: '-createdAt',
   });
 
   useEffect(() => {
     loadProducts();
+    setOffset(0);
   }, [filters]);
+
+  useEffect(() => {
+    offset > 0 && loadMoreProducts();
+  }, [offset]);
 
   const loadProducts = async () => {
     try {
       const response = await getProducts(filters);
-      console.log('Load Products Response: ', response);
-
-      if (response) setProducts(response?.products);
-      setTotalProducts(response?.total);
+      if (response) {
+        setProducts(response?.products);
+        setTotalProducts(response?.total);
+      }
     } catch (error) {
       console.log('Load Products Error: ', error);
       setProducts([]);
       setTotalProducts(0);
+    }
+  };
+
+  const loadMoreProducts = async () => {
+    try {
+      const response = await getProducts(filters, offset);
+      if (response) {
+        setProducts([...products, ...response?.products]);
+        setTotalProducts(response?.total);
+      }
+    } catch (error) {
+      console.log('Load More Products Error: ', error);
     }
   };
 
@@ -49,6 +67,16 @@ const Products = () => {
           <ProductCard key={item._id} item={item} />
         ))}
       </ProductsList>
+      {products.length < totalProducts && (
+        <Button
+          onClick={() =>
+            setOffset((prevOffset) => prevOffset + filters.productsPerPage)
+          }
+          variant="contained"
+        >
+          Load more
+        </Button>
+      )}
     </>
   );
 };

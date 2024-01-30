@@ -13,12 +13,13 @@ router.get('/', async (req, res) => {
   try {
     let query: IFindProductQuery = { isDeleted: false };
     const categories = req.query.category as string;
-    console.log(req.query);
+    const sort = req.query.sort as string;
 
+    const offset = req.query.offset ? req.query.offset : 0;
     const limit = req.query.limit ? req.query.limit : 0;
     categories && (query = { ...query, categories });
 
-    const products = await Product.find(query).limit(Number(limit)).sort({ createdAt: -1 });
+    const products = await Product.find(query).limit(Number(limit)).skip(Number(offset)).sort(sort);
     const totalProducts = await Product.countDocuments(query);
 
     res.status(200).json({
