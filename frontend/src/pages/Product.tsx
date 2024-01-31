@@ -1,5 +1,5 @@
 import { FlexWrapper } from '@/components/styled/Flex.styled';
-import { BodyText, Heading2 } from '@/components/styled/Text.styled';
+import { BodyText, Heading2, Heading4 } from '@/components/styled/Text.styled';
 import { IProduct } from '@/models/IProduct';
 import { getProduct } from '@/services/productService';
 import { Button } from '@mui/material';
@@ -52,7 +52,6 @@ const Product = () => {
     <StyledProduct>
       <img src={product?.imageUrl} onLoad={handleOnLoad} alt={product?.title} />
       <Heading2>{product?.title}</Heading2>
-
       <StyledSizeChooser onClick={() => setOpen(!open)}>
         <BodyText>{size} cm</BodyText>
         <FlexWrapper>
@@ -78,10 +77,31 @@ const Product = () => {
           </StyledSizeChooserOpen>
         )}
       </StyledSizeChooser>
-
       <Button variant="contained" onClick={addToCart}>
         Add to Cart
       </Button>
+      <Heading4>Key Features:</Heading4>
+      <ul>
+        <li>Photographer: Alen Gusinac Print </li>
+        <li>Title: Eternal Abyss Print</li>
+        <li>
+          Size: Available in various sizes to suit your space (Choose from 20x30
+          cm to 70x100 cm)
+        </li>
+        <li>
+          Paper Quality: Crafted on 240 g Multidesign Smooth White paper from
+          the renowned Clairefontaine paper mill in France.
+        </li>
+        <li>
+          Archival Quality: The paper is archival, ensuring your print remains
+          vibrant and does not yellow over time.
+        </li>
+        <li>
+          Environmental Responsibility: Our commitment to responsible forestry
+          is reflected in the FSC and EU Ecolabel environmental labels on the
+          paper.
+        </li>
+      </ul>
     </StyledProduct>
   );
 };
