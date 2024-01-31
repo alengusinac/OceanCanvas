@@ -18,7 +18,7 @@ const ProductCard = ({ item, onClick }: Props) => {
         <ProductImage src={item.imageUrl} />
       </ImageContainer>
       <BodyText>{item.title}</BodyText>
-      <SmallBodyText>From ${item.priceMultiplier}</SmallBodyText>
+      <SmallBodyText>From ${item.sizes[0].price}</SmallBodyText>
     </StyledProductCard>
   );
 };

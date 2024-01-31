@@ -2,9 +2,15 @@ export interface IProduct {
   _id?: string;
   title: string;
   description: string;
-  priceMultiplier: number;
   imageUrl: string;
   categories: string[];
+  sizes: ISizeWithPrize[];
+}
+
+interface ISizeWithPrize {
+  _id: string;
+  size: string;
+  price: number;
 }
 
 export interface IProductAdd {

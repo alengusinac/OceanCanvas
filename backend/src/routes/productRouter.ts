@@ -1,6 +1,9 @@
 import express from 'express';
 import { v2 as cloudinary } from 'cloudinary';
 import { Product } from '../models/ProductSchema';
+import { Size } from '../models/SizeSchema';
+import { Types } from 'mongoose';
+import { log } from 'console';
 
 const router = express.Router();
 
@@ -21,12 +24,33 @@ router.get('/', async (req, res) => {
 
     const products = await Product.find(query).limit(Number(limit)).skip(Number(offset)).sort(sort);
     const totalProducts = await Product.countDocuments(query);
+    const sizes = await Size.find();
+
+    const productsWithPrizes = products.map((product) => {
+      const { _id, title, description, categories, priceMultiplier, imageUrl, createdAt } = product;
+
+      const newProduct = {
+        _id,
+        title,
+        description,
+        categories,
+        imageUrl,
+        createdAt,
+        sizes: sizes.map((size) => ({
+          _id: size._id,
+          size: `${size.width}x${size.height}`,
+          price: size.price * priceMultiplier,
+        })),
+      };
+
+      return newProduct;
+    });
 
     res.status(200).json({
       status: 200,
       success: true,
       message: 'Products retrieved successfully.',
-      data: { total: totalProducts, products },
+      data: { total: totalProducts, products: productsWithPrizes },
     });
   } catch (error: any) {
     console.log('GetProducts Error: ', error);
@@ -108,16 +132,32 @@ router.put('/delete', async (req, res) => {
 router.get('/:productId', async (req, res) => {
   try {
     const product = await Product.findById(req.params.productId);
+    const sizes = await Size.find();
 
     if (!product) {
       throw new Error('Product not found.');
     }
 
+    const { _id, title, description, categories, priceMultiplier, imageUrl, createdAt } = product;
+    const newProduct = {
+      _id,
+      title,
+      description,
+      categories,
+      imageUrl,
+      createdAt,
+      sizes: sizes.map((size) => ({
+        _id: size._id,
+        size: `${size.width}x${size.height}`,
+        price: size.price * priceMultiplier,
+      })),
+    };
+
     res.status(200).json({
       status: 200,
       success: true,
       message: 'Product retrieved successfully.',
-      data: product,
+      data: newProduct,
     });
   } catch (error: any) {
     console.log('GetProduct Error: ', error);
