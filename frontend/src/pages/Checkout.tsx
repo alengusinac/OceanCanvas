@@ -2,34 +2,29 @@ import Cart from '@/components/Cart';
 import { CheckoutForm } from '@/components/styled/Checkout.styled';
 import { Heading4 } from '@/components/styled/Text.styled';
 import { Button, Divider, TextField } from '@mui/material';
-import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { ChangeEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
   const [openPayment, setOpenPayment] = useState(false);
   const [formValues, setFormValues] = useState({
-    name: {
-      value: '',
-      error: false,
-      errorMessage: 'You must enter a name',
-    },
-    age: {
-      value: 21,
-      error: false,
-      errorMessage: 'You must enter an age',
-    },
-    likes: {
-      value: '',
-      error: false,
-      errorMessage: 'You must enter your liked tech stacks',
-    },
-    jobTitle: {
-      value: 'full-stack',
-      error: false,
-      errorMessage: 'You must choose your job title',
-    },
+    email: '',
+    firstname: '',
+    lastname: '',
+    address: '',
+    zipcode: '',
+    city: '',
+    country: '',
+    phone: '',
   });
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const onChangeInput = (e: ChangeEvent<HTMLFormElement>) => {
+    const { name, value } = e.target;
+    console.log(formValues);
+
+    setFormValues({ ...formValues, [name]: value });
+  };
 
   const verifyShipping = () => {
     console.log('Verified!');
@@ -38,6 +33,7 @@ const Checkout = () => {
 
   const completeOrder = () => {
     console.log('Complete!');
+    navigate('/confirm-order');
   };
 
   return (
@@ -50,15 +46,63 @@ const Checkout = () => {
       <Divider />
       <div>
         <Heading4>Shipping Information</Heading4>
-        <CheckoutForm>
-          <TextField label="E-mail" variant="filled" required />
-          <TextField label="Firstname" variant="filled" required />
-          <TextField label="Lastname" variant="filled" required />
-          <TextField label="Address" variant="filled" required />
-          <TextField label="Zipcode" variant="filled" required />
-          <TextField label="City" variant="filled" required />
-          <TextField label="Country" variant="filled" required />
-          <TextField label="Phone number" variant="filled" required />
+        <CheckoutForm onChange={onChangeInput}>
+          <TextField
+            name="email"
+            value={formValues.email}
+            label="E-mail"
+            variant="filled"
+            required
+          />
+          <TextField
+            name="firstname"
+            value={formValues.firstname}
+            label="Firstname"
+            variant="filled"
+            required
+          />
+          <TextField
+            name="lastname"
+            value={formValues.lastname}
+            label="Lastname"
+            variant="filled"
+            required
+          />
+          <TextField
+            name="address"
+            value={formValues.address}
+            label="Address"
+            variant="filled"
+            required
+          />
+          <TextField
+            name="zipcode"
+            value={formValues.zipcode}
+            label="Zipcode"
+            variant="filled"
+            required
+          />
+          <TextField
+            name="city"
+            value={formValues.city}
+            label="City"
+            variant="filled"
+            required
+          />
+          <TextField
+            name="country"
+            value={formValues.country}
+            label="Country"
+            variant="filled"
+            required
+          />
+          <TextField
+            name="phone"
+            value={formValues.phone}
+            label="Phone number"
+            variant="filled"
+            required
+          />
         </CheckoutForm>
         <Button onClick={verifyShipping} variant="contained">
           Continue

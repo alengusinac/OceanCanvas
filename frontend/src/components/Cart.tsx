@@ -28,8 +28,8 @@ const Cart = () => {
 
   return (
     <>
-      {cart.map((item) => (
-        <CartItem key={item.product._id} item={item} />
+      {cart.map((item, index) => (
+        <CartItem key={index} item={item} />
       ))}
       <SmallBodyText>Total quantity: {totalAmount} pcs</SmallBodyText>
       <BodyText>Total price: ${totalPrice}</BodyText>
