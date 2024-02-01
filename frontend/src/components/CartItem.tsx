@@ -15,25 +15,25 @@ import {
   MdAddCircleOutline,
 } from 'react-icons/md';
 import { FlexWrapper } from './styled/Flex.styled';
+import { useCartContext } from '@/hooks/useCartContext';
 
 interface Props {
   item: ICartItem;
 }
 
 const CartItem = ({ item }: Props) => {
-  const removeItem = (item: ICartItem) => {
-    console.log(item);
-  };
+  const { removeFromCart, changeAmount } = useCartContext();
+  const product = item.product;
 
   return (
     <StyledCartItem>
       <FlexWrapper>
         <CartImageContainer>
-          <ProductImage src={item.image} />
+          <ProductImage src={product.imageUrl} />
         </CartImageContainer>
         <div>
-          <BodyText>{item.title}</BodyText>
-          <SmallBodyText>{item.size} cm</SmallBodyText>
+          <BodyText>{product.title}</BodyText>
+          <SmallBodyText>{product.size} cm</SmallBodyText>
           <SmallBodyText>Quantity: {item.amount}</SmallBodyText>
         </div>
       </FlexWrapper>
@@ -41,21 +41,21 @@ const CartItem = ({ item }: Props) => {
         <MaterialIconButton
           $size={30}
           icon={<MdDeleteForever />}
-          onClick={() => removeItem(item)}
+          onClick={() => removeFromCart(item)}
         />
         <ButtonGroup sx={{ border: '1px solid black', height: '30px' }}>
           <MaterialIconButton
             $size={25}
             icon={<MdRemoveCircleOutline />}
-            onClick={() => removeItem(item)}
+            onClick={() => changeAmount(item, item.amount - 1)}
           />
           <MaterialIconButton
             $size={25}
             icon={<MdAddCircleOutline />}
-            onClick={() => removeItem(item)}
+            onClick={() => changeAmount(item, item.amount + 1)}
           />
         </ButtonGroup>
-        <SmallBodyText>{`$${item.price * item.amount}`}</SmallBodyText>
+        <SmallBodyText>{`$${product.price * item.amount}`}</SmallBodyText>
       </ItemActionButtons>
     </StyledCartItem>
   );
