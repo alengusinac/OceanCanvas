@@ -1,5 +1,7 @@
 import { FlexWrapper } from '@/components/styled/Flex.styled';
 import { BodyText, Heading2, Heading4 } from '@/components/styled/Text.styled';
+import { useCartContext } from '@/hooks/useCartContext';
+import { ICartItem } from '@/models/IItem';
 import { IProduct } from '@/models/IProduct';
 import { getProduct } from '@/services/productService';
 import { Button } from '@mui/material';
@@ -9,6 +11,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Product = () => {
+  const { addToCart } = useCartContext();
   const { state } = useLocation();
   const { id } = useParams();
   const [open, setOpen] = useState<boolean>(false);
@@ -46,7 +49,21 @@ const Product = () => {
     console.log(e.target.offsetWidth, e.target.offsetHeight);
   };
 
-  const addToCart = () => {};
+  const prepareForAddToCart = () => {
+    if (!product) return;
+    const cartItem: ICartItem = {
+      amount: 1,
+      product: {
+        _id: String(product._id),
+        title: product.title,
+        imageUrl: product.imageUrl,
+        size: size,
+        price: price,
+      },
+    };
+
+    addToCart(cartItem);
+  };
 
   return (
     <StyledProduct>
@@ -77,7 +94,7 @@ const Product = () => {
           </StyledSizeChooserOpen>
         )}
       </StyledSizeChooser>
-      <Button variant="contained" onClick={addToCart}>
+      <Button variant="contained" onClick={prepareForAddToCart}>
         Add to Cart
       </Button>
       <Heading4>Key Features:</Heading4>

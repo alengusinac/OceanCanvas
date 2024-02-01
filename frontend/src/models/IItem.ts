@@ -1,3 +1,5 @@
+import { IProductCartItem } from './IProduct';
+
 export interface IItem {
   title: string;
   description: string;
@@ -5,7 +7,7 @@ export interface IItem {
   image: string;
 }
 
-export interface ICartItem extends IItem {
+export interface ICartItem {
   amount: number;
-  size: string;
+  product: IProductCartItem;
 }

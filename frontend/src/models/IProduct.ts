@@ -13,6 +13,14 @@ interface ISizeWithPrize {
   price: number;
 }
 
+export interface IProductCartItem {
+  _id: string;
+  title: string;
+  imageUrl: string;
+  size: string;
+  price: number;
+}
+
 export interface IProductAdd {
   title: string;
   description: string;
