@@ -33,6 +33,7 @@ router.get('/', async (req, res) => {
         _id,
         title,
         description,
+        priceMultiplier,
         categories,
         imageUrl,
         createdAt,
