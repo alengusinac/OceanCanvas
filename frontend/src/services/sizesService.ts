@@ -1,7 +1,7 @@
 import { ISize, ISizeResponse } from '@/models/IProduct';
 import { get, post } from './baseService';
 
-const BASE_URL = 'http://localhost:3000/sizes';
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/sizes`;
 
 export const getSizes = async () => {
   try {

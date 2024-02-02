@@ -8,13 +8,15 @@ import {
 import { get, post, put } from './baseService';
 import { IProductFiltersSort } from '@/models/IFilters';
 
-const BASE_URL = 'http://localhost:3000/products';
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/products`;
 
 export const getProducts = async (
   filters?: IProductFiltersSort,
   offset?: number
 ) => {
   try {
+    console.log(BASE_URL);
+
     const url = new URL(BASE_URL);
 
     if (filters) {

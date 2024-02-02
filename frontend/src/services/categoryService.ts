@@ -1,7 +1,7 @@
 import { ICategory, ICategoryResponse } from '@/models/IProduct';
 import { get, post } from './baseService';
 
-const BASE_URL = 'http://localhost:3000/categories';
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/categories`;
 
 export const getCategories = async () => {
   try {

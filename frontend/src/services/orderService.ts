@@ -23,7 +23,7 @@ interface IOrderResponse {
   data: IOrder;
 }
 
-const BASE_URL = 'http://localhost:3000/orders';
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/orders`;
 
 export const postOrder = async (order: IOrder) => {
   try {
