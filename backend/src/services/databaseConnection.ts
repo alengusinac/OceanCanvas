@@ -1,6 +1,6 @@
 import mongoose, { Connection } from 'mongoose';
 
-let mongooseConnection: Connection = null;
+let mongooseConnection: Connection;
 export async function connectDatabase(): Promise<void> {
   try {
     mongoose.connection.on('connecting', () => {
@@ -17,7 +17,7 @@ export async function connectDatabase(): Promise<void> {
     });
 
     if (mongoose.connection.readyState !== 1 && mongoose.connection.readyState !== 2) {
-      const conn = await mongoose.connect(process.env.DB_HOST, {
+      const conn = await mongoose.connect(process.env.DB_HOST || '', {
         autoIndex: true,
         serverSelectionTimeoutMS: 5000,
       });
@@ -25,5 +25,8 @@ export async function connectDatabase(): Promise<void> {
     }
   } catch (error) {
     console.log(`Error connecting to DB`, error);
+    console.log(`Retrying in 5 seconds...`);
+
+    setTimeout(connectDatabase, 5000);
   }
 }

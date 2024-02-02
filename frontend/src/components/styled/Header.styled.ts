@@ -4,7 +4,7 @@ import { LogoWrapper } from './Logo.styled';
 
 export const HeaderWrapper = styled.header`
   position: relative;
-  z-index: 10;
+  z-index: 1400;
   background-color: ${colors.sand};
   height: 75px;
   width: 100%;
@@ -20,6 +20,7 @@ export const StyledNav = styled.nav`
   background-color: ${colors.white};
   display: flex;
   flex-direction: column;
+  margin-top: 75px;
 
   button {
     display: flex;
@@ -35,5 +36,5 @@ export const StyledNav = styled.nav`
 export const Logo = styled(LogoWrapper)`
   position: absolute;
   left: 50%;
-  transform: translate(-50%);
+  transform: translate(-50%, -50%);
 `;

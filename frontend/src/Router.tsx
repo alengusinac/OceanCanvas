@@ -6,7 +6,12 @@ import Products from '@/pages/Products';
 import About from '@/pages/About';
 import Contact from '@/pages/Contact';
 import Product from '@/pages/Product';
-import Admin from './pages/Admin';
+import Admin from '@/pages/Admin';
+import Checkout from '@/pages/Checkout';
+import OrderConfirmation from '@/pages/OrderConfirmation';
+import Login from '@/pages/Login';
+import Signup from '@/pages/Signup';
+import Profile from './pages/Profile';
 
 const router = createBrowserRouter([
   {
@@ -24,7 +29,7 @@ const router = createBrowserRouter([
         element: <Products />,
       },
       {
-        path: '/product/:id',
+        path: '/products/:id',
         element: <Product />,
       },
       {
@@ -34,6 +39,26 @@ const router = createBrowserRouter([
       {
         path: '/contact',
         element: <Contact />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/signup',
+        element: <Signup />,
+      },
+      {
+        path: '/profile',
+        element: <Profile />,
+      },
+      {
+        path: '/checkout',
+        element: <Checkout />,
+      },
+      {
+        path: '/confirm-order',
+        element: <OrderConfirmation />,
       },
     ],
   },

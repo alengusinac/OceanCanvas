@@ -4,66 +4,68 @@ import {
   MdOutlineFavoriteBorder,
   MdOutlineShoppingCart,
   MdMenu,
+  MdClose,
 } from 'react-icons/md';
-import { HeaderWrapper, Logo, StyledNav } from './styled/Header.styled';
+import { HeaderWrapper, Logo } from './styled/Header.styled';
 import { FlexWrapper } from './styled/Flex.styled';
 import Drawer from '@mui/material/Drawer';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Divider from '@mui/material/Divider';
-useNavigate;
+import { Link, useNavigate } from 'react-router-dom';
+import Cart from './CartDrawer';
+import Nav from './Nav';
 
 const handleClick = () => {
   console.log('CLICK');
 };
 
 const Header = () => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [navDrawerOpen, setNavDrawerOpen] = useState(false);
+  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleNavClick = (nav: string) => {
     navigate(nav);
-    setDrawerOpen(false);
+    setNavDrawerOpen(false);
   };
 
   return (
     <HeaderWrapper>
       <MaterialIconButton
-        onClick={() => setDrawerOpen(true)}
-        icon={<MdMenu />}
+        onClick={() => {
+          setNavDrawerOpen(!navDrawerOpen);
+          setCartDrawerOpen(false);
+        }}
+        icon={navDrawerOpen ? <MdClose /> : <MdMenu />}
       />
       <Drawer
         anchor={'left'}
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
+        open={navDrawerOpen}
+        onClose={() => setNavDrawerOpen(false)}
       >
-        <StyledNav>
-          <button onClick={() => handleNavClick('/')}>Home</button>
-          <Divider />
-          <button onClick={() => handleNavClick('/products')}>
-            Photo Prints
-          </button>
-          <Divider />
-          <button onClick={() => handleNavClick('/user/login')}>Login</button>
-          <button onClick={() => handleNavClick('/user/signup')}>
-            Sign Up
-          </button>
-          <Divider />
-          <button onClick={() => handleNavClick('/about')}>About Us</button>
-          <button onClick={() => handleNavClick('/contact')}>Contact Us</button>
-          <Divider />
-        </StyledNav>
+        <Nav handleNavClick={handleNavClick} />
       </Drawer>
-      <Logo src={logo} />
+      <Link to={'/'}>
+        <Logo src={logo} />
+      </Link>
       <FlexWrapper>
         <MaterialIconButton
           onClick={handleClick}
           icon={<MdOutlineFavoriteBorder />}
         />
         <MaterialIconButton
-          onClick={handleClick}
+          onClick={() => {
+            setCartDrawerOpen(!cartDrawerOpen);
+            setNavDrawerOpen(false);
+          }}
           icon={<MdOutlineShoppingCart />}
         />
+        <Drawer
+          anchor={'right'}
+          open={cartDrawerOpen}
+          onClose={() => setCartDrawerOpen(false)}
+        >
+          <Cart setCartDrawerOpen={setCartDrawerOpen} />
+        </Drawer>
       </FlexWrapper>
     </HeaderWrapper>
   );

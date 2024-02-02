@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export const IconButton = styled.button`
-  width: 50px;
-  height: 50px;
+export const IconButton = styled.button<{ $size?: number }>`
+  width: ${(props) => `${props.$size}px` || '50px'};
+  display: inline;
   background-color: transparent;
   border: none;
   cursor: pointer;

@@ -16,9 +16,15 @@ export const StyledFilterAndSort = styled.div`
   svg {
     font-size: 2rem;
   }
+
+  select {
+    border: none;
+    text-align: right;
+  }
 `;
 
 export const FirstFlexItem = styled.div`
+  position: relative;
   border-top: 1px solid ${colors.lightGrey};
   border-bottom: 1px solid ${colors.lightGrey};
   display: flex;
@@ -34,6 +40,7 @@ export const FirstFlexItem = styled.div`
 `;
 
 export const SecondFlexItem = styled.div`
+  position: relative;
   border-bottom: 1px solid ${colors.lightGrey};
   display: flex;
   justify-content: space-between;
