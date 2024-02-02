@@ -11,6 +11,20 @@ const OrderSchema = new mongoose.Schema(
       type: AddressSchema,
       required: true,
     },
+    payment: {
+      cardNumber: {
+        type: String,
+        required: true,
+      },
+      expirationDate: {
+        type: String,
+        required: true,
+      },
+      ccv: {
+        type: String,
+        required: true,
+      },
+    },
     products: [
       {
         product: { type: mongoose.SchemaTypes.ObjectId, ref: 'Products', required: true },

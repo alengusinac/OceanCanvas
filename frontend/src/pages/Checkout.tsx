@@ -1,13 +1,20 @@
 import Cart from '@/components/Cart';
 import { CheckoutForm } from '@/components/styled/Checkout.styled';
 import { Heading4 } from '@/components/styled/Text.styled';
+import { validateCardExpiry, validateCardNumber } from '@/functions';
+import { useCartContext } from '@/hooks/useCartContext';
+import { useUserContext } from '@/hooks/useUserContext';
+import { IAddress } from '@/models/IAddress';
+import { IOrder, postOrder } from '@/services/orderService';
 import { Button, Divider, TextField } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
+  const { cart, clearCart } = useCartContext();
+  const { user } = useUserContext();
   const [openPayment, setOpenPayment] = useState(false);
-  const [formValues, setFormValues] = useState({
+  const [addressFormValues, setAddressFormValues] = useState<IAddress>({
     email: '',
     firstname: '',
     lastname: '',
@@ -17,23 +24,85 @@ const Checkout = () => {
     country: '',
     phone: '',
   });
+  const [paymentFormValues, setPaymentFormValues] = useState({
+    cardNumber: '',
+    expirationDate: '',
+    ccv: '',
+  });
+  const [paymentError, setPaymentError] = useState<string[]>([]);
+  const [orderButtonLoading, setOrderButtonLoading] = useState(false);
   const navigate = useNavigate();
 
-  const onChangeInput = (e: ChangeEvent<HTMLFormElement>) => {
+  const onAddressChangeInput = (e: React.ChangeEvent<HTMLFormElement>) => {
     const { name, value } = e.target;
-    console.log(formValues);
-
-    setFormValues({ ...formValues, [name]: value });
+    setOpenPayment(false);
+    setAddressFormValues({ ...addressFormValues, [name]: value });
   };
 
-  const verifyShipping = () => {
-    console.log('Verified!');
+  const onPaymentFormChange = (e: React.ChangeEvent<HTMLFormElement>) => {
+    const { name, value } = e.target;
+
+    setPaymentFormValues({ ...paymentFormValues, [name]: value });
+  };
+
+  const verifyShipping = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     setOpenPayment(true);
   };
 
-  const completeOrder = () => {
-    console.log('Complete!');
-    navigate('/confirm-order');
+  const validateOrder = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const errorMessages = [];
+    const cardValidation = validateCardNumber(paymentFormValues.cardNumber);
+    const expirationDateValidation = validateCardExpiry(
+      paymentFormValues.expirationDate
+    );
+    const ccvValidation =
+      paymentFormValues.ccv.length === 3 &&
+      !isNaN(Number(paymentFormValues.ccv));
+
+    if (!cardValidation) {
+      errorMessages.push('Invalid card number');
+    }
+    if (!expirationDateValidation) {
+      errorMessages.push('Invalid expiration date');
+    }
+    if (!ccvValidation) {
+      errorMessages.push('Invalid CCV');
+    }
+    setPaymentError(errorMessages);
+    if (errorMessages.length === 0) {
+      postOrderAsync();
+    }
+  };
+
+  const postOrderAsync = async () => {
+    setOrderButtonLoading(true);
+    setTimeout(async () => {
+      try {
+        const value: IOrder = {
+          address: addressFormValues,
+          payment: paymentFormValues,
+          products: cart.map((item) => ({
+            product: item.product._id,
+            size: item.product.size,
+            amount: item.amount,
+          })),
+        };
+        if (user) {
+          value.user = user._id;
+        }
+        const response = await postOrder(value);
+        if (response?.status === 201) {
+          clearCart();
+          navigate('/confirm-order', { state: response.data });
+        }
+      } catch (error) {
+        setOrderButtonLoading(false);
+        console.error(error);
+      }
+    }, 2000);
   };
 
   return (
@@ -46,84 +115,110 @@ const Checkout = () => {
       <Divider />
       <div>
         <Heading4>Shipping Information</Heading4>
-        <CheckoutForm onChange={onChangeInput}>
+        <CheckoutForm onSubmit={verifyShipping} onChange={onAddressChangeInput}>
           <TextField
             name="email"
-            value={formValues.email}
+            type="email"
+            value={addressFormValues.email}
             label="E-mail"
             variant="filled"
             required
           />
           <TextField
             name="firstname"
-            value={formValues.firstname}
+            value={addressFormValues.firstname}
             label="Firstname"
             variant="filled"
             required
           />
           <TextField
             name="lastname"
-            value={formValues.lastname}
+            value={addressFormValues.lastname}
             label="Lastname"
             variant="filled"
             required
           />
           <TextField
             name="address"
-            value={formValues.address}
+            value={addressFormValues.address}
             label="Address"
             variant="filled"
             required
           />
           <TextField
             name="zipcode"
-            value={formValues.zipcode}
+            value={addressFormValues.zipcode}
             label="Zipcode"
             variant="filled"
             required
           />
           <TextField
             name="city"
-            value={formValues.city}
+            value={addressFormValues.city}
             label="City"
             variant="filled"
             required
           />
           <TextField
             name="country"
-            value={formValues.country}
+            value={addressFormValues.country}
             label="Country"
             variant="filled"
             required
           />
           <TextField
             name="phone"
-            value={formValues.phone}
+            value={addressFormValues.phone}
             label="Phone number"
             variant="filled"
             required
           />
+          <Button type="submit" variant="contained">
+            Continue
+          </Button>
         </CheckoutForm>
-        <Button onClick={verifyShipping} variant="contained">
-          Continue
-        </Button>
       </div>
       <Divider />
       {openPayment && (
         <div>
           <Heading4>Payment information</Heading4>
-          <CheckoutForm>
+          {paymentError.length > 0 && (
+            <div>
+              {paymentError.map((error, index) => (
+                <p key={index}>{error}</p>
+              ))}
+            </div>
+          )}
+          <CheckoutForm onSubmit={validateOrder} onChange={onPaymentFormChange}>
             <TextField
+              name="cardNumber"
+              value={paymentFormValues.cardNumber}
               label="Credit/Debit Card Number"
               variant="filled"
               required
             />
-            <TextField label="Expiration Date" variant="filled" required />
-            <TextField label="CCV" variant="filled" required />
+            <TextField
+              name="expirationDate"
+              value={paymentFormValues.expirationDate}
+              label="Expiration Date MM/YY"
+              variant="filled"
+              required
+            />
+            <TextField
+              name="ccv"
+              value={paymentFormValues.ccv}
+              label="CCV"
+              variant="filled"
+              required
+            />
+            <Button
+              disabled={orderButtonLoading}
+              type="submit"
+              variant="contained"
+            >
+              Complete Order
+            </Button>
           </CheckoutForm>
-          <Button onClick={completeOrder} variant="contained">
-            Complete Order
-          </Button>
         </div>
       )}
     </>
