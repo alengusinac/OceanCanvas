@@ -1,12 +1,16 @@
 import express from 'express';
 import { Order } from '../models/OrderSchema';
-import { log } from 'console';
+import ShortUniqueId from 'short-unique-id';
 
 const router = express.Router();
 
 router.post('/add', async (req, res) => {
+  const uid = new ShortUniqueId();
+  const orderNumber = uid.randomUUID(6);
+  const query = { ...req.body, orderNumber };
+
   try {
-    const order = await Order.create(req.body);
+    const order = await Order.create(query);
     if (!order) {
       throw new Error('Order not created.');
     }
@@ -15,7 +19,7 @@ router.post('/add', async (req, res) => {
       status: 201,
       success: true,
       message: 'Order created successfully.',
-      order: order,
+      data: order,
     });
   } catch (error: any) {
     console.log('AddOrder Error: ', error);

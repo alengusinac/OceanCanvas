@@ -3,6 +3,10 @@ import { AddressSchema } from './AddressSchema';
 
 const OrderSchema = new mongoose.Schema(
   {
+    orderNumber: {
+      type: String,
+      required: true,
+    },
     user: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'User',
