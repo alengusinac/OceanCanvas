@@ -4,6 +4,29 @@ import ShortUniqueId from 'short-unique-id';
 
 const router = express.Router();
 
+router.get('/', async (req, res) => {
+  try {
+    const orders = await Order.find();
+    if (!orders) {
+      throw new Error('Orders not found.');
+    }
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Orders fetched successfully.',
+      data: orders,
+    });
+  } catch (error: any) {
+    console.log('GetOrders Error: ', error);
+
+    res.status(400).json({
+      status: 400,
+      message: error.message.toString(),
+    });
+  }
+});
+
 router.post('/add', async (req, res) => {
   const uid = new ShortUniqueId();
   const orderNumber = uid.randomUUID(6);

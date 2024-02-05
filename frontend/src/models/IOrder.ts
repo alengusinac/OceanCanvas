@@ -1,6 +1,7 @@
 import { IAddress } from './IAddress';
 
 export interface IOrder {
+  _id: string;
   orderNumber?: string;
   address: IAddress;
   payment: {
@@ -21,5 +22,5 @@ export interface IOrderResponse {
   status: number;
   success: boolean;
   message: string;
-  data: IOrder;
+  data: IOrder[];
 }

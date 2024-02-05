@@ -1,7 +1,16 @@
-import { post } from './baseService';
+import { get, post } from './baseService';
 import { IOrder, IOrderResponse } from '@/models/IOrder';
 
 const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/orders`;
+
+export const getOrders = async () => {
+  try {
+    const response = await get<IOrderResponse>(`${BASE_URL}`);
+    return response;
+  } catch (error) {
+    console.log('OrderService: Error while fetching orders', error);
+  }
+};
 
 export const postOrder = async (order: IOrder) => {
   try {
