@@ -48,10 +48,10 @@ const Header = () => {
         <Logo src={logo} />
       </Link>
       <FlexWrapper>
-        <MaterialIconButton
+        {/* <MaterialIconButton
           onClick={handleClick}
           icon={<MdOutlineFavoriteBorder />}
-        />
+        /> */}
         <MaterialIconButton
           onClick={() => {
             setCartDrawerOpen(!cartDrawerOpen);
