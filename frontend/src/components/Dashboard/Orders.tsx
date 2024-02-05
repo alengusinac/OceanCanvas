@@ -33,6 +33,7 @@ export default function Orders() {
             <TableCell>Date</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Ship To</TableCell>
+            <TableCell>Products</TableCell>
             <TableCell align="right">Sale Amount</TableCell>
           </TableRow>
         </TableHead>
@@ -50,7 +51,10 @@ export default function Orders() {
                 {order.address.city}, {order.address.country}
               </TableCell>
 
-              {/* <TableCell align="right">{`$${order.total}`}</TableCell> */}
+              <TableCell align="right">{`${order.total.amount} ${
+                order.total.amount === 1 ? 'pc' : 'pcs'
+              }`}</TableCell>
+              <TableCell align="right">{`$${order.total.price}`}</TableCell>
             </TableRow>
           ))}
         </TableBody>

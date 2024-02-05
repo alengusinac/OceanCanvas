@@ -5,13 +5,14 @@ import { validateCardExpiry, validateCardNumber } from '@/functions';
 import { useCartContext } from '@/hooks/useCartContext';
 import { useUserContext } from '@/hooks/useUserContext';
 import { IAddress } from '@/models/IAddress';
-import { IOrder, postOrder } from '@/services/orderService';
+import { IOrder } from '@/models/IOrder';
+import { postOrder } from '@/services/orderService';
 import { Button, Divider, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
-  const { cart, clearCart } = useCartContext();
+  const { cart, totalAmount, totalPrice, clearCart } = useCartContext();
   const { user } = useUserContext();
   const [openPayment, setOpenPayment] = useState(false);
   const [addressFormValues, setAddressFormValues] = useState<IAddress>({
@@ -89,6 +90,10 @@ const Checkout = () => {
             size: item.product.size,
             amount: item.amount,
           })),
+          total: {
+            amount: totalAmount,
+            price: totalPrice,
+          },
         };
         if (user) {
           value.user = user._id;

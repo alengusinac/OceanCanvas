@@ -35,6 +35,10 @@ const OrderSchema = new mongoose.Schema(
         amount: { type: Number, required: true },
       },
     ],
+    total: {
+      amount: { type: Number, required: true },
+      price: { type: Number, required: true },
+    },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
