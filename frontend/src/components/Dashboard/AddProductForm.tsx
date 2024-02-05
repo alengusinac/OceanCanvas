@@ -1,5 +1,5 @@
 import { Button, TextField } from '@mui/material';
-import { CheckoutForm } from '../styled/Checkout.styled';
+import { StyledForm } from '../styled/Form.styled';
 import { Heading4 } from '../styled/Text.styled';
 import { useState } from 'react';
 import { addProduct } from '@/services/productService';
@@ -81,7 +81,7 @@ const AddProductForm = ({ getProductsAsync, categories }: Props) => {
   return (
     <div>
       <Heading4>Add Product</Heading4>
-      <CheckoutForm onSubmit={sendNewProduct}>
+      <StyledForm onSubmit={sendNewProduct}>
         <TextField
           name="title"
           value={formValues.title}
@@ -123,7 +123,7 @@ const AddProductForm = ({ getProductsAsync, categories }: Props) => {
         <Button type="submit" variant="contained">
           Add
         </Button>
-      </CheckoutForm>
+      </StyledForm>
     </div>
   );
 };

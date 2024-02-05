@@ -3,7 +3,7 @@ import { LoginSignupContainer } from '../components/styled/LoginSignup';
 import { Heading2, SmallBodyText } from '../components/styled/Text.styled';
 import { ChangeEvent, useState } from 'react';
 import { IFormField } from '@/models/IFormField';
-import { CheckoutForm } from '@/components/styled/Checkout.styled';
+import { StyledForm } from '@/components/styled/Form.styled';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '@/services/userService';
 
@@ -106,7 +106,7 @@ const Signup = () => {
     <LoginSignupContainer>
       <Heading2>Sign Up</Heading2>
       {error && <SmallBodyText>{error}</SmallBodyText>}
-      <CheckoutForm>
+      <StyledForm>
         <TextField
           value={formValues.firstname.value}
           name="firstname"
@@ -157,7 +157,7 @@ const Signup = () => {
         <Button onClick={validateForm} variant="contained">
           Sign Up
         </Button>
-      </CheckoutForm>
+      </StyledForm>
     </LoginSignupContainer>
   );
 };

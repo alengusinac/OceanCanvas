@@ -1,5 +1,5 @@
 import Cart from '@/components/Cart';
-import { CheckoutForm } from '@/components/styled/Checkout.styled';
+import { StyledForm } from '@/components/styled/Form.styled';
 import { Heading4 } from '@/components/styled/Text.styled';
 import { validateCardExpiry, validateCardNumber } from '@/functions';
 import { useCartContext } from '@/hooks/useCartContext';
@@ -115,7 +115,7 @@ const Checkout = () => {
       <Divider />
       <div>
         <Heading4>Shipping Information</Heading4>
-        <CheckoutForm onSubmit={verifyShipping} onChange={onAddressChangeInput}>
+        <StyledForm onSubmit={verifyShipping} onChange={onAddressChangeInput}>
           <TextField
             name="email"
             type="email"
@@ -176,7 +176,7 @@ const Checkout = () => {
           <Button type="submit" variant="contained">
             Continue
           </Button>
-        </CheckoutForm>
+        </StyledForm>
       </div>
       <Divider />
       {openPayment && (
@@ -189,7 +189,7 @@ const Checkout = () => {
               ))}
             </div>
           )}
-          <CheckoutForm onSubmit={validateOrder} onChange={onPaymentFormChange}>
+          <StyledForm onSubmit={validateOrder} onChange={onPaymentFormChange}>
             <TextField
               name="cardNumber"
               value={paymentFormValues.cardNumber}
@@ -218,7 +218,7 @@ const Checkout = () => {
             >
               Complete Order
             </Button>
-          </CheckoutForm>
+          </StyledForm>
         </div>
       )}
     </>

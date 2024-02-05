@@ -1,4 +1,4 @@
-import { CheckoutForm } from '@/components/styled/Checkout.styled';
+import { StyledForm } from '@/components/styled/Form.styled';
 import {
   BodyText,
   Heading1,
@@ -145,7 +145,7 @@ const Profile = () => {
       <div>
         <Heading3>Settings</Heading3>
         <Heading4>Change Address</Heading4>
-        <CheckoutForm onSubmit={onAddressSubmit}>
+        <StyledForm onSubmit={onAddressSubmit}>
           <TextField
             value={addressFormValues.email}
             onChange={onChangeAddress}
@@ -205,10 +205,10 @@ const Profile = () => {
           <Button type="submit" variant="contained">
             Save Address
           </Button>
-        </CheckoutForm>
+        </StyledForm>
         <Heading4>Change Password</Heading4>
         <SmallBodyText>{passwordMessage}</SmallBodyText>
-        <CheckoutForm onSubmit={onPasswordSubmit}>
+        <StyledForm onSubmit={onPasswordSubmit}>
           <TextField
             value={passwordFormValues.password1.value}
             onChange={onChangePassword}
@@ -238,7 +238,7 @@ const Profile = () => {
           <Button type="submit" variant="contained">
             Save Password
           </Button>
-        </CheckoutForm>
+        </StyledForm>
       </div>
     </div>
   );

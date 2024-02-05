@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const CheckoutForm = styled.form`
+export const StyledForm = styled.form`
   width: 300px;
   border: 1px solid black;
   border-radius: 5px;

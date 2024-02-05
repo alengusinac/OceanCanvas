@@ -5,7 +5,7 @@ import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '@/hooks/useUserContext';
 import { IFormField } from '@/models/IFormField';
-import { CheckoutForm } from '@/components/styled/Checkout.styled';
+import { StyledForm } from '@/components/styled/Form.styled';
 
 interface FormValues {
   email: IFormField;
@@ -95,7 +95,7 @@ const Login = () => {
     <LoginSignupContainer>
       <Heading2>Login</Heading2>
       {error && <SmallBodyText>{error}</SmallBodyText>}
-      <CheckoutForm>
+      <StyledForm>
         <TextField
           value={formValues.email.value}
           name="email"
@@ -122,7 +122,7 @@ const Login = () => {
         <Button onClick={validateForm} variant="contained">
           Login
         </Button>
-      </CheckoutForm>
+      </StyledForm>
     </LoginSignupContainer>
   );
 };

@@ -1,7 +1,7 @@
 import { Button, TextField } from '@mui/material';
 import { Heading4 } from '../styled/Text.styled';
 import { useState } from 'react';
-import { CheckoutForm } from '../styled/Checkout.styled';
+import { StyledForm } from '../styled/Form.styled';
 import { addCategory } from '@/services/categoryService';
 
 interface Props {
@@ -36,7 +36,7 @@ const AddCategoryForm = ({ getCategoriesAsync }: Props) => {
   return (
     <>
       <Heading4>Add Category</Heading4>
-      <CheckoutForm onSubmit={addCategoryAsync}>
+      <StyledForm onSubmit={addCategoryAsync}>
         <TextField
           name="category"
           value={formValues.category}
@@ -47,7 +47,7 @@ const AddCategoryForm = ({ getCategoriesAsync }: Props) => {
         <Button type="submit" variant="contained">
           Add
         </Button>
-      </CheckoutForm>
+      </StyledForm>
     </>
   );
 };

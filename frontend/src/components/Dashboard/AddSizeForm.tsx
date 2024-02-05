@@ -1,7 +1,7 @@
 import { Button, TextField } from '@mui/material';
 import { Heading4 } from '../styled/Text.styled';
 import { useState } from 'react';
-import { CheckoutForm } from '../styled/Checkout.styled';
+import { StyledForm } from '../styled/Form.styled';
 import { addSize } from '@/services/sizesService';
 
 interface Props {
@@ -38,7 +38,7 @@ const AddSizeForm = ({ getSizesAsync }: Props) => {
   return (
     <>
       <Heading4>Add Size</Heading4>
-      <CheckoutForm onSubmit={addSizeAsync}>
+      <StyledForm onSubmit={addSizeAsync}>
         <TextField
           name="width"
           value={formValues.width}
@@ -61,7 +61,7 @@ const AddSizeForm = ({ getSizesAsync }: Props) => {
         <Button type="submit" variant="contained">
           Add
         </Button>
-      </CheckoutForm>
+      </StyledForm>
     </>
   );
 };
