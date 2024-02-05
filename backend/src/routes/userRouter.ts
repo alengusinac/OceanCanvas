@@ -5,6 +5,26 @@ import { stat } from 'fs';
 
 const router = express.Router();
 
+router.get('/', async (req, res) => {
+  try {
+    const users = await User.find({});
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Users fetched successfully',
+      data: users,
+    });
+  } catch (error: any) {
+    console.log('GetUsersError: ', error);
+
+    res.status(400).json({
+      status: 400,
+      message: error.message.toString(),
+    });
+  }
+});
+
 router.post('/register', async (req, res) => {
   try {
     const user = req.body;

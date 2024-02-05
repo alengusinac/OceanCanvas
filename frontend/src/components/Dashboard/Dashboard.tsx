@@ -19,9 +19,9 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
 import Image from '@mui/icons-material/Image';
-import Customers from './Customers';
 import Orders from './Orders';
 import Products from './Products';
+import Users from './Users';
 
 const drawerWidth: number = 240;
 
@@ -140,11 +140,11 @@ export default function Dashboard() {
               </ListItemIcon>
               <ListItemText primary="Orders" />
             </ListItemButton>
-            <ListItemButton onClick={() => setCurrentPage('Customers')}>
+            <ListItemButton onClick={() => setCurrentPage('Users')}>
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
-              <ListItemText primary="Customers" />
+              <ListItemText primary="Users" />
             </ListItemButton>
             <ListItemButton onClick={() => setCurrentPage('Products')}>
               <ListItemIcon>
@@ -172,7 +172,7 @@ export default function Dashboard() {
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           {currentPage == 'Dashboard' && 'Hej'}
           {currentPage == 'Orders' && <Orders />}
-          {currentPage == 'Customers' && <Customers />}
+          {currentPage == 'Users' && <Users />}
           {currentPage == 'Products' && <Products />}
         </Container>
       </Box>
