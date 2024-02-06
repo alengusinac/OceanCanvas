@@ -1,4 +1,3 @@
-import { colors } from '@/styles/variables';
 import styled from 'styled-components';
 
 export const LoginSignupContainer = styled.div`
@@ -6,7 +5,6 @@ export const LoginSignupContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid ${colors.lightGrey};
   border-radius: 10px;
-  margin: 20px auto;
+  margin: 0 auto;
 `;

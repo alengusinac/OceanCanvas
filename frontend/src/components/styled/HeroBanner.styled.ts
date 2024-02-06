@@ -5,6 +5,11 @@ export const HeroWrapper = styled.div`
   height: 250px;
   overflow: hidden;
   position: relative;
+
+  @media (min-width: 900px) {
+    max-width: 33%;
+    height: 500px;
+  }
 `;
 
 export const Image = styled.img`

@@ -10,6 +10,10 @@ export const StyledCartDrawer = styled.div`
   align-items: center;
   margin-top: 75px;
   padding-bottom: 30px;
+
+  @media (min-width: 768px) {
+    margin-top: 100px;
+  }
 `;
 
 export const StyledCartItem = styled.div`
