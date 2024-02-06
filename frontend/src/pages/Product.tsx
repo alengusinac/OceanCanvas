@@ -1,5 +1,15 @@
 import { FlexWrapper } from '@/components/styled/Flex.styled';
-import { BodyText, Heading2, Heading4 } from '@/components/styled/Text.styled';
+import {
+  StyledProduct,
+  StyledSizeChooser,
+  StyledSizeChooserOpen,
+} from '@/components/styled/Product.styled';
+import {
+  BodyText,
+  BoldBodyText,
+  Heading2,
+  Heading4,
+} from '@/components/styled/Text.styled';
 import { useCartContext } from '@/hooks/useCartContext';
 import { ICartItem } from '@/models/IItem';
 import { IProduct } from '@/models/IProduct';
@@ -8,7 +18,6 @@ import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { useLocation, useParams } from 'react-router-dom';
-import styled from 'styled-components';
 
 const Product = () => {
   const { addToCart } = useCartContext();
@@ -97,69 +106,31 @@ const Product = () => {
         Add to Cart
       </Button>
       <Heading4>Key Features:</Heading4>
-      <ul>
-        <li>Photographer: Alen Gusinac Print </li>
-        <li>Title: Eternal Abyss Print</li>
-        <li>
-          Size: Available in various sizes to suit your space (Choose from 20x30
-          cm to 70x100 cm)
-        </li>
-        <li>
-          Paper Quality: Crafted on 240 g Multidesign Smooth White paper from
-          the renowned Clairefontaine paper mill in France.
-        </li>
-        <li>
-          Archival Quality: The paper is archival, ensuring your print remains
-          vibrant and does not yellow over time.
-        </li>
-        <li>
-          Environmental Responsibility: Our commitment to responsible forestry
-          is reflected in the FSC and EU Ecolabel environmental labels on the
-          paper.
-        </li>
-      </ul>
+
+      <BodyText>
+        <BoldBodyText>Photographer:</BoldBodyText> Alen Gusinac
+      </BodyText>
+
+      <BodyText>
+        <BoldBodyText>Size:</BoldBodyText> Available in various sizes to suit
+        your space (Choose from 20x30 cm to 70x100 cm)
+      </BodyText>
+      <BodyText>
+        <BoldBodyText>Paper Quality:</BoldBodyText> Crafted on 240 g Multidesign
+        Smooth White paper from the renowned Clairefontaine paper mill in
+        France.
+      </BodyText>
+      <BodyText>
+        <BoldBodyText>Archival Quality:</BoldBodyText> The paper is archival,
+        ensuring your print remains vibrant and does not yellow over time.
+      </BodyText>
+      <BodyText>
+        <BoldBodyText>Environmental Responsibility:</BoldBodyText> Our
+        commitment to responsible forestry is reflected in the FSC and EU
+        Ecolabel environmental labels on the paper.
+      </BodyText>
     </StyledProduct>
   );
 };
 
 export default Product;
-
-export const StyledSizeChooser = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  min-width: 250px;
-  border: 1px solid #000;
-  border-radius: 3px;
-  padding: 0.5rem 0.5rem;
-  cursor: pointer;
-  background-color: #fff;
-`;
-
-export const StyledSizeChooserOpen = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 35px;
-  left: -1px;
-  z-index: 1000;
-`;
-
-export const StyledProduct = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-
-  img {
-    width: 100%;
-    margin: 1rem 0;
-    border: 5px solid #000;
-    box-shadow: 0 0 10px #000;
-  }
-
-  p {
-    margin: 0;
-  }
-`;

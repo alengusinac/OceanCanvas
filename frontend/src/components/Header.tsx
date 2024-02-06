@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Cart from './CartDrawer';
 import Nav from './Nav';
+import { colors } from '@/styles/variables';
 
 const Header = () => {
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
@@ -33,6 +34,7 @@ const Header = () => {
         anchor={'left'}
         open={navDrawerOpen}
         onClose={() => setNavDrawerOpen(false)}
+        sx={{ '& .MuiDrawer-paper': { backgroundColor: colors.white } }}
       >
         <Nav handleNavClick={handleNavClick} />
       </Drawer>
@@ -56,6 +58,7 @@ const Header = () => {
           anchor={'right'}
           open={cartDrawerOpen}
           onClose={() => setCartDrawerOpen(false)}
+          sx={{ '& .MuiDrawer-paper': { backgroundColor: colors.white } }}
         >
           <Cart setCartDrawerOpen={setCartDrawerOpen} />
         </Drawer>

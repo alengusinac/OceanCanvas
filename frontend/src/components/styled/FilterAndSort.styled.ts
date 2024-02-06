@@ -12,6 +12,7 @@ export const StyledFilterAndSort = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
 
   svg {
@@ -22,6 +23,7 @@ export const StyledFilterAndSort = styled.div`
     border: none;
     text-align: right;
     background-color: ${colors.white};
+    cursor: pointer;
   }
 
   @media (min-width: 1000px) {

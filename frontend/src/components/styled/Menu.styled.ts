@@ -1,3 +1,4 @@
+import { colors } from '@/styles/variables';
 import styled from 'styled-components';
 
 export const Menu = styled.div`
@@ -15,13 +16,18 @@ export const Menu = styled.div`
 export const MenuItem = styled.button`
   background-color: transparent;
   border: none;
-  padding: 10px;
-  width: 200px;
+  border-bottom: 1px solid ${colors.lightGrey};
+  padding: 20px 30px;
+  width: 300px;
   text-align: left;
   cursor: pointer;
 
   &:first-child {
     margin-top: 90px;
+
+    @media (min-width: 1000px) {
+      margin-top: 100px;
+    }
   }
 
   &:hover {
