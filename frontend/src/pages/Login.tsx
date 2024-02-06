@@ -87,9 +87,11 @@ const Login = () => {
         password: formValues.password.value,
       };
       const response = (await login(values)) as IUserResponse;
-      if (response.status === 200) navigate('/');
-      if (response.status === 404) setError('User not found');
-      if (response.status === 400) setError('Invalid password');
+      if (response.status === 200) {
+        navigate('/login');
+      } else {
+        setError(response.data.message);
+      }
     } catch (error) {
       console.log(error);
       setError('Something went wrong, please try again later');

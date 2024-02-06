@@ -1,6 +1,6 @@
 import { Button, TextField } from '@mui/material';
 import { LoginSignupContainer } from '../components/styled/LoginSignup';
-import { Heading2, SmallBodyText } from '../components/styled/Text.styled';
+import { ErrorText, Heading2 } from '../components/styled/Text.styled';
 import { ChangeEvent, useState } from 'react';
 import { IFormField } from '@/models/IFormField';
 import { StyledForm } from '@/components/styled/Form.styled';
@@ -49,7 +49,9 @@ const Signup = () => {
     });
   };
 
-  const validateForm = async () => {
+  const validateForm = async (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     const formFields = Object.keys(formValues);
     let newFormValues = { ...formValues };
     let noErrorFound = true;
@@ -91,13 +93,17 @@ const Signup = () => {
         password: formValues.password.value,
         name: `${formValues.firstname.value} ${formValues.lastname.value}`,
       };
-      await registerUser(values);
-      navigate('/login');
+      const response = await registerUser(values);
+      if (response.status === 200) {
+        navigate('/login');
+      } else {
+        setError(response.data.message);
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(error);
-      if (error.response.data.message) {
-        setError(error.response.data.message);
+      if (error.data.message) {
+        setError(error.data.message);
       }
     }
   };
@@ -105,8 +111,8 @@ const Signup = () => {
   return (
     <LoginSignupContainer>
       <Heading2>Sign Up</Heading2>
-      {error && <SmallBodyText>{error}</SmallBodyText>}
-      <StyledForm>
+      {error && <ErrorText data-testid="cy-errorMsg">{error}</ErrorText>}
+      <StyledForm onSubmit={validateForm}>
         <TextField
           value={formValues.firstname.value}
           name="firstname"
@@ -154,7 +160,7 @@ const Signup = () => {
           variant="filled"
           required
         />
-        <Button onClick={validateForm} variant="contained">
+        <Button type="submit" variant="contained">
           Sign Up
         </Button>
       </StyledForm>

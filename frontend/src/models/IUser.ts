@@ -11,6 +11,7 @@ export interface IUserResponse {
   success: boolean;
   message: string;
   token: string;
+  data: { message: string };
 }
 
 export interface IUserLoginForm {
