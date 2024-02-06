@@ -23,6 +23,7 @@ const Nav = ({ handleNavClick }: Props) => {
       <div>
         <button onClick={() => handleNavClick('/profile')}>Profile</button>
         <button
+          name="logout"
           onClick={() => {
             logout();
             handleNavClick('/');

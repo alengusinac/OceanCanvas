@@ -1,11 +1,12 @@
 import { Button, TextField } from '@mui/material';
 import { LoginSignupContainer } from '../components/styled/LoginSignup';
-import { Heading2, SmallBodyText } from '../components/styled/Text.styled';
+import { ErrorText, Heading2 } from '../components/styled/Text.styled';
 import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '@/hooks/useUserContext';
 import { IFormField } from '@/models/IFormField';
 import { StyledForm } from '@/components/styled/Form.styled';
+import { IUserResponse } from '@/models/IUser';
 
 interface FormValues {
   email: IFormField;
@@ -40,7 +41,9 @@ const Login = () => {
     });
   };
 
-  const validateForm = () => {
+  const validateForm = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     const formFields = Object.keys(formValues);
     let newFormValues = { ...formValues };
     let noErrorFound = true;
@@ -83,8 +86,10 @@ const Login = () => {
         email: formValues.email.value,
         password: formValues.password.value,
       };
-      login(values);
-      navigate(-1);
+      const response = (await login(values)) as IUserResponse;
+      if (response.status === 200) navigate('/');
+      if (response.status === 404) setError('User not found');
+      if (response.status === 400) setError('Invalid password');
     } catch (error) {
       console.log(error);
       setError('Something went wrong, please try again later');
@@ -94,11 +99,12 @@ const Login = () => {
   return (
     <LoginSignupContainer>
       <Heading2>Login</Heading2>
-      {error && <SmallBodyText>{error}</SmallBodyText>}
-      <StyledForm>
+      {error && <ErrorText data-testid="cy-errorMsg">{error}</ErrorText>}
+      <StyledForm onSubmit={validateForm}>
         <TextField
           value={formValues.email.value}
           name="email"
+          type="email"
           onChange={onFormChange}
           error={formValues.email.error}
           helperText={formValues.email.error && formValues.email.errorMessage}
@@ -119,7 +125,7 @@ const Login = () => {
           variant="filled"
           required
         />
-        <Button onClick={validateForm} variant="contained">
+        <Button type="submit" variant="contained">
           Login
         </Button>
       </StyledForm>

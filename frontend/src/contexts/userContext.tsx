@@ -2,12 +2,12 @@ import { loginUser, validateUser } from '@/services/userService';
 import { PropsWithChildren, createContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
-import { IUser } from '@/models/IUser';
+import { IUser, IUserLoginForm } from '@/models/IUser';
 
 interface ContextType {
   user: IUser | null;
   checkUser: () => void;
-  login: (values: object) => void;
+  login: (values: IUserLoginForm) => Promise<unknown>;
   logout: () => void;
 }
 
@@ -44,10 +44,9 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const login = async (values: object) => {
+  const login = async (values: IUserLoginForm) => {
     try {
       const response = await loginUser(values);
-      console.log(response);
 
       if (response?.status === 200) {
         Cookies.set('token', response.token, { expires: 1 });
@@ -59,8 +58,10 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
           _id: decoded._id,
         });
       }
+      return response;
     } catch (error) {
       console.log(error);
+      return error;
     }
   };
 

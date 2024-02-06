@@ -1,11 +1,6 @@
 import logo from '@/assets/oceancanvas-logo.png';
 import MaterialIconButton from './MaterialIconButton';
-import {
-  MdOutlineFavoriteBorder,
-  MdOutlineShoppingCart,
-  MdMenu,
-  MdClose,
-} from 'react-icons/md';
+import { MdOutlineShoppingCart, MdMenu, MdClose } from 'react-icons/md';
 import { HeaderWrapper, Logo } from './styled/Header.styled';
 import { FlexWrapper } from './styled/Flex.styled';
 import Drawer from '@mui/material/Drawer';
@@ -13,10 +8,6 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Cart from './CartDrawer';
 import Nav from './Nav';
-
-const handleClick = () => {
-  console.log('CLICK');
-};
 
 const Header = () => {
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
@@ -31,6 +22,7 @@ const Header = () => {
   return (
     <HeaderWrapper>
       <MaterialIconButton
+        testId="cy-menuIcon"
         onClick={() => {
           setNavDrawerOpen(!navDrawerOpen);
           setCartDrawerOpen(false);
@@ -53,6 +45,7 @@ const Header = () => {
           icon={<MdOutlineFavoriteBorder />}
         /> */}
         <MaterialIconButton
+          testId="cy-cartIcon"
           onClick={() => {
             setCartDrawerOpen(!cartDrawerOpen);
             setNavDrawerOpen(false);

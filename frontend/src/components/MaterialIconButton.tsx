@@ -5,15 +5,17 @@ interface MaterialIconButtonProps {
   icon: ReactNode;
   onClick: React.MouseEventHandler;
   $size?: number;
+  testId?: string;
 }
 
 const MaterialIconButton = ({
   icon,
   onClick,
   $size,
+  testId,
 }: MaterialIconButtonProps) => {
   return (
-    <IconButton $size={$size} onClick={onClick}>
+    <IconButton data-testid={testId} $size={$size} onClick={onClick}>
       {icon}
     </IconButton>
   );

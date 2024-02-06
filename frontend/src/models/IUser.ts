@@ -13,6 +13,11 @@ export interface IUserResponse {
   token: string;
 }
 
+export interface IUserLoginForm {
+  email: string;
+  password: string;
+}
+
 export interface IValidateUserResponse {
   token: string;
   status: number;

@@ -1,5 +1,6 @@
 import {
   IGetUserResponse,
+  IUserLoginForm,
   IUserResponse,
   IValidateUserResponse,
 } from '@/models/IUser';
@@ -11,8 +12,9 @@ export const getUsers = async () => {
   try {
     const response = await get<IGetUserResponse>(`${BASE_URL}/`);
     return response;
-  } catch (error) {
-    console.log('GetUsersError: ', error);
+  } catch (error: any) {
+    console.log('UserService: GetUsersError: ', error);
+    return error.response;
   }
 };
 
@@ -20,17 +22,19 @@ export const registerUser = async (values: object) => {
   try {
     const response = await post<IUserResponse>(`${BASE_URL}/register`, values);
     return response;
-  } catch (error) {
-    console.log('RegisterError: ', error);
+  } catch (error: any) {
+    console.log('UserService: RegisterError: ', error);
+    return error.response;
   }
 };
 
-export const loginUser = async (values: object) => {
+export const loginUser = async (values: IUserLoginForm) => {
   try {
     const response = await post<IUserResponse>(`${BASE_URL}/login`, values);
     return response;
-  } catch (error) {
-    console.log('LoginError: ', error);
+  } catch (error: any) {
+    console.log('UserService: LoginError: ', error);
+    return error.response;
   }
 };
 
@@ -40,8 +44,9 @@ export const validateUser = async (token: string) => {
       token,
     });
     return response;
-  } catch (error) {
-    console.log('ValidateError: ', error);
+  } catch (error: any) {
+    console.log('UserService: ValidateError: ', error);
+    return error.response;
   }
 };
 
@@ -51,7 +56,8 @@ export const changeUserPassword = async (value: string) => {
       newPassword: value,
     });
     return response;
-  } catch (error) {
-    console.log('ChangePasswordError: ', error);
+  } catch (error: any) {
+    console.log('UserService: ChangePasswordError: ', error);
+    return error.response;
   }
 };

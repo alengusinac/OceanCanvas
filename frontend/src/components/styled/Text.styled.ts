@@ -36,3 +36,9 @@ export const SmallBodyText = styled.p`
   text-align: center;
   padding: 0 20px;
 `;
+export const ErrorText = styled.p`
+  font-family: ${fonts.body};
+  color: red;
+  text-align: center;
+  padding: 0 20px;
+`;
