@@ -1,6 +1,9 @@
 import FilterAndSort from '@/components/FilterAndSort';
 import ProductCard from '@/components/ProductCard';
-import { ProductsList } from '@/components/styled/Products.styled';
+import {
+  ProductsList,
+  StyledProducts,
+} from '@/components/styled/Products.styled';
 import { BodyText, Heading1 } from '@/components/styled/Text.styled';
 import { IProductFiltersSort } from '@/models/IFilters';
 import { IProduct } from '@/models/IProduct';
@@ -56,7 +59,7 @@ const Products = () => {
   };
 
   return (
-    <>
+    <StyledProducts>
       <Heading1>Photo Prints</Heading1>
       <BodyText>Explore the Depths Through Captivating Prints</BodyText>
       <FilterAndSort
@@ -82,10 +85,10 @@ const Products = () => {
           }
           variant="contained"
         >
-          Load more
+          Load More
         </Button>
       )}
-    </>
+    </StyledProducts>
   );
 };
 

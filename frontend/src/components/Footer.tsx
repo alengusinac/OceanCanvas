@@ -8,8 +8,10 @@ const Footer = () => {
   return (
     <FooterWrapper>
       <LogoWrapper src={logo} />
+
       <Newsletter />
       <SocialIcons />
+
       <p>&copy;2023 Alen Gusinac. All rights reserved.</p>
     </FooterWrapper>
   );

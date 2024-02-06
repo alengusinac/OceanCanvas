@@ -4,7 +4,7 @@ import {
   ProductImage,
   StyledProductCard,
 } from './styled/Products.styled';
-import { BodyText, SmallBodyText } from './styled/Text.styled';
+import { Heading4, SmallBodyText } from './styled/Text.styled';
 
 interface Props {
   item: IProduct;
@@ -17,7 +17,7 @@ const ProductCard = ({ item, onClick }: Props) => {
       <ImageContainer>
         <ProductImage src={item.imageUrl} />
       </ImageContainer>
-      <BodyText>{item.title}</BodyText>
+      <Heading4>{item.title}</Heading4>
       <SmallBodyText>From ${item.sizes[0].price}</SmallBodyText>
     </StyledProductCard>
   );

@@ -16,7 +16,15 @@ export const FooterWrapper = styled.footer`
   box-shadow: 0px -2px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
-export const NewsLetterWrapper = styled.div`
+export const NewsLetterWrapper = styled.form`
   display: flex;
   flex-direction: column;
+  border: 1px solid ${colors.darkBlue};
+  margin-top: 20px;
+  padding: 30px;
+  border-radius: 5px;
+
+  button {
+    margin-top: 10px;
+  }
 `;
