@@ -27,8 +27,7 @@ const AddSizeForm = ({ getSizesAsync }: Props) => {
     e.preventDefault();
 
     try {
-      const response = await addSize(formValues);
-      console.log(response);
+      await addSize(formValues);
       getSizesAsync();
     } catch (error) {
       console.log(error);

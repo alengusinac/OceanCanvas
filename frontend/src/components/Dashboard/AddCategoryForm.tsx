@@ -25,8 +25,7 @@ const AddCategoryForm = ({ getCategoriesAsync }: Props) => {
     e.preventDefault();
 
     try {
-      const response = await addCategory(formValues);
-      console.log(response);
+      await addCategory(formValues);
       getCategoriesAsync();
     } catch (error) {
       console.log(error);

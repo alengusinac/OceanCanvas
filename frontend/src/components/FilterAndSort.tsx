@@ -97,7 +97,6 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
 
           <select
             onChange={(e) => {
-              console.log(e.target.value);
               let value = '';
 
               switch (e.target.value) {

@@ -47,7 +47,6 @@ const AddProductForm = ({ getProductsAsync, categories }: Props) => {
       image,
       categories: selectedCategories,
     };
-    console.log('values: ', values);
 
     try {
       await addProduct(values);

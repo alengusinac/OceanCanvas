@@ -34,7 +34,6 @@ const Product = () => {
       const response = await getProduct(id as string);
       if (response) {
         setProduct(response);
-        console.log(response);
 
         setSize(response?.sizes[0].size);
         setPrice(response?.sizes[0].price);
@@ -45,7 +44,7 @@ const Product = () => {
   };
 
   const handleOnLoad = (e: any) => {
-    console.log('Image loaded');
+    // console.log('Image loaded');
     console.log(e.target.offsetWidth, e.target.offsetHeight);
   };
 

@@ -20,7 +20,6 @@ export const validateCardExpiry = (string: string) => {
   if (String(year).length === 2) {
     year = parseInt(`20${year}`);
   }
-  console.log(year);
 
   if (month < 1 || month > 12) {
     return false;

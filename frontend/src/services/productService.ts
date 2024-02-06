@@ -15,8 +15,6 @@ export const getProducts = async (
   offset?: number
 ) => {
   try {
-    console.log(BASE_URL);
-
     const url = new URL(BASE_URL);
 
     if (filters) {
@@ -42,7 +40,7 @@ export const getProduct = async (productId: string) => {
     const response = await get<IProductResponse>(`${BASE_URL}/${productId}`);
     return response.data;
   } catch (error) {
-    console.log('Error while fetching product', error);
+    console.log('ProductService: Error while fetching product', error);
   }
 };
 
@@ -51,7 +49,7 @@ export const addProduct = async (product: IProductAdd) => {
     const response = await post<IProduct>(`${BASE_URL}/add`, product);
     return response;
   } catch (error) {
-    console.log('Error while adding product', error);
+    console.log('ProductService: Error while adding product', error);
   }
 };
 
@@ -60,10 +58,9 @@ export const deleteProduct = async (productId: string) => {
     const response = await put<IProductDeleteResponse>(`${BASE_URL}/delete`, {
       productId,
     });
-    console.log('response', response);
 
     return response;
   } catch (error) {
-    console.log('Error while deleting product', error);
+    console.log('ProductService: Error while deleting product', error);
   }
 };
