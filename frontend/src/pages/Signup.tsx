@@ -94,12 +94,11 @@ const Signup = () => {
         name: `${formValues.firstname.value} ${formValues.lastname.value}`,
       };
       const response = await registerUser(values);
-      if (response.status === 200) {
+      if (response.status === 201) {
         navigate('/login');
       } else {
         setError(response.data.message);
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(error);
       if (error.data.message) {

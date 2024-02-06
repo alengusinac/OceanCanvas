@@ -87,8 +87,10 @@ const Login = () => {
         password: formValues.password.value,
       };
       const response = (await login(values)) as IUserResponse;
+
       if (response.status === 200) {
-        navigate('/login');
+        navigate('/');
+        setError('');
       } else {
         setError(response.data.message);
       }

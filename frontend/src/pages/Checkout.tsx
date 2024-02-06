@@ -1,6 +1,7 @@
 import Cart from '@/components/Cart';
+import { StyledCheckout } from '@/components/styled/Checkout.styled';
 import { StyledForm } from '@/components/styled/Form.styled';
-import { Heading4 } from '@/components/styled/Text.styled';
+import { ErrorText, Heading1, Heading4 } from '@/components/styled/Text.styled';
 import { validateCardExpiry, validateCardNumber } from '@/functions';
 import { useCartContext } from '@/hooks/useCartContext';
 import { useUserContext } from '@/hooks/useUserContext';
@@ -111,9 +112,9 @@ const Checkout = () => {
   };
 
   return (
-    <>
+    <StyledCheckout>
       <div>
-        <Heading4>Checkout</Heading4>
+        <Heading1>Checkout</Heading1>
         <Divider />
         <Cart />
       </div>
@@ -190,7 +191,7 @@ const Checkout = () => {
           {paymentError.length > 0 && (
             <div>
               {paymentError.map((error, index) => (
-                <p key={index}>{error}</p>
+                <ErrorText key={index}>{error}</ErrorText>
               ))}
             </div>
           )}
@@ -226,7 +227,7 @@ const Checkout = () => {
           </StyledForm>
         </div>
       )}
-    </>
+    </StyledCheckout>
   );
 };
 

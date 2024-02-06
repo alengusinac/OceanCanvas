@@ -45,6 +45,7 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
         </button>
         <Drawer
           anchor={'left'}
+          ModalProps={{ disableScrollLock: true }}
           open={openCategories}
           onClose={() => setOpenCategories(false)}
         >
@@ -69,6 +70,7 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
         </button>
         <Drawer
           anchor={'right'}
+          ModalProps={{ disableScrollLock: true }}
           open={openFilters}
           onClose={() => setOpenFilters(false)}
         >

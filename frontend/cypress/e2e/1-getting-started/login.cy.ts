@@ -6,7 +6,7 @@ describe('Login Test', () => {
 
     cy.get('input[name="password"]').type('password123');
 
-    cy.get('button[type="submit"]').click();
+    cy.get('button[type="submit"]').first().click();
 
     cy.url().should('include', '/');
 
@@ -22,7 +22,7 @@ describe('Login Test', () => {
 
     cy.get('input[name="password"]').type('wrongpassword');
 
-    cy.get('button[type="submit"]').click();
+    cy.get('button[type="submit"]').first().click();
 
     cy.url().should('include', '/login');
 
@@ -36,7 +36,7 @@ describe('Signup Test', () => {
   it('should signup with valid credentials', () => {
     cy.visit('http://localhost:5173/signup');
     cy.intercept('POST', '/users/register', {
-      status: 200,
+      status: 201,
       message: 'User created successfully.',
     });
 
@@ -45,18 +45,22 @@ describe('Signup Test', () => {
     cy.get('input[name="email"]').type('test@test.se');
     cy.get('input[name="password"]').type('password123');
 
-    cy.get('button[type="submit"]').click();
+    cy.get('button[type="submit"]').first().click();
   });
 
   it("shouldn't signup with invalid credentials", () => {
     cy.visit('http://localhost:5173/signup');
+    cy.intercept('POST', '/users/register', {
+      status: 400,
+      data: { message: 'Email already in use.' },
+    });
 
     cy.get('input[name="firstname"]').type('test');
     cy.get('input[name="lastname"]').type('testsson');
     cy.get('input[name="email"]').type('alen@alen.se');
     cy.get('input[name="password"]').type('password123');
 
-    cy.get('button[type="submit"]').click();
+    cy.get('button[type="submit"]').first().click();
 
     cy.get('[data-testid="cy-errorMsg"]')
       .should('be.visible')

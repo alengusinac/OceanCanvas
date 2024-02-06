@@ -23,18 +23,18 @@ const Home = () => {
       </BodyText>
       <HeroBanner
         image={ocean1}
-        buttonText="Explore Prints"
-        onClick={() => navigate('/products', { state: { key: 'all' } })}
+        buttonText="Explore All Prints"
+        onClick={() => navigate('/products', { state: { category: 'all' } })}
       />
       <HeroBanner
         image={ocean2}
-        buttonText="Explore Fish"
-        onClick={() => navigate('/products', { state: { key: 'fish' } })}
+        buttonText="Explore Fish Prints"
+        onClick={() => navigate('/products', { state: { category: 'fish' } })}
       />
       <HeroBanner
         image={ocean3}
-        buttonText="Explore Corals"
-        onClick={() => navigate('/products', { state: { key: 'corals' } })}
+        buttonText="Explore Coral Prints"
+        onClick={() => navigate('/products', { state: { category: 'corals' } })}
       />
     </StyledHome>
   );

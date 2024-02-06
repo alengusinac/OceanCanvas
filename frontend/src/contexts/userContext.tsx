@@ -2,7 +2,7 @@ import { loginUser, validateUser } from '@/services/userService';
 import { PropsWithChildren, createContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
-import { IUser, IUserLoginForm } from '@/models/IUser';
+import { IUser, IUserLoginForm, IUserResponse } from '@/models/IUser';
 
 interface ContextType {
   user: IUser | null;
@@ -46,7 +46,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
 
   const login = async (values: IUserLoginForm) => {
     try {
-      const response = await loginUser(values);
+      const response: IUserResponse = await loginUser(values);
 
       if (response?.status === 200) {
         Cookies.set('token', response.token, { expires: 1 });

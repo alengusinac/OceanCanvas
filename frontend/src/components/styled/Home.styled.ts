@@ -21,9 +21,4 @@ export const StyledHome = styled.div`
       width: 100%;
     }
   }
-
-  @media (min-width: 1400px) {
-    max-width: 1400px;
-    margin: 0 auto;
-  }
 `;

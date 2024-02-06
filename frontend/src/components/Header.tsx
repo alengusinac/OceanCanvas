@@ -33,6 +33,7 @@ const Header = () => {
       <Drawer
         anchor={'left'}
         open={navDrawerOpen}
+        ModalProps={{ disableScrollLock: true }}
         onClose={() => setNavDrawerOpen(false)}
         sx={{ '& .MuiDrawer-paper': { backgroundColor: colors.white } }}
       >
@@ -57,6 +58,7 @@ const Header = () => {
         <Drawer
           anchor={'right'}
           open={cartDrawerOpen}
+          ModalProps={{ disableScrollLock: true }}
           onClose={() => setCartDrawerOpen(false)}
           sx={{ '& .MuiDrawer-paper': { backgroundColor: colors.white } }}
         >

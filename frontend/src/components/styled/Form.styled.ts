@@ -8,4 +8,8 @@ export const StyledForm = styled.form`
   flex-direction: column;
   margin: 0 auto;
   margin-bottom: 20px;
+
+  @media (min-width: 600px) {
+    width: 400px;
+  }
 `;

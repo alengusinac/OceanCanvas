@@ -27,9 +27,10 @@ export const Heading4 = styled.h4`
 `;
 export const BodyText = styled.p`
   font-family: ${fonts.body};
+  max-width: 600px;
   text-align: center;
   margin: 0;
-  padding: 0 20px;
+  padding: 5px 20px;
   padding-bottom: 20px;
 `;
 export const BoldBodyText = styled.span`
@@ -41,7 +42,7 @@ export const SmallBodyText = styled.p`
   font-size: 0.8rem;
   text-align: center;
   margin: 0;
-  padding: 0 20px;
+  padding: 5px 20px;
   padding-bottom: 20px;
 `;
 export const ErrorText = styled.p`
@@ -49,6 +50,6 @@ export const ErrorText = styled.p`
   color: red;
   text-align: center;
   margin: 0;
-  padding: 0 20px;
+  padding: 5px 20px;
   padding-bottom: 20px;
 `;

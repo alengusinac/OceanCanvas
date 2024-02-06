@@ -8,9 +8,9 @@ import {
 } from '@/components/styled/Text.styled';
 import { useUserContext } from '@/hooks/useUserContext';
 import { IFormField } from '@/models/IFormField';
-import { changeUserPassword } from '@/services/userService';
+import { changeUserAddress, changeUserPassword } from '@/services/userService';
 import { Button, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface PasswordFormValues {
@@ -23,7 +23,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const [passwordMessage, setPasswordMessage] = useState('');
   const [addressFormValues, setAddressFormValues] = useState({
-    email: '',
     firstname: '',
     lastname: '',
     address: '',
@@ -44,6 +43,12 @@ const Profile = () => {
       errorMessage: 'You must enter a password',
     },
   });
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user]);
 
   const onPasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -99,8 +104,16 @@ const Profile = () => {
     });
   };
 
-  const onAddressSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onAddressSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    try {
+      const response = await changeUserAddress(addressFormValues);
+      console.log(response);
+    } catch (error) {
+      console.log('Error', error);
+    }
+
     console.log('Address submit');
   };
 
@@ -119,6 +132,7 @@ const Profile = () => {
       <SmallBodyText>{user?.email}</SmallBodyText>
       <Button
         variant="contained"
+        name="logout"
         onClick={() => {
           logout();
           navigate('/');
@@ -146,13 +160,6 @@ const Profile = () => {
         <Heading3>Settings</Heading3>
         <Heading4>Change Address</Heading4>
         <StyledForm onSubmit={onAddressSubmit}>
-          <TextField
-            value={addressFormValues.email}
-            onChange={onChangeAddress}
-            name="email"
-            label="E-mail"
-            variant="filled"
-          />
           <TextField
             value={addressFormValues.firstname}
             onChange={onChangeAddress}

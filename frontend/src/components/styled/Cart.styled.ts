@@ -17,12 +17,19 @@ export const StyledCartDrawer = styled.div`
 `;
 
 export const StyledCartItem = styled.div`
-  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid ${colors.lightGrey};
-  padding: 0 10px;
+  padding: 10px 10px;
+
+  p {
+    padding-top: 5px;
+  }
+
+  @media (min-width: 768px) {
+    padding: 10px 30px;
+  }
 `;
 
 export const CartImageContainer = styled(ImageContainer)`
@@ -35,7 +42,11 @@ export const CartImageContainer = styled(ImageContainer)`
 export const ItemActionButtons = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  height: 100px;
+  height: 120px;
+
+  > div {
+    height: 40px;
+  }
 `;

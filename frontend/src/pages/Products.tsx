@@ -10,14 +10,15 @@ import { IProduct } from '@/models/IProduct';
 import { getProducts } from '@/services/productService';
 import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Products = () => {
+  const { state } = useLocation();
   const [products, setProducts] = useState<IProduct[]>([]);
   const [totalProducts, setTotalProducts] = useState<number>(0);
   const [offset, setOffset] = useState<number>(0);
   const [filters, setFilters] = useState<IProductFiltersSort>({
-    category: '',
+    category: state.category || '',
     productsPerPage: 12,
     sort: '-createdAt',
   });

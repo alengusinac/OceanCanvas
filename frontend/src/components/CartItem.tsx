@@ -39,23 +39,23 @@ const CartItem = ({ item }: Props) => {
       </FlexWrapper>
       <ItemActionButtons>
         <MaterialIconButton
-          $size={30}
+          $size={35}
           icon={<MdDeleteForever />}
           onClick={() => removeFromCart(item)}
         />
         <ButtonGroup sx={{ border: '1px solid black', height: '30px' }}>
           <MaterialIconButton
-            $size={25}
+            $size={35}
             icon={<MdRemoveCircleOutline />}
             onClick={() => changeAmount(item, item.amount - 1)}
           />
           <MaterialIconButton
-            $size={25}
+            $size={35}
             icon={<MdAddCircleOutline />}
             onClick={() => changeAmount(item, item.amount + 1)}
           />
         </ButtonGroup>
-        <SmallBodyText>{`$${product.price * item.amount}`}</SmallBodyText>
+        <BodyText>{`$${product.price * item.amount}`}</BodyText>
       </ItemActionButtons>
     </StyledCartItem>
   );
