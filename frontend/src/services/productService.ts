@@ -29,7 +29,7 @@ export const getProducts = async (
     }
 
     const response = await get<IProductsResponse>(url.href);
-    return response.data;
+    return response;
   } catch (error) {
     console.log('Error while fetching products', error);
   }

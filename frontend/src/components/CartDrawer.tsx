@@ -22,6 +22,7 @@ const CartDrawer = ({ setCartDrawerOpen }: Props) => {
           <Divider />
           <Cart />
           <Button
+            name="checkout"
             onClick={() => {
               navigate('/checkout');
               setCartDrawerOpen(false);
@@ -32,7 +33,7 @@ const CartDrawer = ({ setCartDrawerOpen }: Props) => {
           </Button>
         </>
       )}
-      {cart.length === 0 && <BoldBodyText>Your cart is empty</BoldBodyText>}
+      {cart.length === 0 && <BoldBodyText>Your cart is empty.</BoldBodyText>}
     </StyledCartDrawer>
   );
 };

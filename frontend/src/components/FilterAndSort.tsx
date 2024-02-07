@@ -31,6 +31,7 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
     try {
       const response = await getCategories();
       if (response) setCategories(response);
+      console.log(response);
     } catch (error) {
       console.log('Get Categories Error: ', error);
     }
@@ -39,7 +40,10 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
   return (
     <StyledFilterAndSort>
       <FirstFlexItem>
-        <button onClick={() => setOpenCategories(!openCategories)}>
+        <button
+          data-cy="categoriesBtn"
+          onClick={() => setOpenCategories(!openCategories)}
+        >
           Categories
           <MdKeyboardArrowDown />
         </button>

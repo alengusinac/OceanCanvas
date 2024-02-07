@@ -12,8 +12,12 @@ const Nav = ({ handleNavClick }: Props) => {
   const LoginButtons = () => {
     return (
       <div>
-        <button onClick={() => handleNavClick('/login')}>Login</button>
-        <button onClick={() => handleNavClick('/signup')}>Sign Up</button>
+        <button name="login" onClick={() => handleNavClick('/login')}>
+          Login
+        </button>
+        <button name="signup" onClick={() => handleNavClick('/signup')}>
+          Sign Up
+        </button>
       </div>
     );
   };

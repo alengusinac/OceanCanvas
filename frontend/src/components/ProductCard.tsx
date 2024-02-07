@@ -13,7 +13,7 @@ interface Props {
 
 const ProductCard = ({ item, onClick }: Props) => {
   return (
-    <StyledProductCard onClick={onClick}>
+    <StyledProductCard data-cy="productCard" onClick={onClick}>
       <ImageContainer>
         <ProductImage src={item.imageUrl} />
       </ImageContainer>

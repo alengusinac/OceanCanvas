@@ -18,10 +18,11 @@ const Products = () => {
   const [totalProducts, setTotalProducts] = useState<number>(0);
   const [offset, setOffset] = useState<number>(0);
   const [filters, setFilters] = useState<IProductFiltersSort>({
-    category: state.category || '',
+    category: state ? state.category : '',
     productsPerPage: 12,
     sort: '-createdAt',
   });
+  const [error, setError] = useState<string>('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,13 +38,20 @@ const Products = () => {
     try {
       const response = await getProducts(filters);
       if (response) {
-        setProducts(response?.products);
-        setTotalProducts(response?.total);
+        if (response.status === 200) {
+          setProducts(response?.data.products);
+          setTotalProducts(response?.data.total);
+        } else {
+          setProducts([]);
+          setTotalProducts(0);
+          setError('Error fetching products');
+        }
       }
     } catch (error) {
       console.log('Load Products Error: ', error);
       setProducts([]);
       setTotalProducts(0);
+      setError('Error fetching products');
     }
   };
 
@@ -51,8 +59,8 @@ const Products = () => {
     try {
       const response = await getProducts(filters, offset);
       if (response) {
-        setProducts([...products, ...response?.products]);
-        setTotalProducts(response?.total);
+        setProducts([...products, ...response?.data.products]);
+        setTotalProducts(response?.data.total);
       }
     } catch (error) {
       console.log('Load More Products Error: ', error);
@@ -69,6 +77,7 @@ const Products = () => {
         totalProducts={totalProducts}
       />
       <ProductsList>
+        {error && <BodyText data-cy="errorMessage">{error}</BodyText>}
         {products?.map((item) => (
           <ProductCard
             onClick={() =>
