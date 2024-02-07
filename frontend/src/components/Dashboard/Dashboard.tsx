@@ -75,7 +75,7 @@ const Drawer = styled(MuiDrawer, {
 
 export default function Dashboard() {
   const [open, setOpen] = React.useState(false);
-  const [currentPage, setCurrentPage] = React.useState('Dashboard');
+  const [currentPage, setCurrentPage] = React.useState('Orders');
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -170,7 +170,6 @@ export default function Dashboard() {
       >
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          {currentPage == 'Dashboard' && 'Hej'}
           {currentPage == 'Orders' && <Orders />}
           {currentPage == 'Users' && <Users />}
           {currentPage == 'Products' && <Products />}

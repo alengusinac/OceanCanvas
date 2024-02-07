@@ -35,6 +35,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
           });
         } else {
           setUser(null);
+          Cookies.remove('token');
         }
       } catch (error) {
         console.log(error);

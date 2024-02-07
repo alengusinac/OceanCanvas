@@ -24,7 +24,7 @@ const Home = () => {
       <HeroBanner
         image={ocean1}
         buttonText="Explore All Prints"
-        onClick={() => navigate('/products', { state: { category: 'all' } })}
+        onClick={() => navigate('/products', { state: { category: '' } })}
       />
       <HeroBanner
         image={ocean2}
