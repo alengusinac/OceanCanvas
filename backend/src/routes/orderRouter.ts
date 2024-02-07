@@ -1,6 +1,7 @@
 import express from 'express';
 import { Order } from '../models/OrderSchema';
 import ShortUniqueId from 'short-unique-id';
+import verifyToken from '../middleware/verifyToken';
 
 const router = express.Router();
 
@@ -19,6 +20,28 @@ router.get('/', async (req, res) => {
     });
   } catch (error: any) {
     console.log('GetOrders Error: ', error);
+
+    res.status(400).json({
+      status: 400,
+      message: error.message.toString(),
+    });
+  }
+});
+
+router.get('/user', verifyToken, async (req: any, res) => {
+  try {
+    console.log('UserOrders: ', req.userId);
+
+    const orders = await Order.find({ user: req.userId });
+    console.log('Orders: ', orders);
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Orders fetched successfully.',
+      data: orders,
+    });
+  } catch (error: any) {
+    console.log('UserOrders Error: ', error);
 
     res.status(400).json({
       status: 400,

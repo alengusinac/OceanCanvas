@@ -12,6 +12,15 @@ export const getOrders = async () => {
   }
 };
 
+export const getUserOrders = async () => {
+  try {
+    const response = await get<IOrderResponse>(`${BASE_URL}/user`);
+    return response;
+  } catch (error) {
+    console.log('OrderService: Error while fetching user orders', error);
+  }
+};
+
 export const postOrder = async (order: IOrder) => {
   try {
     const response = await post<IOrderResponse>(`${BASE_URL}/add`, order);

@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const service = axios.create({
-  timeout: 20000,
+  timeout: 10000,
 });
 
 axios.defaults.withCredentials = true;

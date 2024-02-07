@@ -8,8 +8,18 @@ import {
 } from '@/components/styled/Text.styled';
 import { useUserContext } from '@/hooks/useUserContext';
 import { IFormField } from '@/models/IFormField';
+import { IOrder } from '@/models/IOrder';
+import { getUserOrders } from '@/services/orderService';
 import { changeUserAddress, changeUserPassword } from '@/services/userService';
-import { Button, TextField } from '@mui/material';
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TextField,
+} from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,6 +31,7 @@ interface PasswordFormValues {
 const Profile = () => {
   const { user, logout } = useUserContext();
   const navigate = useNavigate();
+  const [orders, setOrders] = useState<IOrder[]>([]);
   const [passwordMessage, setPasswordMessage] = useState('');
   const [addressFormValues, setAddressFormValues] = useState({
     firstname: '',
@@ -45,10 +56,23 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    if (!user) {
-      navigate('/login');
+    getUserOrdersAsync();
+  }, []);
+
+  const getUserOrdersAsync = async () => {
+    try {
+      const response = await getUserOrders();
+      if (response) {
+        if (response.status === 200) {
+          setOrders(response.data);
+        } else {
+          setOrders([]);
+        }
+      }
+    } catch (error) {
+      console.log('Error', error);
     }
-  }, [user]);
+  };
 
   const onPasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -152,9 +176,38 @@ const Profile = () => {
       )}
       <div>
         <Heading3>Orders</Heading3>
-        <BodyText>Order 1</BodyText>
-        <BodyText>Order 2</BodyText>
-        <BodyText>Order 3</BodyText>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Ship To</TableCell>
+              <TableCell>Products</TableCell>
+              <TableCell align="right">Sale Amount</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {orders.map((order) => (
+              <TableRow key={order._id}>
+                <TableCell>
+                  {order.createdAt &&
+                    new Date(order.createdAt).toLocaleString('sv-se')}
+                </TableCell>
+                <TableCell>
+                  {order.address.firstname} {order.address.lastname}
+                </TableCell>
+                <TableCell>
+                  {order.address.city}, {order.address.country}
+                </TableCell>
+
+                <TableCell align="right">{`${order.total.amount} ${
+                  order.total.amount === 1 ? 'pc' : 'pcs'
+                }`}</TableCell>
+                <TableCell align="right">{`$${order.total.price}`}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
       <div>
         <Heading3>Settings</Heading3>
