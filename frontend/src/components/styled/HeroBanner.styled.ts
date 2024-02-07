@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const HeroWrapper = styled.div`
   width: 100%;
-  height: 250px;
+  height: 300px;
   overflow: hidden;
   position: relative;
 

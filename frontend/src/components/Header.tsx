@@ -10,7 +10,7 @@ import Cart from './CartDrawer';
 import Nav from './Nav';
 import { colors } from '@/styles/variables';
 import { useCartContext } from '@/hooks/useCartContext';
-import { AmountIndicator } from './styled/AmountIndicator';
+import { AmountIndicator } from './AmountIndicator';
 import { SmallBodyText } from './styled/Text.styled';
 
 const Header = () => {

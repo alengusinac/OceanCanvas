@@ -22,17 +22,23 @@ const Home = () => {
         captured and thoughtfully presented for your exploration.
       </BodyText>
       <HeroBanner
-        image={ocean1}
+        image={
+          'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto/Whaleshark'
+        }
         buttonText="Explore All Prints"
         onClick={() => navigate('/products', { state: { category: '' } })}
       />
       <HeroBanner
-        image={ocean2}
+        image={
+          'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto/Fish%202'
+        }
         buttonText="Explore Fish Prints"
         onClick={() => navigate('/products', { state: { category: 'fish' } })}
       />
       <HeroBanner
-        image={ocean3}
+        image={
+          'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto/mgipxlvzqk6st7p2lg6l'
+        }
         buttonText="Explore Coral Prints"
         onClick={() => navigate('/products', { state: { category: 'corals' } })}
       />
