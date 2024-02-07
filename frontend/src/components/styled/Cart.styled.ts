@@ -13,6 +13,7 @@ export const StyledCartDrawer = styled.div`
 
   @media (min-width: 768px) {
     margin-top: 100px;
+    width: 400px;
   }
 `;
 
@@ -20,6 +21,7 @@ export const StyledCartItem = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   border-bottom: 1px solid ${colors.lightGrey};
   padding: 10px 10px;
 

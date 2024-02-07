@@ -31,8 +31,10 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
             email: decoded.email,
             admin: decoded.admin,
             name: decoded.name,
+            address: decoded.address,
             _id: decoded._id,
           });
+          console.log(token);
         } else {
           setUser(null);
           Cookies.remove('token');
@@ -56,6 +58,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
           email: decoded.email,
           admin: decoded.admin,
           name: decoded.name,
+          address: decoded.address,
           _id: decoded._id,
         });
       }

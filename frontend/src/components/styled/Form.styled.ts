@@ -9,7 +9,7 @@ export const StyledForm = styled.form`
   margin: 0 auto;
   margin-bottom: 20px;
 
-  @media (min-width: 600px) {
+  @media (min-width: 500px) {
     width: 400px;
   }
 `;

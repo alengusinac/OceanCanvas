@@ -9,7 +9,7 @@ import { IAddress } from '@/models/IAddress';
 import { IOrder } from '@/models/IOrder';
 import { postOrder } from '@/services/orderService';
 import { Button, Divider, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
@@ -34,6 +34,19 @@ const Checkout = () => {
   const [paymentError, setPaymentError] = useState<string[]>([]);
   const [orderButtonLoading, setOrderButtonLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setAddressFormValues({
+      email: user?.email || '',
+      firstname: user?.address.firstname || '',
+      lastname: user?.address.lastname || '',
+      address: user?.address.address || '',
+      zipcode: user?.address.zipcode || '',
+      city: user?.address.city || '',
+      country: user?.address.country || '',
+      phone: user?.address.phone || '',
+    });
+  }, [user]);
 
   const onAddressChangeInput = (e: React.ChangeEvent<HTMLFormElement>) => {
     const { name, value } = e.target;

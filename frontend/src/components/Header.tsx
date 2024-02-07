@@ -9,8 +9,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import Cart from './CartDrawer';
 import Nav from './Nav';
 import { colors } from '@/styles/variables';
+import { useCartContext } from '@/hooks/useCartContext';
+import { AmountIndicator } from './styled/AmountIndicator';
+import { SmallBodyText } from './styled/Text.styled';
 
 const Header = () => {
+  const { totalAmount } = useCartContext();
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const navigate = useNavigate();
@@ -47,14 +51,21 @@ const Header = () => {
           onClick={handleClick}
           icon={<MdOutlineFavoriteBorder />}
         /> */}
-        <MaterialIconButton
-          testId="cy-cartIcon"
-          onClick={() => {
-            setCartDrawerOpen(!cartDrawerOpen);
-            setNavDrawerOpen(false);
-          }}
-          icon={<MdOutlineShoppingCart />}
-        />
+        <div>
+          <MaterialIconButton
+            testId="cy-cartIcon"
+            onClick={() => {
+              setCartDrawerOpen(!cartDrawerOpen);
+              setNavDrawerOpen(false);
+            }}
+            icon={<MdOutlineShoppingCart />}
+          />
+          {totalAmount > 0 && (
+            <AmountIndicator>
+              <SmallBodyText>{totalAmount}</SmallBodyText>
+            </AmountIndicator>
+          )}
+        </div>
         <Drawer
           anchor={'right'}
           open={cartDrawerOpen}

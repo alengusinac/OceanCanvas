@@ -78,10 +78,8 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
           open={openFilters}
           onClose={() => setOpenFilters(false)}
         >
-          <MenuItem>Filters</MenuItem>
-          <MenuItem>Filters</MenuItem>
-          <MenuItem>Filters</MenuItem>
-          <MenuItem>Filters</MenuItem>
+          <MenuItem>Horisontal</MenuItem>
+          <MenuItem>Vertical</MenuItem>
         </Drawer>
       </FirstFlexItem>
 

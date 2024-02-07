@@ -23,9 +23,9 @@ export const MenuItem = styled.button`
   cursor: pointer;
 
   &:first-child {
-    margin-top: 90px;
+    margin-top: 75px;
 
-    @media (min-width: 1000px) {
+    @media (min-width: 768px) {
       margin-top: 100px;
     }
   }
