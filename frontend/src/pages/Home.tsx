@@ -1,7 +1,4 @@
 import HeroBanner from '@/components/HeroBanner';
-import ocean1 from '@/assets/images/ocean1.jpg';
-import ocean2 from '@/assets/images/ocean2.jpg';
-import ocean3 from '@/assets/images/ocean3.jpg';
 import { useNavigate } from 'react-router-dom';
 import { BodyText, Heading1 } from '@/components/styled/Text.styled';
 import { StyledHome } from '@/components/styled/Home.styled';
