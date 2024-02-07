@@ -1,5 +1,5 @@
 export interface IAddress {
-  email: String;
+  email?: String;
   firstname: String;
   lastname: String;
   address: String;

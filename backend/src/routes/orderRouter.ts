@@ -30,10 +30,7 @@ router.get('/', async (req, res) => {
 
 router.get('/user', verifyToken, async (req: any, res) => {
   try {
-    console.log('UserOrders: ', req.userId);
-
     const orders = await Order.find({ user: req.userId });
-    console.log('Orders: ', orders);
     res.status(200).json({
       status: 200,
       success: true,

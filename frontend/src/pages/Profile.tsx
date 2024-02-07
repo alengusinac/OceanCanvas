@@ -1,6 +1,9 @@
+import OrderHistory from '@/components/OrderHistory';
 import { StyledForm } from '@/components/styled/Form.styled';
+import { StyledProfile } from '@/components/styled/Profile.styled';
 import {
   BodyText,
+  ErrorText,
   Heading1,
   Heading3,
   Heading4,
@@ -11,15 +14,7 @@ import { IFormField } from '@/models/IFormField';
 import { IOrder } from '@/models/IOrder';
 import { getUserOrders } from '@/services/orderService';
 import { changeUserAddress, changeUserPassword } from '@/services/userService';
-import {
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-} from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,15 +27,18 @@ const Profile = () => {
   const { user, logout } = useUserContext();
   const navigate = useNavigate();
   const [orders, setOrders] = useState<IOrder[]>([]);
+  const [addressMessage, setAddressMessage] = useState('');
+  const [addressErrorMessage, setAddressErrorMessage] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const [addressFormValues, setAddressFormValues] = useState({
-    firstname: '',
-    lastname: '',
-    address: '',
-    zipcode: '',
-    city: '',
-    country: '',
-    phonenumber: '',
+    firstname: user?.address.firstname || '',
+    lastname: user?.address.lastname || '',
+    address: user?.address.address || '',
+    zipcode: user?.address.zipcode || '',
+    city: user?.address.city || '',
+    country: user?.address.country || '',
+    phone: user?.address.phone || '',
   });
   const [passwordFormValues, setPasswordFormValues] = useState({
     password1: {
@@ -56,8 +54,17 @@ const Profile = () => {
   });
 
   useEffect(() => {
+    setAddressFormValues({
+      firstname: user?.address.firstname || '',
+      lastname: user?.address.lastname || '',
+      address: user?.address.address || '',
+      zipcode: user?.address.zipcode || '',
+      city: user?.address.city || '',
+      country: user?.address.country || '',
+      phone: user?.address.phone || '',
+    });
     getUserOrdersAsync();
-  }, []);
+  }, [user]);
 
   const getUserOrdersAsync = async () => {
     try {
@@ -109,10 +116,16 @@ const Profile = () => {
       });
 
       try {
-        await changeUserPassword(passwordFormValues.password1.value);
-        setPasswordMessage('Password changed successfully.');
-      } catch (error) {
-        setPasswordMessage('Something went wrong, try again later.');
+        const response = await changeUserPassword(
+          passwordFormValues.password1.value
+        );
+        if (response.status === 200) {
+          setPasswordMessage(response.message);
+        } else {
+          setPasswordErrorMessage(response.message);
+        }
+      } catch (error: any) {
+        setPasswordErrorMessage(error.message);
       }
     }
   };
@@ -133,12 +146,15 @@ const Profile = () => {
 
     try {
       const response = await changeUserAddress(addressFormValues);
-      console.log(response);
-    } catch (error) {
+      if (response.status === 200) {
+        setAddressMessage(response.message);
+      } else {
+        setAddressErrorMessage(response.message);
+      }
+    } catch (error: any) {
       console.log('Error', error);
+      setAddressErrorMessage(error.message);
     }
-
-    console.log('Address submit');
   };
 
   const onChangeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,7 +166,7 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <StyledProfile>
       <Heading1>Profile</Heading1>
       <BodyText>{user?.name}</BodyText>
       <SmallBodyText>{user?.email}</SmallBodyText>
@@ -174,44 +190,12 @@ const Profile = () => {
           Admin Dashboard
         </Button>
       )}
-      <div>
-        <Heading3>Orders</Heading3>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Ship To</TableCell>
-              <TableCell>Products</TableCell>
-              <TableCell align="right">Sale Amount</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {orders.map((order) => (
-              <TableRow key={order._id}>
-                <TableCell>
-                  {order.createdAt &&
-                    new Date(order.createdAt).toLocaleString('sv-se')}
-                </TableCell>
-                <TableCell>
-                  {order.address.firstname} {order.address.lastname}
-                </TableCell>
-                <TableCell>
-                  {order.address.city}, {order.address.country}
-                </TableCell>
-
-                <TableCell align="right">{`${order.total.amount} ${
-                  order.total.amount === 1 ? 'pc' : 'pcs'
-                }`}</TableCell>
-                <TableCell align="right">{`$${order.total.price}`}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <OrderHistory orders={orders} />
       <div>
         <Heading3>Settings</Heading3>
         <Heading4>Change Address</Heading4>
+        {addressMessage && <SmallBodyText>{addressMessage}</SmallBodyText>}
+        {addressErrorMessage && <ErrorText>{addressErrorMessage}</ErrorText>}
         <StyledForm onSubmit={onAddressSubmit}>
           <TextField
             value={addressFormValues.firstname}
@@ -256,9 +240,9 @@ const Profile = () => {
             variant="filled"
           />
           <TextField
-            value={addressFormValues.phonenumber}
+            value={addressFormValues.phone}
             onChange={onChangeAddress}
-            name="phonenumber"
+            name="phone"
             label="Phone number"
             variant="filled"
           />
@@ -267,7 +251,8 @@ const Profile = () => {
           </Button>
         </StyledForm>
         <Heading4>Change Password</Heading4>
-        <SmallBodyText>{passwordMessage}</SmallBodyText>
+        {passwordMessage && <SmallBodyText>{passwordMessage}</SmallBodyText>}
+        {passwordErrorMessage && <ErrorText>{passwordErrorMessage}</ErrorText>}
         <StyledForm onSubmit={onPasswordSubmit}>
           <TextField
             value={passwordFormValues.password1.value}
@@ -300,7 +285,7 @@ const Profile = () => {
           </Button>
         </StyledForm>
       </div>
-    </div>
+    </StyledProfile>
   );
 };
 

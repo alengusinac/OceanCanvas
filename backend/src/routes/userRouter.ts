@@ -49,7 +49,6 @@ router.post('/register', async (req, res) => {
         email,
         password: hash,
       });
-      console.log(newUser);
 
       res.status(201).json({
         status: 201,
@@ -97,7 +96,7 @@ router.post('/login', async (req, res) => {
       }
 
       const token = jwt.sign(
-        { _id: user?._id, name: user?.name, email: user?.email, admin: user?.admin },
+        { _id: user?._id, name: user?.name, email: user?.email, admin: user?.admin, address: user?.address },
         process.env.JWT_SECRET as Secret,
         {
           expiresIn: '1d',
@@ -138,24 +137,61 @@ router.post('/validate', verifyToken, async (req, res) => {
 });
 
 router.put('/change-address', verifyToken, async (req: any, res) => {
-  const user = await User.findOne({ _id: req.userId });
-  if (!user) {
-    res.status(404).json({
-      status: 404,
-      message: 'User not found',
+  try {
+    const user = await User.findOne({ _id: req.userId });
+    if (!user) {
+      res.status(404).json({
+        status: 404,
+        message: 'User not found',
+      });
+      return;
+    }
+    user.address = req.body;
+    await user.save();
+    res.status(200).json({
+      status: 200,
+      message: 'Address updated successfully',
     });
-    return;
+  } catch (error: any) {
+    console.log('ChangeAddressError: ', error);
+
+    res.status(400).json({
+      status: 400,
+      message: error.message.toString(),
+    });
   }
-  user.address = req.body;
-  await user.save();
-  res.status(200).json({
-    status: 200,
-    message: 'Address updated successfully',
-  });
 });
 
-router.put('/change-password', verifyToken, async (req, res) => {
-  console.log(req);
+router.put('/change-password', verifyToken, async (req: any, res) => {
+  console.log(req.userId);
+  try {
+    const user = await User.findOne({ _id: req.userId });
+
+    if (!user) {
+      res.status(404).json({
+        status: 404,
+        message: 'User not found',
+      });
+      return;
+    }
+
+    bcrypt.hash(req.body.newPassword, 10, async function (err, hash) {
+      user.password = hash;
+      await user.save();
+
+      res.status(200).json({
+        status: 200,
+        message: 'Password changed successfully',
+      });
+    });
+  } catch (error: any) {
+    console.log('ChangePasswordError: ', error);
+
+    res.status(400).json({
+      status: 400,
+      message: error.message.toString(),
+    });
+  }
 });
 
 export default router;
