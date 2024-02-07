@@ -9,7 +9,7 @@ import { IAddress } from '@/models/IAddress';
 import { IOrder } from '@/models/IOrder';
 import { postOrder } from '@/services/orderService';
 import { Button, Divider, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
@@ -244,4 +244,4 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+export default memo(Checkout);

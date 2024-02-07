@@ -1,6 +1,7 @@
 import MaterialIconButton from '@/components/MaterialIconButton';
 import { StyledContact } from '@/components/styled/Contact.styled';
 import { BodyText, Heading1 } from '@/components/styled/Text.styled';
+import { memo } from 'react';
 import { FaFacebook, FaInstagram } from 'react-icons/fa';
 import { MdMailOutline, MdOutlinePhoneIphone } from 'react-icons/md';
 
@@ -43,4 +44,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default memo(Contact);

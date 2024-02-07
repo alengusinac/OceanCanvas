@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import { memo } from 'react';
 
 interface Props {
   orders: IOrder[];
@@ -54,4 +55,4 @@ const OrderHistory = ({ orders }: Props) => {
   );
 };
 
-export default OrderHistory;
+export default memo(OrderHistory);

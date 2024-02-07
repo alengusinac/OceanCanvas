@@ -5,7 +5,7 @@ import {
   StyledFilterAndSort,
 } from './styled/FilterAndSort.styled';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { MenuItem } from './styled/Menu.styled';
 import { Drawer } from '@mui/material';
 import { getCategories } from '@/services/categoryService';
@@ -130,4 +130,4 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
   );
 };
 
-export default FilterAndSort;
+export default memo(FilterAndSort);

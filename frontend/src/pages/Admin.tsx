@@ -1,6 +1,6 @@
 import Dashboard from '@/components/Dashboard/Dashboard';
 import { useUserContext } from '@/hooks/useUserContext';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {
@@ -23,4 +23,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default memo(Admin);

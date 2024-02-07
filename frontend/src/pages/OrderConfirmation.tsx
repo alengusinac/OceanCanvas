@@ -5,6 +5,7 @@ import {
   Heading4,
 } from '@/components/styled/Text.styled';
 import { IOrder } from '@/models/IOrder';
+import { memo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -72,7 +73,7 @@ const OrderConfirmation = () => {
   );
 };
 
-export default OrderConfirmation;
+export default memo(OrderConfirmation);
 
 const StyledConfirmation = styled.div`
   display: flex;

@@ -1,6 +1,7 @@
 import Divider from '@mui/material/Divider';
 import { StyledNav } from './styled/Header.styled';
 import { useUserContext } from '@/hooks/useUserContext';
+import { memo } from 'react';
 
 interface Props {
   handleNavClick: (nav: string) => void;
@@ -54,4 +55,4 @@ const Nav = ({ handleNavClick }: Props) => {
   );
 };
 
-export default Nav;
+export default memo(Nav);

@@ -4,7 +4,7 @@ import { MdOutlineShoppingCart, MdMenu, MdClose } from 'react-icons/md';
 import { HeaderWrapper, Logo } from './styled/Header.styled';
 import { FlexWrapper } from './styled/Flex.styled';
 import Drawer from '@mui/material/Drawer';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Cart from './CartDrawer';
 import Nav from './Nav';
@@ -27,6 +27,7 @@ const Header = () => {
   return (
     <HeaderWrapper>
       <MaterialIconButton
+        ariaLabel="open menu"
         testId="cy-menuIcon"
         onClick={() => {
           setNavDrawerOpen(!navDrawerOpen);
@@ -44,7 +45,7 @@ const Header = () => {
         <Nav handleNavClick={handleNavClick} />
       </Drawer>
       <Link to={'/'}>
-        <Logo src={logo} />
+        <Logo alt="OceanCanvas logo" src={logo} />
       </Link>
       <FlexWrapper>
         {/* <MaterialIconButton
@@ -53,6 +54,7 @@ const Header = () => {
         /> */}
         <div>
           <MaterialIconButton
+            ariaLabel="open cart"
             testId="cy-cartIcon"
             onClick={() => {
               setCartDrawerOpen(!cartDrawerOpen);
@@ -80,4 +82,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);

@@ -2,6 +2,7 @@ import HeroBanner from '@/components/HeroBanner';
 import { useNavigate } from 'react-router-dom';
 import { BodyText, Heading1 } from '@/components/styled/Text.styled';
 import { StyledHome } from '@/components/styled/Home.styled';
+import { memo } from 'react';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Home = () => {
         captured and thoughtfully presented for your exploration.
       </BodyText>
       <HeroBanner
+        alt="Whale Shark Print"
         image={
           'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto/Whaleshark'
         }
@@ -26,6 +28,7 @@ const Home = () => {
         onClick={() => navigate('/products', { state: { category: '' } })}
       />
       <HeroBanner
+        alt="Sardine Tornado Print"
         image={
           'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto/Fish%202'
         }
@@ -33,6 +36,7 @@ const Home = () => {
         onClick={() => navigate('/products', { state: { category: 'fish' } })}
       />
       <HeroBanner
+        alt="Coral Print"
         image={
           'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto/mgipxlvzqk6st7p2lg6l'
         }
@@ -43,4 +47,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default memo(Home);

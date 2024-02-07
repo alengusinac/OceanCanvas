@@ -1,15 +1,22 @@
 import { FaFacebook, FaInstagram } from 'react-icons/fa';
 import { StyledSocialIcons } from './styled/SocialIcons.styled';
+import { memo } from 'react';
 
-export const SocialIcons = () => {
+const SocialIcons = () => {
   return (
     <StyledSocialIcons>
-      <a href="#">
+      <a aria-label="facebook link" href="http://facebook.com" target="_blank">
         <FaFacebook />
       </a>
-      <a href="#">
+      <a
+        aria-label="instagram link"
+        href="http://instagram.com"
+        target="_blank"
+      >
         <FaInstagram />
       </a>
     </StyledSocialIcons>
   );
 };
+
+export default memo(SocialIcons);

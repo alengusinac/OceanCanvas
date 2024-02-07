@@ -1,6 +1,7 @@
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { NewsLetterWrapper } from './styled/Footer.styled';
+import { memo } from 'react';
 
 const Newsletter = () => {
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,4 +21,4 @@ const Newsletter = () => {
   );
 };
 
-export default Newsletter;
+export default memo(Newsletter);

@@ -15,7 +15,7 @@ import { ICartItem } from '@/models/IItem';
 import { IProduct } from '@/models/IProduct';
 import { getProduct } from '@/services/productService';
 import { Button } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { useLocation, useParams } from 'react-router-dom';
 
@@ -133,4 +133,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default memo(Product);

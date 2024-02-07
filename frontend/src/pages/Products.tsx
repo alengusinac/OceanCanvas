@@ -9,7 +9,7 @@ import { IProductFiltersSort } from '@/models/IFilters';
 import { IProduct } from '@/models/IProduct';
 import { getProducts } from '@/services/productService';
 import { Button } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Products = () => {
@@ -102,4 +102,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default memo(Products);

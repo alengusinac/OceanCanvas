@@ -15,7 +15,7 @@ import { IOrder } from '@/models/IOrder';
 import { getUserOrders } from '@/services/orderService';
 import { changeUserAddress, changeUserPassword } from '@/services/userService';
 import { Button, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface PasswordFormValues {
@@ -289,4 +289,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default memo(Profile);

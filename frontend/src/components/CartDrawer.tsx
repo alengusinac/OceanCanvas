@@ -5,6 +5,7 @@ import { BoldBodyText, Heading4 } from './styled/Text.styled';
 import { useNavigate } from 'react-router-dom';
 import Cart from './Cart';
 import { useCartContext } from '@/hooks/useCartContext';
+import { memo } from 'react';
 
 interface Props {
   setCartDrawerOpen: (boolean: boolean) => void;
@@ -38,4 +39,4 @@ const CartDrawer = ({ setCartDrawerOpen }: Props) => {
   );
 };
 
-export default CartDrawer;
+export default memo(CartDrawer);

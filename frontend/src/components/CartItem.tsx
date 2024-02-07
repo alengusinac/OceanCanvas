@@ -16,6 +16,7 @@ import {
 } from 'react-icons/md';
 import { FlexWrapper } from './styled/Flex.styled';
 import { useCartContext } from '@/hooks/useCartContext';
+import { memo } from 'react';
 
 interface Props {
   item: ICartItem;
@@ -61,4 +62,4 @@ const CartItem = ({ item }: Props) => {
   );
 };
 
-export default CartItem;
+export default memo(CartItem);

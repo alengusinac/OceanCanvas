@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import { StyledMain } from './styled/Main.styled';
 import { FlexWrapper } from './styled/Flex.styled';
 import ScrollToTop from './ScrollToTop';
+import { memo } from 'react';
 
 const Layout = () => {
   return (
@@ -18,4 +19,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default memo(Layout);

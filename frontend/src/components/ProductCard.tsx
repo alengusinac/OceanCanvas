@@ -5,6 +5,7 @@ import {
   StyledProductCard,
 } from './styled/Products.styled';
 import { Heading4, SmallBodyText } from './styled/Text.styled';
+import { memo } from 'react';
 
 interface Props {
   item: IProduct;
@@ -23,4 +24,4 @@ const ProductCard = ({ item, onClick }: Props) => {
   );
 };
 
-export default ProductCard;
+export default memo(ProductCard);

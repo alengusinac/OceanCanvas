@@ -1,7 +1,7 @@
 import { Button, TextField } from '@mui/material';
 import { LoginSignupContainer } from '../components/styled/LoginSignup';
 import { ErrorText, Heading2 } from '../components/styled/Text.styled';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, memo, useState } from 'react';
 import { IFormField } from '@/models/IFormField';
 import { StyledForm } from '@/components/styled/Form.styled';
 import { useNavigate } from 'react-router-dom';
@@ -167,4 +167,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default memo(Signup);
