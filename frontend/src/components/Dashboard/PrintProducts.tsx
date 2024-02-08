@@ -15,7 +15,7 @@ const PrintProducts = ({ products, getProductsAsync }: Props) => {
     <>
       {products.map((product) => (
         <TableRow key={product._id}>
-          <img src={product.imageUrl} alt="" width={150} />
+          <img src={product.imageUrl} alt="" width={100} height={75} />
           <Heading4>{product.title}</Heading4>
           <BodyText>{product.priceMultiplier}</BodyText>
           <MaterialIconButton
