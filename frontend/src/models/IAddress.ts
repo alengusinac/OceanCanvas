@@ -1,10 +1,10 @@
 export interface IAddress {
-  email?: String;
-  firstname: String;
-  lastname: String;
-  address: String;
-  zipcode: String;
-  city: String;
-  country: String;
-  phone: String;
+  email?: string;
+  firstname: string;
+  lastname: string;
+  address: string;
+  zipcode: string;
+  city: string;
+  country: string;
+  phone: string;
 }
