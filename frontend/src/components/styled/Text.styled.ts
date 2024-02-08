@@ -27,7 +27,6 @@ export const Heading4 = styled.h4`
 `;
 export const BodyText = styled.p`
   font-family: ${fonts.body};
-  max-width: 600px;
   text-align: center;
   margin: 0;
   padding: 5px 20px;

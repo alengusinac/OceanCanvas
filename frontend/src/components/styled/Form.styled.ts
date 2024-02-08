@@ -6,6 +6,7 @@ export const StyledForm = styled.form`
   border-radius: 5px;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
   margin-bottom: 20px;
 
   @media (min-width: 500px) {
