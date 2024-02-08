@@ -7,7 +7,7 @@ import {
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { memo, useEffect, useState } from 'react';
 import { MenuItem } from './styled/Menu.styled';
-import { Drawer } from '@mui/material';
+import Drawer from '@mui/material/Drawer';
 import { getCategories } from '@/services/categoryService';
 import { ICategory } from '@/models/IProduct';
 
@@ -31,7 +31,6 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
     try {
       const response = await getCategories();
       if (response) setCategories(response);
-      console.log(response);
     } catch (error) {
       console.log('Get Categories Error: ', error);
     }
@@ -87,6 +86,7 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
         <p>{totalProducts} products</p>
         <div>
           <select
+            aria-label="products per page"
             onChange={(e) => {
               setFilters({
                 ...filters,
@@ -100,6 +100,7 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
           </select>
 
           <select
+            aria-label="sort"
             onChange={(e) => {
               let value = '';
 

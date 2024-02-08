@@ -15,7 +15,6 @@ const Newsletter = () => {
 
     try {
       const response = await subscribeNewsletter(email);
-      console.log(response);
       if (response.status === 200) {
         setSuccess(response.message);
       } else {

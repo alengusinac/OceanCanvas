@@ -8,7 +8,9 @@ import { useUserContext } from '@/hooks/useUserContext';
 import { IAddress } from '@/models/IAddress';
 import { IOrder } from '@/models/IOrder';
 import { postOrder } from '@/services/orderService';
-import { Button, Divider, TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import TextField from '@mui/material/TextField';
 import { memo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

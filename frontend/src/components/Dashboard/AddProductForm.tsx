@@ -1,4 +1,5 @@
-import { Button, TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import { StyledForm } from '../styled/Form.styled';
 import { Heading4 } from '../styled/Text.styled';
 import { useState } from 'react';

@@ -8,7 +8,7 @@ import { BodyText, Heading1 } from '@/components/styled/Text.styled';
 import { IProductFiltersSort } from '@/models/IFilters';
 import { IProduct } from '@/models/IProduct';
 import { getProducts } from '@/services/productService';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 import { memo, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 

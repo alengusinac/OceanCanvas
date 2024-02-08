@@ -1,4 +1,5 @@
-import { Button, TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import { LoginSignupContainer } from '../components/styled/LoginSignup';
 import { ErrorText, Heading2 } from '../components/styled/Text.styled';
 import { ChangeEvent, memo, useState } from 'react';

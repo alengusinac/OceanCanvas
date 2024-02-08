@@ -14,7 +14,8 @@ import { IFormField } from '@/models/IFormField';
 import { IOrder } from '@/models/IOrder';
 import { getUserOrders } from '@/services/orderService';
 import { changeUserAddress, changeUserPassword } from '@/services/userService';
-import { Button, TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import { memo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

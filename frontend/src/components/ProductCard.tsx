@@ -13,10 +13,13 @@ interface Props {
 }
 
 const ProductCard = ({ item, onClick }: Props) => {
+  const cloudinaryUrl =
+    'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto/';
+
   return (
     <StyledProductCard data-cy="productCard" onClick={onClick}>
       <ImageContainer>
-        <ProductImage src={item.imageUrl} />
+        <ProductImage alt={item.title} src={`${cloudinaryUrl}${item.title}`} />
       </ImageContainer>
       <Heading4>{item.title}</Heading4>
       <SmallBodyText>From ${item.sizes[0].price}</SmallBodyText>

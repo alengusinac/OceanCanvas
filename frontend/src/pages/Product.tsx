@@ -14,7 +14,7 @@ import { useCartContext } from '@/hooks/useCartContext';
 import { ICartItem } from '@/models/IItem';
 import { IProduct } from '@/models/IProduct';
 import { getProduct } from '@/services/productService';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 import { memo, useEffect, useState } from 'react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { useLocation, useParams } from 'react-router-dom';
@@ -77,7 +77,10 @@ const Product = () => {
     <StyledProduct>
       <img src={product?.imageUrl} onLoad={handleOnLoad} alt={product?.title} />
       <Heading2>{product?.title}</Heading2>
-      <StyledSizeChooser onClick={() => setOpen(!open)}>
+      <StyledSizeChooser
+        aria-label="size selector menu"
+        onClick={() => setOpen(!open)}
+      >
         <BodyText>{size} cm</BodyText>
         <FlexWrapper>
           <BodyText>${price}</BodyText>
@@ -87,6 +90,7 @@ const Product = () => {
           <StyledSizeChooserOpen>
             {product?.sizes.map((size) => (
               <StyledSizeChooser
+                aria-label="size selector option"
                 key={size.size}
                 onClick={() => {
                   setSize(size.size);
