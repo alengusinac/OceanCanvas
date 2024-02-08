@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const StyledAbout = styled.div`
+  max-width: 600px;
+`;
+
 export const ImagesContainer = styled.div`
   display: flex;
   justify-content: center;

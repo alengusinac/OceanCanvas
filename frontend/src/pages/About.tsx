@@ -1,6 +1,6 @@
 import photographer1 from '@/assets/images/oceanPhotographer.jpg';
 import photographer2 from '@/assets/images/oceanPhotographer2.jpg';
-import { ImagesContainer } from '@/components/styled/About.styled';
+import { ImagesContainer, StyledAbout } from '@/components/styled/About.styled';
 import {
   BodyText,
   BoldBodyText,
@@ -11,7 +11,7 @@ import { memo } from 'react';
 
 const About = () => {
   return (
-    <>
+    <StyledAbout>
       <Heading1>About Us</Heading1>
       <BodyText>
         Welcome to OceanCanvas, where the mesmerizing world beneath the waves
@@ -59,7 +59,7 @@ const About = () => {
         excellence with OceanCanvas, where every print by Alen Gusinac is a
         testament to the boundless wonders that lie beneath.
       </BodyText>
-    </>
+    </StyledAbout>
   );
 };
 
