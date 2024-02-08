@@ -39,14 +39,14 @@ const Checkout = () => {
 
   useEffect(() => {
     setAddressFormValues({
-      email: user?.email || '',
-      firstname: user?.address.firstname || '',
-      lastname: user?.address.lastname || '',
-      address: user?.address.address || '',
-      zipcode: user?.address.zipcode || '',
-      city: user?.address.city || '',
-      country: user?.address.country || '',
-      phone: user?.address.phone || '',
+      email: user?.email ? user.email : '',
+      firstname: user?.address ? user.address.firstname : '',
+      lastname: user?.address ? user.address.lastname : '',
+      address: user?.address ? user.address.address : '',
+      zipcode: user?.address ? user.address.zipcode : '',
+      city: user?.address ? user.address.city : '',
+      country: user?.address ? user.address.country : '',
+      phone: user?.address ? user.address.phone : '',
     });
   }, [user]);
 
