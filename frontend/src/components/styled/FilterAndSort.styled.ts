@@ -4,6 +4,7 @@ import styled from 'styled-components';
 export const StyledFilterAndSort = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   button {
     background-color: transparent;
@@ -11,6 +12,7 @@ export const StyledFilterAndSort = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
 
   svg {
@@ -20,6 +22,15 @@ export const StyledFilterAndSort = styled.div`
   select {
     border: none;
     text-align: right;
+    background-color: ${colors.white};
+    cursor: pointer;
+  }
+
+  @media (min-width: 1000px) {
+    flex-direction: row;
+    border-top: 1px solid ${colors.lightGrey};
+    border-bottom: 1px solid ${colors.lightGrey};
+    padding: 0 30px;
   }
 `;
 
@@ -37,6 +48,17 @@ export const FirstFlexItem = styled.div`
       border-right: 1px solid ${colors.lightGrey};
     }
   }
+
+  @media (min-width: 1000px) {
+    border: none;
+    width: 50%;
+
+    & > button {
+      &:last-child {
+        border-right: 1px solid ${colors.lightGrey};
+      }
+    }
+  }
 `;
 
 export const SecondFlexItem = styled.div`
@@ -48,5 +70,10 @@ export const SecondFlexItem = styled.div`
 
   & > div {
     display: flex;
+  }
+
+  @media (min-width: 1000px) {
+    border: none;
+    width: 50%;
   }
 `;

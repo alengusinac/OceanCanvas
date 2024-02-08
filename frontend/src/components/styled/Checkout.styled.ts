@@ -1,11 +1,18 @@
 import styled from 'styled-components';
 
-export const CheckoutForm = styled.form`
-  width: 300px;
-  border: 1px solid black;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
+export const StyledCheckout = styled.div`
+  width: 100%;
   margin: 0 auto;
-  margin-bottom: 20px;
+
+  @media (min-width: 500px) {
+    width: 400px;
+  }
+
+  @media (min-width: 750px) {
+    width: 600px;
+  }
+
+  @media (min-width: 1200px) {
+    width: 800px;
+  }
 `;

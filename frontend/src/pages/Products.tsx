@@ -1,23 +1,28 @@
 import FilterAndSort from '@/components/FilterAndSort';
 import ProductCard from '@/components/ProductCard';
-import { ProductsList } from '@/components/styled/Products.styled';
+import {
+  ProductsList,
+  StyledProducts,
+} from '@/components/styled/Products.styled';
 import { BodyText, Heading1 } from '@/components/styled/Text.styled';
 import { IProductFiltersSort } from '@/models/IFilters';
 import { IProduct } from '@/models/IProduct';
 import { getProducts } from '@/services/productService';
-import { Button } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import { memo, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Products = () => {
+  const { state } = useLocation();
   const [products, setProducts] = useState<IProduct[]>([]);
   const [totalProducts, setTotalProducts] = useState<number>(0);
   const [offset, setOffset] = useState<number>(0);
   const [filters, setFilters] = useState<IProductFiltersSort>({
-    category: '',
+    category: state ? state.category : '',
     productsPerPage: 12,
     sort: '-createdAt',
   });
+  const [error, setError] = useState<string>('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,13 +38,20 @@ const Products = () => {
     try {
       const response = await getProducts(filters);
       if (response) {
-        setProducts(response?.products);
-        setTotalProducts(response?.total);
+        if (response.status === 200) {
+          setProducts(response?.data.products);
+          setTotalProducts(response?.data.total);
+        } else {
+          setProducts([]);
+          setTotalProducts(0);
+          setError('Error fetching products');
+        }
       }
     } catch (error) {
       console.log('Load Products Error: ', error);
       setProducts([]);
       setTotalProducts(0);
+      setError('Error fetching products');
     }
   };
 
@@ -47,8 +59,8 @@ const Products = () => {
     try {
       const response = await getProducts(filters, offset);
       if (response) {
-        setProducts([...products, ...response?.products]);
-        setTotalProducts(response?.total);
+        setProducts([...products, ...response?.data.products]);
+        setTotalProducts(response?.data.total);
       }
     } catch (error) {
       console.log('Load More Products Error: ', error);
@@ -56,7 +68,7 @@ const Products = () => {
   };
 
   return (
-    <>
+    <StyledProducts>
       <Heading1>Photo Prints</Heading1>
       <BodyText>Explore the Depths Through Captivating Prints</BodyText>
       <FilterAndSort
@@ -65,6 +77,7 @@ const Products = () => {
         totalProducts={totalProducts}
       />
       <ProductsList>
+        {error && <BodyText data-cy="errorMessage">{error}</BodyText>}
         {products?.map((item) => (
           <ProductCard
             onClick={() =>
@@ -82,11 +95,11 @@ const Products = () => {
           }
           variant="contained"
         >
-          Load more
+          Load More
         </Button>
       )}
-    </>
+    </StyledProducts>
   );
 };
 
-export default Products;
+export default memo(Products);

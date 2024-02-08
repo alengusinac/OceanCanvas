@@ -5,9 +5,9 @@ import {
   StyledFilterAndSort,
 } from './styled/FilterAndSort.styled';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { MenuItem } from './styled/Menu.styled';
-import { Drawer } from '@mui/material';
+import Drawer from '@mui/material/Drawer';
 import { getCategories } from '@/services/categoryService';
 import { ICategory } from '@/models/IProduct';
 
@@ -39,12 +39,16 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
   return (
     <StyledFilterAndSort>
       <FirstFlexItem>
-        <button onClick={() => setOpenCategories(!openCategories)}>
+        <button
+          data-cy="categoriesBtn"
+          onClick={() => setOpenCategories(!openCategories)}
+        >
           Categories
           <MdKeyboardArrowDown />
         </button>
         <Drawer
           anchor={'left'}
+          ModalProps={{ disableScrollLock: true }}
           open={openCategories}
           onClose={() => setOpenCategories(false)}
         >
@@ -69,13 +73,12 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
         </button>
         <Drawer
           anchor={'right'}
+          ModalProps={{ disableScrollLock: true }}
           open={openFilters}
           onClose={() => setOpenFilters(false)}
         >
-          <MenuItem>Filters</MenuItem>
-          <MenuItem>Filters</MenuItem>
-          <MenuItem>Filters</MenuItem>
-          <MenuItem>Filters</MenuItem>
+          <MenuItem>Horisontal</MenuItem>
+          <MenuItem>Vertical</MenuItem>
         </Drawer>
       </FirstFlexItem>
 
@@ -83,6 +86,7 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
         <p>{totalProducts} products</p>
         <div>
           <select
+            aria-label="products per page"
             onChange={(e) => {
               setFilters({
                 ...filters,
@@ -96,8 +100,8 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
           </select>
 
           <select
+            aria-label="sort"
             onChange={(e) => {
-              console.log(e.target.value);
               let value = '';
 
               switch (e.target.value) {
@@ -127,4 +131,4 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
   );
 };
 
-export default FilterAndSort;
+export default memo(FilterAndSort);

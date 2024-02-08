@@ -1,9 +1,30 @@
 import express from 'express';
 import jwt, { Secret } from 'jsonwebtoken';
 import { User } from '../models/UserSchema';
-import { stat } from 'fs';
+import bcrypt from 'bcrypt';
+import verifyToken from '../middleware/verifyToken';
 
 const router = express.Router();
+
+router.get('/', async (req, res) => {
+  try {
+    const users = await User.find({});
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Users fetched successfully',
+      data: users,
+    });
+  } catch (error: any) {
+    console.log('GetUsersError: ', error);
+
+    res.status(400).json({
+      status: 400,
+      message: error.message.toString(),
+    });
+  }
+});
 
 router.post('/register', async (req, res) => {
   try {
@@ -22,17 +43,19 @@ router.post('/register', async (req, res) => {
       return;
     }
 
-    const newUser = await User.create({
-      name,
-      email,
-      password,
-    });
+    bcrypt.hash(password, 10, async function (err, hash) {
+      const newUser = await User.create({
+        name,
+        email,
+        password: hash,
+      });
 
-    res.status(200).json({
-      status: 201,
-      success: true,
-      message: 'User created successfully.',
-      user: newUser,
+      res.status(201).json({
+        status: 201,
+        success: true,
+        message: 'User created successfully.',
+        user: newUser,
+      });
     });
   } catch (error: any) {
     console.log('RegisterError: ', error);
@@ -62,30 +85,30 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    const isPasswordMatched = user?.password === password;
-
-    if (!isPasswordMatched) {
-      res.status(400).json({
-        status: 400,
-        success: false,
-        message: 'Wrong password',
-      });
-      return;
-    }
-
-    const token = jwt.sign(
-      { _id: user?._id, name: user?.name, email: user?.email, admin: user?.admin },
-      process.env.JWT_SECRET as Secret,
-      {
-        expiresIn: '1d',
+    bcrypt.compare(password, user.password, function (err, result) {
+      if (!result) {
+        res.status(400).json({
+          status: 400,
+          success: false,
+          message: 'Wrong password',
+        });
+        return;
       }
-    );
 
-    res.status(200).json({
-      status: 200,
-      success: true,
-      message: 'Login is successful',
-      token: token,
+      const token = jwt.sign(
+        { _id: user?._id, name: user?.name, email: user?.email, admin: user?.admin, address: user?.address },
+        process.env.JWT_SECRET as Secret,
+        {
+          expiresIn: '1d',
+        }
+      );
+
+      res.status(200).json({
+        status: 200,
+        success: true,
+        message: 'Login is successful',
+        token: token,
+      });
     });
   } catch (error: any) {
     console.log('LoginError: ', error);
@@ -97,25 +120,72 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/validate', async (req, res) => {
+router.post('/validate', verifyToken, async (req, res) => {
   try {
-    const token = req.body.token;
-    jwt.verify(token, process.env.JWT_SECRET as Secret, (err: any, decoded: any) => {
-      if (err) {
-        res.status(401).json({
-          status: 401,
-          message: 'Unauthorized',
-        });
-        return;
-      }
-
-      res.status(200).json({
-        status: 200,
-        message: 'Valid token',
-      });
+    res.status(200).json({
+      status: 200,
+      message: 'Valid token',
     });
   } catch (error: any) {
     console.log('ValidateError: ', error);
+
+    res.status(400).json({
+      status: 400,
+      message: error.message.toString(),
+    });
+  }
+});
+
+router.put('/change-address', verifyToken, async (req: any, res) => {
+  try {
+    const user = await User.findOne({ _id: req.userId });
+    if (!user) {
+      res.status(404).json({
+        status: 404,
+        message: 'User not found',
+      });
+      return;
+    }
+    user.address = req.body;
+    await user.save();
+    res.status(200).json({
+      status: 200,
+      message: 'Address updated successfully',
+    });
+  } catch (error: any) {
+    console.log('ChangeAddressError: ', error);
+
+    res.status(400).json({
+      status: 400,
+      message: error.message.toString(),
+    });
+  }
+});
+
+router.put('/change-password', verifyToken, async (req: any, res) => {
+  console.log(req.userId);
+  try {
+    const user = await User.findOne({ _id: req.userId });
+
+    if (!user) {
+      res.status(404).json({
+        status: 404,
+        message: 'User not found',
+      });
+      return;
+    }
+
+    bcrypt.hash(req.body.newPassword, 10, async function (err, hash) {
+      user.password = hash;
+      await user.save();
+
+      res.status(200).json({
+        status: 200,
+        message: 'Password changed successfully',
+      });
+    });
+  } catch (error: any) {
+    console.log('ChangePasswordError: ', error);
 
     res.status(400).json({
       status: 400,

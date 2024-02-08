@@ -1,6 +1,9 @@
-import { CheckoutForm } from '@/components/styled/Checkout.styled';
+import OrderHistory from '@/components/OrderHistory';
+import { StyledForm } from '@/components/styled/Form.styled';
+import { StyledProfile } from '@/components/styled/Profile.styled';
 import {
   BodyText,
+  ErrorText,
   Heading1,
   Heading3,
   Heading4,
@@ -8,9 +11,12 @@ import {
 } from '@/components/styled/Text.styled';
 import { useUserContext } from '@/hooks/useUserContext';
 import { IFormField } from '@/models/IFormField';
-import { changeUserPassword } from '@/services/userService';
-import { Button, TextField } from '@mui/material';
-import { useState } from 'react';
+import { IOrder } from '@/models/IOrder';
+import { getUserOrders } from '@/services/orderService';
+import { changeUserAddress, changeUserPassword } from '@/services/userService';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { memo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface PasswordFormValues {
@@ -21,16 +27,19 @@ interface PasswordFormValues {
 const Profile = () => {
   const { user, logout } = useUserContext();
   const navigate = useNavigate();
+  const [orders, setOrders] = useState<IOrder[]>([]);
+  const [addressMessage, setAddressMessage] = useState('');
+  const [addressErrorMessage, setAddressErrorMessage] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const [addressFormValues, setAddressFormValues] = useState({
-    email: '',
-    firstname: '',
-    lastname: '',
-    address: '',
-    zipcode: '',
-    city: '',
-    country: '',
-    phonenumber: '',
+    firstname: user?.address.firstname || '',
+    lastname: user?.address.lastname || '',
+    address: user?.address.address || '',
+    zipcode: user?.address.zipcode || '',
+    city: user?.address.city || '',
+    country: user?.address.country || '',
+    phone: user?.address.phone || '',
   });
   const [passwordFormValues, setPasswordFormValues] = useState({
     password1: {
@@ -44,6 +53,34 @@ const Profile = () => {
       errorMessage: 'You must enter a password',
     },
   });
+
+  useEffect(() => {
+    setAddressFormValues({
+      firstname: user?.address.firstname || '',
+      lastname: user?.address.lastname || '',
+      address: user?.address.address || '',
+      zipcode: user?.address.zipcode || '',
+      city: user?.address.city || '',
+      country: user?.address.country || '',
+      phone: user?.address.phone || '',
+    });
+    getUserOrdersAsync();
+  }, [user]);
+
+  const getUserOrdersAsync = async () => {
+    try {
+      const response = await getUserOrders();
+      if (response) {
+        if (response.status === 200) {
+          setOrders(response.data);
+        } else {
+          setOrders([]);
+        }
+      }
+    } catch (error) {
+      console.log('Error', error);
+    }
+  };
 
   const onPasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -80,10 +117,16 @@ const Profile = () => {
       });
 
       try {
-        await changeUserPassword(passwordFormValues.password1.value);
-        setPasswordMessage('Password changed successfully.');
-      } catch (error) {
-        setPasswordMessage('Something went wrong, try again later.');
+        const response = await changeUserPassword(
+          passwordFormValues.password1.value
+        );
+        if (response.status === 200) {
+          setPasswordMessage(response.message);
+        } else {
+          setPasswordErrorMessage(response.message);
+        }
+      } catch (error: any) {
+        setPasswordErrorMessage(error.message);
       }
     }
   };
@@ -99,9 +142,20 @@ const Profile = () => {
     });
   };
 
-  const onAddressSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onAddressSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Address submit');
+
+    try {
+      const response = await changeUserAddress(addressFormValues);
+      if (response.status === 200) {
+        setAddressMessage(response.message);
+      } else {
+        setAddressErrorMessage(response.message);
+      }
+    } catch (error: any) {
+      console.log('Error', error);
+      setAddressErrorMessage(error.message);
+    }
   };
 
   const onChangeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,12 +167,13 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <StyledProfile>
       <Heading1>Profile</Heading1>
       <BodyText>{user?.name}</BodyText>
       <SmallBodyText>{user?.email}</SmallBodyText>
       <Button
         variant="contained"
+        name="logout"
         onClick={() => {
           logout();
           navigate('/');
@@ -136,23 +191,13 @@ const Profile = () => {
           Admin Dashboard
         </Button>
       )}
-      <div>
-        <Heading3>Orders</Heading3>
-        <BodyText>Order 1</BodyText>
-        <BodyText>Order 2</BodyText>
-        <BodyText>Order 3</BodyText>
-      </div>
+      <OrderHistory orders={orders} />
       <div>
         <Heading3>Settings</Heading3>
         <Heading4>Change Address</Heading4>
-        <CheckoutForm onSubmit={onAddressSubmit}>
-          <TextField
-            value={addressFormValues.email}
-            onChange={onChangeAddress}
-            name="email"
-            label="E-mail"
-            variant="filled"
-          />
+        {addressMessage && <SmallBodyText>{addressMessage}</SmallBodyText>}
+        {addressErrorMessage && <ErrorText>{addressErrorMessage}</ErrorText>}
+        <StyledForm onSubmit={onAddressSubmit}>
           <TextField
             value={addressFormValues.firstname}
             onChange={onChangeAddress}
@@ -196,19 +241,20 @@ const Profile = () => {
             variant="filled"
           />
           <TextField
-            value={addressFormValues.phonenumber}
+            value={addressFormValues.phone}
             onChange={onChangeAddress}
-            name="phonenumber"
+            name="phone"
             label="Phone number"
             variant="filled"
           />
           <Button type="submit" variant="contained">
             Save Address
           </Button>
-        </CheckoutForm>
+        </StyledForm>
         <Heading4>Change Password</Heading4>
-        <SmallBodyText>{passwordMessage}</SmallBodyText>
-        <CheckoutForm onSubmit={onPasswordSubmit}>
+        {passwordMessage && <SmallBodyText>{passwordMessage}</SmallBodyText>}
+        {passwordErrorMessage && <ErrorText>{passwordErrorMessage}</ErrorText>}
+        <StyledForm onSubmit={onPasswordSubmit}>
           <TextField
             value={passwordFormValues.password1.value}
             onChange={onChangePassword}
@@ -238,10 +284,10 @@ const Profile = () => {
           <Button type="submit" variant="contained">
             Save Password
           </Button>
-        </CheckoutForm>
+        </StyledForm>
       </div>
-    </div>
+    </StyledProfile>
   );
 };
 
-export default Profile;
+export default memo(Profile);

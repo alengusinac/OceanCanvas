@@ -1,0 +1,45 @@
+{
+  "status": 200,
+  "success": true,
+  "message": "Successfull",
+  "data": {
+    "total": 2,
+    "products": [
+      {
+        "_id": 1,
+        "title": "Wreck",
+        "description": "",
+        "priceMultiplier": 1,
+        "imageUrl": "https://res.cloudinary.com/dkoejzei7/image/upload/v1706611341/Wreck.webp",
+        "categories": ["Ship Wrecks"],
+        "sizes": [
+          {
+            "_id": 1,
+            "size": "20x30",
+            "price": 20
+          }
+        ]
+      },
+      {
+        "_id": 2,
+        "title": "Turtle",
+        "description": "",
+        "priceMultiplier": 1.5,
+        "imageUrl": "https://res.cloudinary.com/dkoejzei7/image/upload/v1706611341/Wreck.webp",
+        "categories": ["Turtles"],
+        "sizes": [
+          {
+            "_id": 1,
+            "size": "20x30",
+            "price": 20
+          },
+          {
+            "_id": 2,
+            "size": "40x60",
+            "price": 30
+          }
+        ]
+      }
+    ]
+  }
+}

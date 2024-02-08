@@ -4,7 +4,8 @@ import {
   ProductImage,
   StyledProductCard,
 } from './styled/Products.styled';
-import { BodyText, SmallBodyText } from './styled/Text.styled';
+import { Heading4, SmallBodyText } from './styled/Text.styled';
+import { memo } from 'react';
 
 interface Props {
   item: IProduct;
@@ -12,15 +13,18 @@ interface Props {
 }
 
 const ProductCard = ({ item, onClick }: Props) => {
+  const cloudinaryUrl =
+    'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto/';
+
   return (
-    <StyledProductCard onClick={onClick}>
+    <StyledProductCard data-cy="productCard" onClick={onClick}>
       <ImageContainer>
-        <ProductImage src={item.imageUrl} />
+        <ProductImage alt={item.title} src={`${cloudinaryUrl}${item.title}`} />
       </ImageContainer>
-      <BodyText>{item.title}</BodyText>
+      <Heading4>{item.title}</Heading4>
       <SmallBodyText>From ${item.sizes[0].price}</SmallBodyText>
     </StyledProductCard>
   );
 };
 
-export default ProductCard;
+export default memo(ProductCard);

@@ -3,6 +3,10 @@ import { AddressSchema } from './AddressSchema';
 
 const OrderSchema = new mongoose.Schema(
   {
+    orderNumber: {
+      type: String,
+      required: true,
+    },
     user: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'User',
@@ -31,6 +35,10 @@ const OrderSchema = new mongoose.Schema(
         amount: { type: Number, required: true },
       },
     ],
+    total: {
+      amount: { type: Number, required: true },
+      price: { type: Number, required: true },
+    },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }

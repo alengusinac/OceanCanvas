@@ -1,6 +1,7 @@
 import Divider from '@mui/material/Divider';
 import { StyledNav } from './styled/Header.styled';
 import { useUserContext } from '@/hooks/useUserContext';
+import { memo } from 'react';
 
 interface Props {
   handleNavClick: (nav: string) => void;
@@ -12,8 +13,12 @@ const Nav = ({ handleNavClick }: Props) => {
   const LoginButtons = () => {
     return (
       <div>
-        <button onClick={() => handleNavClick('/login')}>Login</button>
-        <button onClick={() => handleNavClick('/signup')}>Sign Up</button>
+        <button name="login" onClick={() => handleNavClick('/login')}>
+          Login
+        </button>
+        <button name="signup" onClick={() => handleNavClick('/signup')}>
+          Sign Up
+        </button>
       </div>
     );
   };
@@ -23,6 +28,7 @@ const Nav = ({ handleNavClick }: Props) => {
       <div>
         <button onClick={() => handleNavClick('/profile')}>Profile</button>
         <button
+          name="logout"
           onClick={() => {
             logout();
             handleNavClick('/');
@@ -49,4 +55,4 @@ const Nav = ({ handleNavClick }: Props) => {
   );
 };
 
-export default Nav;
+export default memo(Nav);

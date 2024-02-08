@@ -13,6 +13,11 @@ export const HeaderWrapper = styled.header`
   align-items: center;
   justify-content: space-between;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+
+  @media (min-width: 768px) {
+    height: 100px;
+    padding: 0 30px;
+  }
 `;
 
 export const StyledNav = styled.nav`
@@ -30,6 +35,9 @@ export const StyledNav = styled.nav`
     border: none;
     height: 50px;
     padding-left: 30px;
+  }
+  @media (min-width: 768px) {
+    margin-top: 100px;
   }
 `;
 

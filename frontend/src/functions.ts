@@ -15,12 +15,11 @@ export const validateCardExpiry = (string: string) => {
 
   const month = parseInt(string.substring(0, 2), 10);
   let year = parseInt(string.substring(3, 7), 10);
-  const expiryDate = new Date(year, month);
 
   if (String(year).length === 2) {
     year = parseInt(`20${year}`);
   }
-  console.log(year);
+  const expiryDate = new Date(year, month);
 
   if (month < 1 || month > 12) {
     return false;

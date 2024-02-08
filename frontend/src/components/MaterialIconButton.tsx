@@ -1,22 +1,31 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, memo } from 'react';
 import { IconButton } from './styled/IconButton.styled';
 
 interface MaterialIconButtonProps {
   icon: ReactNode;
   onClick: React.MouseEventHandler;
   $size?: number;
+  testId?: string;
+  ariaLabel?: string;
 }
 
 const MaterialIconButton = ({
   icon,
   onClick,
   $size,
+  testId,
+  ariaLabel,
 }: MaterialIconButtonProps) => {
   return (
-    <IconButton $size={$size} onClick={onClick}>
+    <IconButton
+      aria-label={ariaLabel}
+      data-testid={testId}
+      $size={$size}
+      onClick={onClick}
+    >
       {icon}
     </IconButton>
   );
 };
 
-export default MaterialIconButton;
+export default memo(MaterialIconButton);

@@ -3,6 +3,8 @@ import { PropsWithChildren, createContext, useEffect, useState } from 'react';
 
 interface ICartContextType {
   cart: ICartItem[];
+  totalPrice: number;
+  totalAmount: number;
   addToCart: (newCartItem: ICartItem) => void;
   changeAmount: (cartItem: ICartItem, amount: number) => void;
   removeFromCart: (cartItem: ICartItem) => void;
@@ -11,6 +13,8 @@ interface ICartContextType {
 
 export const CartContext = createContext<ICartContextType>({
   cart: [],
+  totalPrice: 0,
+  totalAmount: 0,
   addToCart: (newCartItem) => {
     console.log(newCartItem);
   },
@@ -25,11 +29,31 @@ export const CartContext = createContext<ICartContextType>({
 
 export const CartProvider = ({ children }: PropsWithChildren) => {
   const [cart, setCart] = useState<ICartItem[]>([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
     const cart = localStorage.getItem('cart') || '[]';
     setCart(JSON.parse(cart));
   }, []);
+
+  useEffect(() => {
+    calculateTotal();
+  }, [cart]);
+
+  const calculateTotal = () => {
+    let totalPrice = 0;
+    cart.forEach((item) => {
+      totalPrice += item.amount * item.product.price;
+    });
+    setTotalPrice(totalPrice);
+
+    setTotalAmount(
+      cart.reduce(function (acc, obj) {
+        return acc + obj.amount;
+      }, 0)
+    );
+  };
 
   const addToCart = (newCartItem: ICartItem) => {
     if (cart.length === 0) {
@@ -100,7 +124,15 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, changeAmount, removeFromCart, clearCart }}
+      value={{
+        cart,
+        totalPrice,
+        totalAmount,
+        addToCart,
+        changeAmount,
+        removeFromCart,
+        clearCart,
+      }}
     >
       {children}
     </CartContext.Provider>

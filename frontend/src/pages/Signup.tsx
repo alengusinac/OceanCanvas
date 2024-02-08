@@ -1,9 +1,10 @@
-import { Button, TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import { LoginSignupContainer } from '../components/styled/LoginSignup';
-import { Heading2, SmallBodyText } from '../components/styled/Text.styled';
-import { ChangeEvent, useState } from 'react';
+import { ErrorText, Heading2 } from '../components/styled/Text.styled';
+import { ChangeEvent, memo, useState } from 'react';
 import { IFormField } from '@/models/IFormField';
-import { CheckoutForm } from '@/components/styled/Checkout.styled';
+import { StyledForm } from '@/components/styled/Form.styled';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '@/services/userService';
 
@@ -49,7 +50,9 @@ const Signup = () => {
     });
   };
 
-  const validateForm = async () => {
+  const validateForm = async (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     const formFields = Object.keys(formValues);
     let newFormValues = { ...formValues };
     let noErrorFound = true;
@@ -91,13 +94,16 @@ const Signup = () => {
         password: formValues.password.value,
         name: `${formValues.firstname.value} ${formValues.lastname.value}`,
       };
-      await registerUser(values);
-      navigate('/login');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const response = await registerUser(values);
+      if (response.status === 201) {
+        navigate('/login');
+      } else {
+        setError(response.data.message);
+      }
     } catch (error: any) {
       console.log(error);
-      if (error.response.data.message) {
-        setError(error.response.data.message);
+      if (error.data.message) {
+        setError(error.data.message);
       }
     }
   };
@@ -105,8 +111,8 @@ const Signup = () => {
   return (
     <LoginSignupContainer>
       <Heading2>Sign Up</Heading2>
-      {error && <SmallBodyText>{error}</SmallBodyText>}
-      <CheckoutForm>
+      {error && <ErrorText data-testid="cy-errorMsg">{error}</ErrorText>}
+      <StyledForm onSubmit={validateForm}>
         <TextField
           value={formValues.firstname.value}
           name="firstname"
@@ -154,12 +160,12 @@ const Signup = () => {
           variant="filled"
           required
         />
-        <Button onClick={validateForm} variant="contained">
+        <Button type="submit" variant="contained">
           Sign Up
         </Button>
-      </CheckoutForm>
+      </StyledForm>
     </LoginSignupContainer>
   );
 };
 
-export default Signup;
+export default memo(Signup);

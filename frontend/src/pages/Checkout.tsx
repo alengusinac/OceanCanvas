@@ -1,17 +1,21 @@
 import Cart from '@/components/Cart';
-import { CheckoutForm } from '@/components/styled/Checkout.styled';
-import { Heading4 } from '@/components/styled/Text.styled';
+import { StyledCheckout } from '@/components/styled/Checkout.styled';
+import { StyledForm } from '@/components/styled/Form.styled';
+import { ErrorText, Heading1, Heading4 } from '@/components/styled/Text.styled';
 import { validateCardExpiry, validateCardNumber } from '@/functions';
 import { useCartContext } from '@/hooks/useCartContext';
 import { useUserContext } from '@/hooks/useUserContext';
 import { IAddress } from '@/models/IAddress';
-import { IOrder, postOrder } from '@/services/orderService';
-import { Button, Divider, TextField } from '@mui/material';
-import { useState } from 'react';
+import { IOrder } from '@/models/IOrder';
+import { postOrder } from '@/services/orderService';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import TextField from '@mui/material/TextField';
+import { memo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
-  const { cart, clearCart } = useCartContext();
+  const { cart, totalAmount, totalPrice, clearCart } = useCartContext();
   const { user } = useUserContext();
   const [openPayment, setOpenPayment] = useState(false);
   const [addressFormValues, setAddressFormValues] = useState<IAddress>({
@@ -32,6 +36,19 @@ const Checkout = () => {
   const [paymentError, setPaymentError] = useState<string[]>([]);
   const [orderButtonLoading, setOrderButtonLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setAddressFormValues({
+      email: user?.email || '',
+      firstname: user?.address.firstname || '',
+      lastname: user?.address.lastname || '',
+      address: user?.address.address || '',
+      zipcode: user?.address.zipcode || '',
+      city: user?.address.city || '',
+      country: user?.address.country || '',
+      phone: user?.address.phone || '',
+    });
+  }, [user]);
 
   const onAddressChangeInput = (e: React.ChangeEvent<HTMLFormElement>) => {
     const { name, value } = e.target;
@@ -89,6 +106,10 @@ const Checkout = () => {
             size: item.product.size,
             amount: item.amount,
           })),
+          total: {
+            amount: totalAmount,
+            price: totalPrice,
+          },
         };
         if (user) {
           value.user = user._id;
@@ -106,16 +127,16 @@ const Checkout = () => {
   };
 
   return (
-    <>
+    <StyledCheckout>
       <div>
-        <Heading4>Checkout</Heading4>
+        <Heading1>Checkout</Heading1>
         <Divider />
         <Cart />
       </div>
       <Divider />
       <div>
         <Heading4>Shipping Information</Heading4>
-        <CheckoutForm onSubmit={verifyShipping} onChange={onAddressChangeInput}>
+        <StyledForm onSubmit={verifyShipping} onChange={onAddressChangeInput}>
           <TextField
             name="email"
             type="email"
@@ -176,7 +197,7 @@ const Checkout = () => {
           <Button type="submit" variant="contained">
             Continue
           </Button>
-        </CheckoutForm>
+        </StyledForm>
       </div>
       <Divider />
       {openPayment && (
@@ -185,11 +206,11 @@ const Checkout = () => {
           {paymentError.length > 0 && (
             <div>
               {paymentError.map((error, index) => (
-                <p key={index}>{error}</p>
+                <ErrorText key={index}>{error}</ErrorText>
               ))}
             </div>
           )}
-          <CheckoutForm onSubmit={validateOrder} onChange={onPaymentFormChange}>
+          <StyledForm onSubmit={validateOrder} onChange={onPaymentFormChange}>
             <TextField
               name="cardNumber"
               value={paymentFormValues.cardNumber}
@@ -218,11 +239,11 @@ const Checkout = () => {
             >
               Complete Order
             </Button>
-          </CheckoutForm>
+          </StyledForm>
         </div>
       )}
-    </>
+    </StyledCheckout>
   );
 };
 
-export default Checkout;
+export default memo(Checkout);

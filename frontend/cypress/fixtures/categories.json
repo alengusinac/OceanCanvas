@@ -1,0 +1,10 @@
+{
+  "status": 200,
+  "success": true,
+  "message": "Successfull",
+  "data": [
+    { "category": "Fish", "_id": "1" },
+    { "category": "Turtle", "_id": "2" },
+    { "category": "Ship Wrecks", "_id": "3" }
+  ]
+}

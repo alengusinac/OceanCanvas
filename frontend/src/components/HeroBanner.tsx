@@ -1,14 +1,16 @@
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { HeroWrapper, Image } from './styled/HeroBanner.styled';
+import { memo } from 'react';
 
 interface Props {
   image: string;
   buttonText: string;
   onClick: React.MouseEventHandler;
+  alt: string;
 }
 
-const HeroBanner = ({ image, buttonText, onClick }: Props) => {
+const HeroBanner = ({ image, buttonText, onClick, alt }: Props) => {
   return (
     <HeroWrapper>
       <Box
@@ -21,9 +23,9 @@ const HeroBanner = ({ image, buttonText, onClick }: Props) => {
           {buttonText}
         </Button>
       </Box>
-      <Image src={image} />
+      <Image alt={alt} src={image} />
     </HeroWrapper>
   );
 };
 
-export default HeroBanner;
+export default memo(HeroBanner);

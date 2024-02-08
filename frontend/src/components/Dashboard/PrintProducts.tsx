@@ -20,8 +20,6 @@ const PrintProducts = ({ products, getProductsAsync }: Props) => {
           <BodyText>{product.priceMultiplier}</BodyText>
           <MaterialIconButton
             onClick={async () => {
-              console.log(product._id);
-
               if (product._id) await deleteProduct(product._id);
               getProductsAsync();
             }}
