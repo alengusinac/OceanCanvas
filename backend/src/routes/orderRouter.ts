@@ -2,6 +2,7 @@ import express from 'express';
 import { Order } from '../models/OrderSchema';
 import ShortUniqueId from 'short-unique-id';
 import verifyToken from '../middleware/verifyToken';
+import { sendEmail } from '../services/emailService';
 
 const router = express.Router();
 
@@ -54,9 +55,19 @@ router.post('/add', async (req, res) => {
 
   try {
     const order = await Order.create(query);
+
     if (!order) {
       throw new Error('Order not created.');
     }
+
+    const emailData = {
+      from: 'OceanCanvas',
+      to: order.address.email ? order.address.email : '',
+      subject: 'Order Confirmation',
+      text: `Your order has been placed successfully. Your order number is ${order.orderNumber}.`,
+    };
+
+    sendEmail(emailData);
 
     res.status(201).json({
       status: 201,

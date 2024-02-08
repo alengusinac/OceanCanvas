@@ -36,7 +36,7 @@ const Products = () => {
     try {
       const products = await getProducts();
 
-      if (products) setProducts(products?.products);
+      if (products) setProducts(products?.data.products);
     } catch (error) {
       console.log(error);
       setProducts([]);

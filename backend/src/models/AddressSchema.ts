@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 export const AddressSchema = new mongoose.Schema({
+  email: { type: String },
   firstname: { type: String },
   lastname: { type: String },
   address: { type: String },
