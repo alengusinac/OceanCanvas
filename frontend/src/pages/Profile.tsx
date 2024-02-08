@@ -33,13 +33,13 @@ const Profile = () => {
   const [passwordMessage, setPasswordMessage] = useState('');
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const [addressFormValues, setAddressFormValues] = useState({
-    firstname: user?.address.firstname || '',
-    lastname: user?.address.lastname || '',
-    address: user?.address.address || '',
-    zipcode: user?.address.zipcode || '',
-    city: user?.address.city || '',
-    country: user?.address.country || '',
-    phone: user?.address.phone || '',
+    firstname: '',
+    lastname: '',
+    address: '',
+    zipcode: '',
+    city: '',
+    country: '',
+    phone: '',
   });
   const [passwordFormValues, setPasswordFormValues] = useState({
     password1: {
@@ -56,13 +56,13 @@ const Profile = () => {
 
   useEffect(() => {
     setAddressFormValues({
-      firstname: user?.address.firstname || '',
-      lastname: user?.address.lastname || '',
-      address: user?.address.address || '',
-      zipcode: user?.address.zipcode || '',
-      city: user?.address.city || '',
-      country: user?.address.country || '',
-      phone: user?.address.phone || '',
+      firstname: user?.address ? user.address.firstname : '',
+      lastname: user?.address ? user.address.lastname : '',
+      address: user?.address ? user.address.address : '',
+      zipcode: user?.address ? user.address.zipcode : '',
+      city: user?.address ? user.address.city : '',
+      country: user?.address ? user.address.country : '',
+      phone: user?.address ? user.address.phone : '',
     });
     getUserOrdersAsync();
   }, [user]);

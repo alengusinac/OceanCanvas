@@ -23,7 +23,7 @@ export const StyledSizeChooserOpen = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 35px;
+  top: 48px;
   left: -1px;
   z-index: 1000;
 `;
