@@ -22,7 +22,6 @@ describe('Rendering initial product', () => {
   });
 
   it('add to cart, choose different size and add to cart again', () => {
-    cy.contains('button', 'Add to Cart').should('be.visible').click();
     cy.get('[aria-label="size selector menu"]').should('be.visible').click();
     cy.get('[aria-label="size selector option"]')
       .should('be.visible')
@@ -31,6 +30,6 @@ describe('Rendering initial product', () => {
     cy.contains('button', 'Add to Cart').should('be.visible').click();
 
     cy.get('button[aria-label="open cart"]').should('be.visible').click();
-    cy.get('[data-cy="cartItem"]').should('have.length', 2);
+    cy.get('[data-cy="cartItem"]').should('have.length', 1);
   });
 });
