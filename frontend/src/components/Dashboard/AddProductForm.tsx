@@ -18,7 +18,7 @@ const AddProductForm = ({ getProductsAsync, categories }: Props) => {
   const [formValues, setFormValues] = useState({
     title: '',
     description: '',
-    priceMultiplier: 0,
+    priceMultiplier: 1,
   });
 
   const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +52,11 @@ const AddProductForm = ({ getProductsAsync, categories }: Props) => {
     try {
       await addProduct(values);
       getProductsAsync();
+      setFormValues({
+        title: '',
+        description: '',
+        priceMultiplier: 1,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -87,6 +92,7 @@ const AddProductForm = ({ getProductsAsync, categories }: Props) => {
           value={formValues.title}
           onChange={onFormChange}
           label="Title"
+          variant="filled"
         />
         <TextField
           name="description"
@@ -95,6 +101,7 @@ const AddProductForm = ({ getProductsAsync, categories }: Props) => {
           label="Description"
           multiline
           rows={4}
+          variant="filled"
         />
 
         {categories.map((category) => (
@@ -117,6 +124,7 @@ const AddProductForm = ({ getProductsAsync, categories }: Props) => {
           value={formValues.priceMultiplier}
           onChange={onFormChange}
           label="Price multiplier"
+          variant="filled"
         />
         <TextField onChange={convertImage} id="imageFile" type="file" />
         <img src={image} alt="" width={150} />

@@ -27,7 +27,7 @@ const CartItem = ({ item }: Props) => {
   const product = item.product;
 
   return (
-    <StyledCartItem>
+    <StyledCartItem data-cy="cartItem">
       <FlexWrapper>
         <CartImageContainer>
           <ProductImage src={product.imageUrl} />

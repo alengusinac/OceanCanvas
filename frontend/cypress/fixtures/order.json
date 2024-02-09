@@ -1,0 +1,17 @@
+{
+  "status": 201,
+  "success": true,
+  "message": "Successfull",
+  "data": {
+    "orderNumber": "123",
+    "address": {
+      "firstname": "John",
+      "lastname": "Doe",
+      "address": "123 Main St",
+      "city": "San Francisco",
+      "zipcode": "94105",
+      "country": "US"
+    },
+    "createdAt": "2018-01-01T00:00:00Z"
+  }
+}

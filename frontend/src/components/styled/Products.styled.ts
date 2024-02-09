@@ -26,7 +26,7 @@ export const ProductsList = styled.div`
 
 export const StyledProductCard = styled.div`
   width: 150px;
-  height: 250px;
+  height: 270px;
   border-radius: 2px;
 
   h4,

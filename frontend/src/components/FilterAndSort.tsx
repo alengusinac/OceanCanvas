@@ -67,7 +67,10 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
             </MenuItem>
           ))}
         </Drawer>
-        <button onClick={() => setOpenFilters(!openFilters)}>
+        <button
+          data-cy="filtersBtn"
+          onClick={() => setOpenFilters(!openFilters)}
+        >
           Filters
           <MdKeyboardArrowDown />
         </button>
@@ -77,8 +80,8 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
           open={openFilters}
           onClose={() => setOpenFilters(false)}
         >
-          <MenuItem>Horisontal</MenuItem>
-          <MenuItem>Vertical</MenuItem>
+          <MenuItem data-cy="filterBtn">Horisontal</MenuItem>
+          <MenuItem data-cy="filterBtn">Vertical</MenuItem>
         </Drawer>
       </FirstFlexItem>
 
@@ -100,7 +103,7 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
           </select>
 
           <select
-            aria-label="sort"
+            aria-label="sort products by"
             onChange={(e) => {
               let value = '';
 

@@ -123,7 +123,7 @@ const Checkout = () => {
         setOrderButtonLoading(false);
         console.error(error);
       }
-    }, 2000);
+    }, 1000);
   };
 
   return (

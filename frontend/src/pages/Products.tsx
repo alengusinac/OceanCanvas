@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const Products = () => {
   const { state } = useLocation();
+  const [loading, setLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<IProduct[]>([]);
   const [totalProducts, setTotalProducts] = useState<number>(0);
   const [offset, setOffset] = useState<number>(0);
@@ -35,12 +36,14 @@ const Products = () => {
   }, [offset]);
 
   const loadProducts = async () => {
+    setLoading(true);
     try {
       const response = await getProducts(filters);
       if (response) {
         if (response.status === 200) {
           setProducts(response?.data.products);
           setTotalProducts(response?.data.total);
+          setLoading(false);
         } else {
           setProducts([]);
           setTotalProducts(0);
@@ -77,6 +80,12 @@ const Products = () => {
         totalProducts={totalProducts}
       />
       <ProductsList>
+        {loading && (
+          <BodyText>
+            The API instance will spin down with inactivity, which can delay
+            requests by 50 seconds or more. Please refresh, I'm poor!
+          </BodyText>
+        )}
         {error && <BodyText data-cy="errorMessage">{error}</BodyText>}
         {products?.map((item) => (
           <ProductCard

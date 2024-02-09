@@ -36,6 +36,7 @@ const Product = () => {
     if (!state?.product) {
       getProductAsync();
     }
+    getProductAsync();
   }, []);
 
   const getProductAsync = async () => {

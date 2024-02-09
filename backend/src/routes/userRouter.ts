@@ -163,7 +163,6 @@ router.put('/change-address', verifyToken, async (req: any, res) => {
 });
 
 router.put('/change-password', verifyToken, async (req: any, res) => {
-  console.log(req.userId);
   try {
     const user = await User.findOne({ _id: req.userId });
 
