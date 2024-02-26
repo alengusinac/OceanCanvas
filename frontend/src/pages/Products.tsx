@@ -89,6 +89,7 @@ const Products = () => {
         {error && <BodyText data-cy="errorMessage">{error}</BodyText>}
         {products?.map((item) => (
           <ProductCard
+            favoriteOption
             onClick={() =>
               navigate(`/products/${item._id}`, { state: { product: item } })
             }
