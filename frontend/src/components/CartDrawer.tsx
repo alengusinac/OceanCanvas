@@ -1,7 +1,7 @@
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import { StyledCartDrawer } from './styled/Cart.styled';
-import { BoldBodyText, Heading4 } from './styled/Text.styled';
+import { BoldBodyText, Heading2 } from './styled/Text.styled';
 import { useNavigate } from 'react-router-dom';
 import Cart from './Cart';
 import { useCartContext } from '@/hooks/useCartContext';
@@ -17,7 +17,7 @@ const CartDrawer = ({ setCartDrawerOpen }: Props) => {
 
   return (
     <StyledCartDrawer>
-      <Heading4>Shopping Cart</Heading4>
+      <Heading2>Shopping Cart</Heading2>
       {cart.length !== 0 && (
         <>
           <Divider />

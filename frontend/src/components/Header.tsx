@@ -1,21 +1,28 @@
 import logo from '@/assets/oceancanvas-logo.png';
 import MaterialIconButton from './MaterialIconButton';
-import { MdOutlineShoppingCart, MdMenu, MdClose } from 'react-icons/md';
+import {
+  MdOutlineShoppingCart,
+  MdMenu,
+  MdClose,
+  MdOutlineFavoriteBorder,
+} from 'react-icons/md';
 import { HeaderWrapper, Logo } from './styled/Header.styled';
 import { FlexWrapper } from './styled/Flex.styled';
 import Drawer from '@mui/material/Drawer';
 import { memo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Cart from './CartDrawer';
+import CartDrawer from './CartDrawer';
 import Nav from './Nav';
 import { colors } from '@/styles/variables';
 import { useCartContext } from '@/hooks/useCartContext';
 import { AmountIndicator } from './AmountIndicator';
 import { SmallBodyText } from './styled/Text.styled';
+import FavoritesDrawer from './FavoritesDrawer';
 
 const Header = () => {
   const { totalAmount } = useCartContext();
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
+  const [favoritesDrawerOpen, setFavoritesDrawerOpen] = useState(false);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -32,6 +39,7 @@ const Header = () => {
         onClick={() => {
           setNavDrawerOpen(!navDrawerOpen);
           setCartDrawerOpen(false);
+          setFavoritesDrawerOpen(false);
         }}
         icon={navDrawerOpen ? <MdClose /> : <MdMenu />}
       />
@@ -48,10 +56,23 @@ const Header = () => {
         <Logo alt="OceanCanvas logo" src={logo} />
       </Link>
       <FlexWrapper>
-        {/* <MaterialIconButton
-          onClick={handleClick}
+        <MaterialIconButton
+          onClick={() => {
+            setFavoritesDrawerOpen(!favoritesDrawerOpen);
+            setNavDrawerOpen(false);
+            setCartDrawerOpen(false);
+          }}
           icon={<MdOutlineFavoriteBorder />}
-        /> */}
+        />
+        <Drawer
+          anchor={'right'}
+          open={favoritesDrawerOpen}
+          ModalProps={{ disableScrollLock: true }}
+          onClose={() => setFavoritesDrawerOpen(false)}
+          sx={{ '& .MuiDrawer-paper': { backgroundColor: colors.white } }}
+        >
+          <FavoritesDrawer setFavoritesDrawerOpen={setFavoritesDrawerOpen} />
+        </Drawer>
         <div>
           <MaterialIconButton
             ariaLabel="open cart"
@@ -59,6 +80,7 @@ const Header = () => {
             onClick={() => {
               setCartDrawerOpen(!cartDrawerOpen);
               setNavDrawerOpen(false);
+              setFavoritesDrawerOpen(false);
             }}
             icon={<MdOutlineShoppingCart />}
           />
@@ -75,7 +97,7 @@ const Header = () => {
           onClose={() => setCartDrawerOpen(false)}
           sx={{ '& .MuiDrawer-paper': { backgroundColor: colors.white } }}
         >
-          <Cart setCartDrawerOpen={setCartDrawerOpen} />
+          <CartDrawer setCartDrawerOpen={setCartDrawerOpen} />
         </Drawer>
       </FlexWrapper>
     </HeaderWrapper>
