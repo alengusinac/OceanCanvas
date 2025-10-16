@@ -1,6 +1,7 @@
 import FilterAndSort from '@/components/FilterAndSort';
 import ProductCard from '@/components/ProductCard';
 import {
+  LoadingContainer,
   ProductsList,
   StyledProducts,
 } from '@/components/styled/Products.styled';
@@ -9,6 +10,7 @@ import { IProductFiltersSort } from '@/models/IFilters';
 import { IProduct } from '@/models/IProduct';
 import { getProducts } from '@/services/productService';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import { memo, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -81,10 +83,9 @@ const Products = () => {
       />
       <ProductsList>
         {loading && (
-          <BodyText>
-            The API instance will spin down with inactivity, which can delay
-            requests by 50 seconds or more. Please refresh, I'm poor!
-          </BodyText>
+          <LoadingContainer>
+            <CircularProgress />
+          </LoadingContainer>
         )}
         {error && <BodyText data-cy="errorMessage">{error}</BodyText>}
         {products?.map((item) => (
