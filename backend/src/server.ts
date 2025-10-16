@@ -43,6 +43,6 @@ app.use('/sizes', sizeRouter);
 app.use('/categories', categoryRouter);
 app.use('/newsletter', emailRouter);
 
-app.listen(process.env.SERVER_PORT, () => {
-  console.log(`Application started on port ${process.env.SERVER_PORT}!`);
+app.listen(process.env.SERVER_PORT || 3000, () => {
+  console.log(`Application started on port ${process.env.SERVER_PORT || 3000}!`);
 });
