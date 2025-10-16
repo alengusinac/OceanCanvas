@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const StyledContact = styled.div`
   max-width: 600px;
+  margin: 0 auto;
   margin-bottom: 50px;
   & > div {
     display: flex;
