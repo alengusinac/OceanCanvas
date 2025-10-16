@@ -19,15 +19,6 @@ export const StyledSizeChooser = styled.div`
   }
 `;
 
-export const StyledSizeChooserOpen = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 48px;
-  left: -1px;
-  z-index: 1000;
-`;
-
 export const StyledProduct = styled.div`
   display: flex;
   flex-direction: column;

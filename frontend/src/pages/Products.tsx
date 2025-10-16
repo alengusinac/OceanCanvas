@@ -29,6 +29,7 @@ const Products = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setProducts([]);
     loadProducts();
     setOffset(0);
   }, [filters]);
@@ -98,16 +99,17 @@ const Products = () => {
           />
         ))}
       </ProductsList>
-      {products.length < totalProducts && (
-        <Button
-          onClick={() =>
-            setOffset((prevOffset) => prevOffset + filters.productsPerPage)
-          }
-          variant="contained"
-        >
-          Load More
-        </Button>
-      )}
+      {loading ||
+        (products.length < totalProducts && (
+          <Button
+            onClick={() =>
+              setOffset((prevOffset) => prevOffset + filters.productsPerPage)
+            }
+            variant="contained"
+          >
+            Load More
+          </Button>
+        ))}
     </StyledProducts>
   );
 };

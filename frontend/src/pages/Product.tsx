@@ -1,9 +1,5 @@
 import { FlexWrapper } from '@/components/styled/Flex.styled';
-import {
-  StyledProduct,
-  StyledSizeChooser,
-  StyledSizeChooserOpen,
-} from '@/components/styled/Product.styled';
+import { StyledProduct } from '@/components/styled/Product.styled';
 import {
   BodyText,
   BoldBodyText,
@@ -15,15 +11,16 @@ import { ICartItem } from '@/models/IItem';
 import { IProduct } from '@/models/IProduct';
 import { getProduct } from '@/services/productService';
 import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
 import { memo, useEffect, useState } from 'react';
-import { MdKeyboardArrowDown } from 'react-icons/md';
 import { useLocation, useParams } from 'react-router-dom';
 
 const Product = () => {
   const { addToCart } = useCartContext();
   const { state } = useLocation();
   const { id } = useParams();
-  const [open, setOpen] = useState<boolean>(false);
   const [product, setProduct] = useState<IProduct | undefined>(
     state?.product || undefined
   );
@@ -58,6 +55,17 @@ const Product = () => {
     console.log(e.target.offsetWidth, e.target.offsetHeight);
   };
 
+  const handleSizeChange = (event: any) => {
+    const selectedSize = event.target.value;
+    const selectedSizeData = product?.sizes.find(
+      (s) => s.size === selectedSize
+    );
+    if (selectedSizeData) {
+      setSize(selectedSizeData.size);
+      setPrice(selectedSizeData.price);
+    }
+  };
+
   const prepareForAddToCart = () => {
     if (!product) return;
     const cartItem: ICartItem = {
@@ -78,35 +86,41 @@ const Product = () => {
     <StyledProduct>
       <img src={product?.imageUrl} onLoad={handleOnLoad} alt={product?.title} />
       <Heading2>{product?.title}</Heading2>
-      <StyledSizeChooser
-        aria-label="size selector menu"
-        onClick={() => setOpen(!open)}
-      >
-        <BodyText>{size} cm</BodyText>
-        <FlexWrapper>
-          <BodyText>${price}</BodyText>
-          <MdKeyboardArrowDown />
-        </FlexWrapper>
-        {open && (
-          <StyledSizeChooserOpen>
-            {product?.sizes.map((size) => (
-              <StyledSizeChooser
-                aria-label="size selector option"
-                key={size.size}
-                onClick={() => {
-                  setSize(size.size);
-                  setPrice(size.price);
+      <FormControl sx={{ minWidth: 250, maxWidth: 350 }}>
+        <Select
+          value={size}
+          onChange={handleSizeChange}
+          displayEmpty
+          sx={{
+            height: 50,
+            borderRadius: '3px',
+            border: '1px solid #000',
+            backgroundColor: '#fff',
+            '& .MuiOutlinedInput-notchedOutline': {
+              border: 'none',
+            },
+            '& .MuiSelect-select': {
+              display: 'flex',
+              padding: '0.5rem 1rem',
+            },
+          }}
+        >
+          {product?.sizes.map((sizeOption) => (
+            <MenuItem key={sizeOption.size} value={sizeOption.size}>
+              <FlexWrapper
+                style={{
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
                 }}
               >
-                <BodyText>{size.size} cm</BodyText>
-                <FlexWrapper>
-                  <BodyText>${size.price}</BodyText>
-                </FlexWrapper>
-              </StyledSizeChooser>
-            ))}
-          </StyledSizeChooserOpen>
-        )}
-      </StyledSizeChooser>
+                <BodyText>{sizeOption.size} cm</BodyText>
+                <BodyText>${sizeOption.price}</BodyText>
+              </FlexWrapper>
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       <Button variant="contained" onClick={prepareForAddToCart}>
         Add to Cart
       </Button>
