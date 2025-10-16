@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const StyledProducts = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -28,6 +29,7 @@ export const StyledProductCard = styled.div`
   width: 150px;
   height: 270px;
   border-radius: 2px;
+  cursor: pointer;
 
   h4,
   p {
@@ -54,6 +56,7 @@ export const ImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
+  overflow: hidden;
 
   @media (min-width: 600px) {
     height: 270px;
@@ -67,6 +70,11 @@ export const ProductImage = styled.img`
   width: 80%;
   border: 2px solid #000;
   box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 export const LoadingContainer = styled.div`
