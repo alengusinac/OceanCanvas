@@ -1,10 +1,11 @@
 import express from 'express';
 import { Category } from '../models/CategorySchema';
 import verifyAdmin from '../middleware/verifyAdmin';
+import { adminLimiter, generalLimiter } from '../middleware/rateLimiting';
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', generalLimiter, async (req, res) => {
   try {
     const categories = await Category.find({ isDeleted: false });
 
@@ -24,7 +25,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/add', verifyAdmin, async (req, res) => {
+router.post('/add', adminLimiter, verifyAdmin, async (req, res) => {
   try {
     const newCategory = await Category.create(req.body);
 

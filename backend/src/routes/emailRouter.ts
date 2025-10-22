@@ -1,10 +1,11 @@
 import express from 'express';
 import { sendEmail } from '../services/emailService';
 import { Newsletter } from '../models/NewsletterSchema';
+import { newsletterLimiter } from '../middleware/rateLimiting';
 
 const router = express.Router();
 
-router.post('/send', async (req, res) => {
+router.post('/send', newsletterLimiter, async (req, res) => {
   const { email } = req.body;
   try {
     const emailDb = await Newsletter.create({ email });

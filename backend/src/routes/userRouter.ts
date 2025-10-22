@@ -4,10 +4,11 @@ import { User } from '../models/UserSchema';
 import bcrypt from 'bcrypt';
 import verifyToken from '../middleware/verifyToken';
 import verifyAdmin from '../middleware/verifyAdmin';
+import { adminLimiter, authLimiter, registerLimiter } from '../middleware/rateLimiting';
 
 const router = express.Router();
 
-router.get('/', verifyAdmin, async (req, res) => {
+router.get('/', adminLimiter, verifyAdmin, async (req, res) => {
   try {
     const users = await User.find({});
 
@@ -27,7 +28,7 @@ router.get('/', verifyAdmin, async (req, res) => {
   }
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register', registerLimiter, async (req, res) => {
   try {
     const user = req.body;
     const { name, email, password } = user;
@@ -68,7 +69,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', authLimiter, async (req, res) => {
   try {
     const userReq = req.body;
     const { email, password } = userReq;

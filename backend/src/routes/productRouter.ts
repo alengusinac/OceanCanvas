@@ -5,6 +5,7 @@ import { Size } from '../models/SizeSchema';
 import { Types } from 'mongoose';
 import { log } from 'console';
 import verifyAdmin from '../middleware/verifyAdmin';
+import { adminLimiter, generalLimiter } from '../middleware/rateLimiting';
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ interface IFindProductQuery {
   isDeleted: boolean;
 }
 
-router.get('/', async (req, res) => {
+router.get('/', generalLimiter, async (req, res) => {
   try {
     let query: IFindProductQuery = { isDeleted: false };
     const categories = req.query.category as string;
@@ -64,7 +65,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/add', verifyAdmin, async (req, res) => {
+router.post('/add', adminLimiter, verifyAdmin, async (req, res) => {
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -101,9 +102,9 @@ router.post('/add', verifyAdmin, async (req, res) => {
   }
 });
 
-router.put('/edit', verifyAdmin, async (req, res) => {});
+router.put('/edit', adminLimiter, verifyAdmin, async (req, res) => {});
 
-router.put('/delete', verifyAdmin, async (req, res) => {
+router.put('/delete', adminLimiter, verifyAdmin, async (req, res) => {
   const productId = req.body.productId;
 
   try {
@@ -131,7 +132,7 @@ router.put('/delete', verifyAdmin, async (req, res) => {
   }
 });
 
-router.get('/:productId', async (req, res) => {
+router.get('/:productId', generalLimiter, async (req, res) => {
   try {
     const product = await Product.findById(req.params.productId);
     const sizes = await Size.find();
