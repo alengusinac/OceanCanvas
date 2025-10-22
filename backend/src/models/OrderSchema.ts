@@ -28,6 +28,14 @@ const OrderSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
+      paymentIntentId: {
+        type: String,
+        required: false,
+      },
+      status: {
+        type: String,
+        required: false,
+      },
     },
     products: [
       {

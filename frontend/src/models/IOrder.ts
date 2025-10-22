@@ -8,6 +8,8 @@ export interface IOrder {
     cardNumber: string;
     expirationDate: string;
     ccv: string;
+    paymentIntentId?: string;
+    status?: string;
   };
   user?: string;
   products: {

@@ -1,4 +1,5 @@
 import Cart from '@/components/Cart';
+import StripePayment from '@/components/StripePayment';
 import { StyledCheckout } from '@/components/styled/Checkout.styled';
 import { StyledForm } from '@/components/styled/Form.styled';
 import { ErrorText, Heading1, Heading4 } from '@/components/styled/Text.styled';
@@ -126,6 +127,16 @@ const Checkout = () => {
     }, 1000);
   };
 
+  const handleStripePaymentSuccess = (orderData: any) => {
+    clearCart();
+    navigate('/confirm-order', { state: orderData });
+  };
+
+  const handleStripePaymentError = (error: string) => {
+    setPaymentError([error]);
+    setOrderButtonLoading(false);
+  };
+
   return (
     <StyledCheckout>
       <div>
@@ -200,9 +211,10 @@ const Checkout = () => {
         </StyledForm>
       </div>
       <Divider />
-      {openPayment && (
+      {true && (
         <div>
           <Heading4>Payment information</Heading4>
+
           {paymentError.length > 0 && (
             <div>
               {paymentError.map((error, index) => (
@@ -210,36 +222,15 @@ const Checkout = () => {
               ))}
             </div>
           )}
-          <StyledForm onSubmit={validateOrder} onChange={onPaymentFormChange}>
-            <TextField
-              name="cardNumber"
-              value={paymentFormValues.cardNumber}
-              label="Credit/Debit Card Number"
-              variant="filled"
-              required
-            />
-            <TextField
-              name="expirationDate"
-              value={paymentFormValues.expirationDate}
-              label="Expiration Date MM/YY"
-              variant="filled"
-              required
-            />
-            <TextField
-              name="ccv"
-              value={paymentFormValues.ccv}
-              label="CCV"
-              variant="filled"
-              required
-            />
-            <Button
-              disabled={orderButtonLoading}
-              type="submit"
-              variant="contained"
-            >
-              Complete Order
-            </Button>
-          </StyledForm>
+
+          <StripePayment
+            totalPrice={totalPrice}
+            cart={cart}
+            totalAmount={totalAmount}
+            addressFormValues={addressFormValues}
+            onSuccess={handleStripePaymentSuccess}
+            onError={handleStripePaymentError}
+          />
         </div>
       )}
     </StyledCheckout>

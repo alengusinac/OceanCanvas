@@ -9,6 +9,7 @@ import orderRouter from './routes/orderRouter';
 import sizeRouter from './routes/sizeRouter';
 import categoryRouter from './routes/categoryRouter';
 import emailRouter from './routes/emailRouter';
+import paymentRouter from './routes/paymentRouter';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -42,6 +43,7 @@ app.use('/orders', orderRouter);
 app.use('/sizes', sizeRouter);
 app.use('/categories', categoryRouter);
 app.use('/newsletter', emailRouter);
+app.use('/payments', paymentRouter);
 
 app.listen(process.env.SERVER_PORT || 3000, () => {
   console.log(`Application started on port ${process.env.SERVER_PORT || 3000}!`);
