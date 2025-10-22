@@ -3,12 +3,9 @@ import StripePayment from '@/components/StripePayment';
 import { StyledCheckout } from '@/components/styled/Checkout.styled';
 import { StyledForm } from '@/components/styled/Form.styled';
 import { ErrorText, Heading1, Heading4 } from '@/components/styled/Text.styled';
-import { validateCardExpiry, validateCardNumber } from '@/functions';
 import { useCartContext } from '@/hooks/useCartContext';
 import { useUserContext } from '@/hooks/useUserContext';
 import { IAddress } from '@/models/IAddress';
-import { IOrder } from '@/models/IOrder';
-import { postOrder } from '@/services/orderService';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
@@ -29,13 +26,7 @@ const Checkout = () => {
     country: '',
     phone: '',
   });
-  const [paymentFormValues, setPaymentFormValues] = useState({
-    cardNumber: '',
-    expirationDate: '',
-    ccv: '',
-  });
   const [paymentError, setPaymentError] = useState<string[]>([]);
-  const [orderButtonLoading, setOrderButtonLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,74 +48,10 @@ const Checkout = () => {
     setAddressFormValues({ ...addressFormValues, [name]: value });
   };
 
-  const onPaymentFormChange = (e: React.ChangeEvent<HTMLFormElement>) => {
-    const { name, value } = e.target;
-
-    setPaymentFormValues({ ...paymentFormValues, [name]: value });
-  };
-
   const verifyShipping = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setOpenPayment(true);
-  };
-
-  const validateOrder = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const errorMessages = [];
-    const cardValidation = validateCardNumber(paymentFormValues.cardNumber);
-    const expirationDateValidation = validateCardExpiry(
-      paymentFormValues.expirationDate
-    );
-    const ccvValidation =
-      paymentFormValues.ccv.length === 3 &&
-      !isNaN(Number(paymentFormValues.ccv));
-
-    if (!cardValidation) {
-      errorMessages.push('Invalid card number');
-    }
-    if (!expirationDateValidation) {
-      errorMessages.push('Invalid expiration date');
-    }
-    if (!ccvValidation) {
-      errorMessages.push('Invalid CCV');
-    }
-    setPaymentError(errorMessages);
-    if (errorMessages.length === 0) {
-      postOrderAsync();
-    }
-  };
-
-  const postOrderAsync = async () => {
-    setOrderButtonLoading(true);
-    setTimeout(async () => {
-      try {
-        const value: IOrder = {
-          address: addressFormValues,
-          payment: paymentFormValues,
-          products: cart.map((item) => ({
-            product: item.product._id,
-            size: item.product.size,
-            amount: item.amount,
-          })),
-          total: {
-            amount: totalAmount,
-            price: totalPrice,
-          },
-        };
-        if (user) {
-          value.user = user._id;
-        }
-        const response = await postOrder(value);
-        if (response?.status === 201) {
-          clearCart();
-          navigate('/confirm-order', { state: response.data });
-        }
-      } catch (error) {
-        setOrderButtonLoading(false);
-        console.error(error);
-      }
-    }, 1000);
   };
 
   const handleStripePaymentSuccess = (orderData: any) => {
@@ -134,7 +61,6 @@ const Checkout = () => {
 
   const handleStripePaymentError = (error: string) => {
     setPaymentError([error]);
-    setOrderButtonLoading(false);
   };
 
   return (
@@ -211,7 +137,7 @@ const Checkout = () => {
         </StyledForm>
       </div>
       <Divider />
-      {true && (
+      {openPayment && (
         <div>
           <Heading4>Payment information</Heading4>
 
