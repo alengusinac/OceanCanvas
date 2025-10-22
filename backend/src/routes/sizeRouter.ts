@@ -1,5 +1,6 @@
 import express from 'express';
 import { Size } from '../models/SizeSchema';
+import verifyAdmin from '../middleware/verifyAdmin';
 
 const router = express.Router();
 
@@ -23,7 +24,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/add', async (req, res) => {
+router.post('/add', verifyAdmin, async (req, res) => {
   try {
     const newSize = await Size.create(req.body);
 

@@ -3,10 +3,11 @@ import jwt, { Secret } from 'jsonwebtoken';
 import { User } from '../models/UserSchema';
 import bcrypt from 'bcrypt';
 import verifyToken from '../middleware/verifyToken';
+import verifyAdmin from '../middleware/verifyAdmin';
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', verifyAdmin, async (req, res) => {
   try {
     const users = await User.find({});
 

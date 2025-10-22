@@ -4,6 +4,7 @@ import { Product } from '../models/ProductSchema';
 import { Size } from '../models/SizeSchema';
 import { Types } from 'mongoose';
 import { log } from 'console';
+import verifyAdmin from '../middleware/verifyAdmin';
 
 const router = express.Router();
 
@@ -63,7 +64,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/add', async (req, res) => {
+router.post('/add', verifyAdmin, async (req, res) => {
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -100,9 +101,9 @@ router.post('/add', async (req, res) => {
   }
 });
 
-router.put('/edit', async (req, res) => {});
+router.put('/edit', verifyAdmin, async (req, res) => {});
 
-router.put('/delete', async (req, res) => {
+router.put('/delete', verifyAdmin, async (req, res) => {
   const productId = req.body.productId;
 
   try {

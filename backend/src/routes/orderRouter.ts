@@ -2,11 +2,12 @@ import express from 'express';
 import { Order } from '../models/OrderSchema';
 import ShortUniqueId from 'short-unique-id';
 import verifyToken from '../middleware/verifyToken';
+import verifyAdmin from '../middleware/verifyAdmin';
 import { sendEmail } from '../services/emailService';
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', verifyAdmin, async (req, res) => {
   try {
     const orders = await Order.find();
     if (!orders) {

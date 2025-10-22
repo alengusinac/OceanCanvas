@@ -1,5 +1,6 @@
 import express from 'express';
 import { Category } from '../models/CategorySchema';
+import verifyAdmin from '../middleware/verifyAdmin';
 
 const router = express.Router();
 
@@ -23,7 +24,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/add', async (req, res) => {
+router.post('/add', verifyAdmin, async (req, res) => {
   try {
     const newCategory = await Category.create(req.body);
 
