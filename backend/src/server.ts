@@ -31,7 +31,6 @@ app.use(
   })
 );
 app.use(morgan('dev'));
-connectDatabase();
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Application really works!');
@@ -47,4 +46,5 @@ app.use('/payments', paymentRouter);
 
 app.listen(process.env.SERVER_PORT || 3000, () => {
   console.log(`Application started on port ${process.env.SERVER_PORT || 3000}!`);
+  connectDatabase();
 });
