@@ -2,7 +2,7 @@ import Cart from '@/components/Cart';
 import StripePayment from '@/components/StripePayment';
 import { StyledCheckout } from '@/components/styled/Checkout.styled';
 import { StyledForm } from '@/components/styled/Form.styled';
-import { ErrorText, Heading1, Heading4 } from '@/components/styled/Text.styled';
+import { Heading1, Heading4 } from '@/components/styled/Text.styled';
 import { useCartContext } from '@/hooks/useCartContext';
 import { useUserContext } from '@/hooks/useUserContext';
 import { IAddress } from '@/models/IAddress';
@@ -26,7 +26,6 @@ const Checkout = () => {
     country: '',
     phone: '',
   });
-  const [paymentError, setPaymentError] = useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,10 +56,6 @@ const Checkout = () => {
   const handleStripePaymentSuccess = (orderData: any) => {
     clearCart();
     navigate('/confirm-order', { state: orderData });
-  };
-
-  const handleStripePaymentError = (error: string) => {
-    setPaymentError([error]);
   };
 
   return (
@@ -140,22 +135,13 @@ const Checkout = () => {
       {openPayment && (
         <div>
           <Heading4>Payment information</Heading4>
-
-          {paymentError.length > 0 && (
-            <div>
-              {paymentError.map((error, index) => (
-                <ErrorText key={index}>{error}</ErrorText>
-              ))}
-            </div>
-          )}
-
           <StripePayment
             totalPrice={totalPrice}
             cart={cart}
             totalAmount={totalAmount}
             addressFormValues={addressFormValues}
             onSuccess={handleStripePaymentSuccess}
-            onError={handleStripePaymentError}
+            onError={() => {}}
           />
         </div>
       )}

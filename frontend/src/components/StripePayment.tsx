@@ -13,7 +13,6 @@ import { IAddress } from '@/models/IAddress';
 import Button from '@mui/material/Button';
 import { ErrorText } from '@/components/styled/Text.styled';
 
-// Test publishable key - replace with your actual Stripe test key
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 interface StripePaymentProps {
@@ -101,7 +100,7 @@ const CheckoutForm: React.FC<{
         const orderData: IOrder = {
           address: addressFormValues,
           payment: {
-            cardNumber: '**** **** **** ****', // Don't store real card numbers
+            cardNumber: '**** **** **** ****',
             expirationDate: '**/**',
             ccv: '***',
             paymentIntentId: paymentIntent.id,
