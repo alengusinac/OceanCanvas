@@ -13,7 +13,9 @@ import { IAddress } from '@/models/IAddress';
 import Button from '@mui/material/Button';
 import { ErrorText } from '@/components/styled/Text.styled';
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY, {
+  locale: 'en'
+});
 
 interface StripePaymentProps {
   totalPrice: number;
