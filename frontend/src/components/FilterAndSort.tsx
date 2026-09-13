@@ -1,7 +1,9 @@
 import { IProductFiltersSort } from '@/models/IFilters';
 import {
   FirstFlexItem,
+  ProductCount,
   SecondFlexItem,
+  SelectWrapper,
   StyledFilterAndSort,
 } from './styled/FilterAndSort.styled';
 import { MdKeyboardArrowDown } from 'react-icons/md';
@@ -113,48 +115,54 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
       </FirstFlexItem>
 
       <SecondFlexItem>
-        <p>{totalProducts} products</p>
+        <ProductCount>{totalProducts} products</ProductCount>
         <div>
-          <select
-            aria-label="products per page"
-            onChange={(e) => {
-              setFilters({
-                ...filters,
-                productsPerPage: parseInt(e.target.value),
-              });
-            }}
-          >
-            <option>12 per page</option>
-            <option>24 per page</option>
-            <option>36 per page</option>
-          </select>
+          <SelectWrapper>
+            <select
+              aria-label="products per page"
+              onChange={(e) => {
+                setFilters({
+                  ...filters,
+                  productsPerPage: parseInt(e.target.value),
+                });
+              }}
+            >
+              <option>12 per page</option>
+              <option>24 per page</option>
+              <option>36 per page</option>
+            </select>
+            <MdKeyboardArrowDown />
+          </SelectWrapper>
 
-          <select
-            aria-label="sort products by"
-            onChange={(e) => {
-              let value = '';
+          <SelectWrapper>
+            <select
+              aria-label="sort products by"
+              onChange={(e) => {
+                let value = '';
 
-              switch (e.target.value) {
-                case 'Latest':
-                  value = '-createdAt';
-                  break;
-                case 'Price Low':
-                  value = 'priceMultiplier';
-                  break;
-                case 'Price High':
-                  value = '-priceMultiplier';
-                  break;
-              }
-              setFilters({
-                ...filters,
-                sort: value,
-              });
-            }}
-          >
-            <option>Latest</option>
-            <option>Price Low</option>
-            <option>Price High</option>
-          </select>
+                switch (e.target.value) {
+                  case 'Latest':
+                    value = '-createdAt';
+                    break;
+                  case 'Price Low':
+                    value = 'priceMultiplier';
+                    break;
+                  case 'Price High':
+                    value = '-priceMultiplier';
+                    break;
+                }
+                setFilters({
+                  ...filters,
+                  sort: value,
+                });
+              }}
+            >
+              <option>Latest</option>
+              <option>Price Low</option>
+              <option>Price High</option>
+            </select>
+            <MdKeyboardArrowDown />
+          </SelectWrapper>
         </div>
       </SecondFlexItem>
     </StyledFilterAndSort>
