@@ -58,11 +58,6 @@ const Product = () => {
     }
   };
 
-  const handleOnLoad = (e: any) => {
-    // console.log('Image loaded');
-    console.log(e.target.offsetWidth, e.target.offsetHeight);
-  };
-
   const handleSizeChange = (event: any) => {
     const selectedSize = event.target.value;
     const selectedSizeData = product?.sizes.find(
