@@ -25,7 +25,6 @@ export const StyledNav = styled.nav`
   background-color: ${colors.white};
   display: flex;
   flex-direction: column;
-  margin-top: 75px;
 
   button {
     display: flex;
@@ -36,9 +35,13 @@ export const StyledNav = styled.nav`
     height: 50px;
     padding-left: 30px;
   }
-  @media (min-width: 768px) {
-    margin-top: 100px;
-  }
+`;
+
+export const DrawerHeader = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 10px;
 `;
 
 export const Logo = styled(LogoWrapper)`

@@ -1,6 +1,6 @@
 import logo from '@/assets/oceancanvas-logo.png';
 import MaterialIconButton from './MaterialIconButton';
-import { MdOutlineShoppingCart, MdMenu, MdClose } from 'react-icons/md';
+import { MdOutlineShoppingCart, MdMenu } from 'react-icons/md';
 import { HeaderWrapper, Logo } from './styled/Header.styled';
 import { FlexWrapper } from './styled/Flex.styled';
 import Drawer from '@mui/material/Drawer';
@@ -30,19 +30,25 @@ const Header = () => {
         ariaLabel="open menu"
         testId="cy-menuIcon"
         onClick={() => {
-          setNavDrawerOpen(!navDrawerOpen);
+          setNavDrawerOpen(true);
           setCartDrawerOpen(false);
         }}
-        icon={navDrawerOpen ? <MdClose /> : <MdMenu />}
+        icon={<MdMenu />}
       />
       <Drawer
         anchor={'left'}
         open={navDrawerOpen}
         ModalProps={{ disableScrollLock: true }}
         onClose={() => setNavDrawerOpen(false)}
-        sx={{ '& .MuiDrawer-paper': { backgroundColor: colors.white } }}
+        sx={{
+          zIndex: 1500,
+          '& .MuiDrawer-paper': { backgroundColor: colors.white },
+        }}
       >
-        <Nav handleNavClick={handleNavClick} />
+        <Nav
+          handleNavClick={handleNavClick}
+          onClose={() => setNavDrawerOpen(false)}
+        />
       </Drawer>
       <Link to={'/'}>
         <Logo alt="OceanCanvas logo" src={logo} />
@@ -57,7 +63,7 @@ const Header = () => {
             ariaLabel="open cart"
             testId="cy-cartIcon"
             onClick={() => {
-              setCartDrawerOpen(!cartDrawerOpen);
+              setCartDrawerOpen(true);
               setNavDrawerOpen(false);
             }}
             icon={<MdOutlineShoppingCart />}
@@ -73,7 +79,10 @@ const Header = () => {
           open={cartDrawerOpen}
           ModalProps={{ disableScrollLock: true }}
           onClose={() => setCartDrawerOpen(false)}
-          sx={{ '& .MuiDrawer-paper': { backgroundColor: colors.white } }}
+          sx={{
+            zIndex: 1500,
+            '& .MuiDrawer-paper': { backgroundColor: colors.white },
+          }}
         >
           <Cart setCartDrawerOpen={setCartDrawerOpen} />
         </Drawer>

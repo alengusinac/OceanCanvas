@@ -1,13 +1,16 @@
 import Divider from '@mui/material/Divider';
-import { StyledNav } from './styled/Header.styled';
+import { DrawerHeader, StyledNav } from './styled/Header.styled';
 import { useUserContext } from '@/hooks/useUserContext';
 import { memo } from 'react';
+import { MdClose } from 'react-icons/md';
+import MaterialIconButton from './MaterialIconButton';
 
 interface Props {
   handleNavClick: (nav: string) => void;
+  onClose: () => void;
 }
 
-const Nav = ({ handleNavClick }: Props) => {
+const Nav = ({ handleNavClick, onClose }: Props) => {
   const { user, logout } = useUserContext();
 
   const LoginButtons = () => {
@@ -42,6 +45,14 @@ const Nav = ({ handleNavClick }: Props) => {
 
   return (
     <StyledNav>
+      <DrawerHeader>
+        <MaterialIconButton
+          ariaLabel="close menu"
+          testId="cy-closeMenuIcon"
+          onClick={onClose}
+          icon={<MdClose />}
+        />
+      </DrawerHeader>
       <button onClick={() => handleNavClick('/')}>Home</button>
       <Divider />
       <button onClick={() => handleNavClick('/products')}>Photo Prints</button>
