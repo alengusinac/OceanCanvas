@@ -3,12 +3,11 @@ import MaterialIconButton from './MaterialIconButton';
 import { MdOutlineShoppingCart, MdMenu } from 'react-icons/md';
 import { HeaderWrapper, Logo } from './styled/Header.styled';
 import { FlexWrapper } from './styled/Flex.styled';
-import Drawer from '@mui/material/Drawer';
+import AppDrawer from './AppDrawer';
 import { memo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Cart from './CartDrawer';
 import Nav from './Nav';
-import { colors } from '@/styles/variables';
 import { useCartContext } from '@/hooks/useCartContext';
 import { AmountIndicator } from './AmountIndicator';
 import { SmallBodyText } from './styled/Text.styled';
@@ -35,21 +34,15 @@ const Header = () => {
         }}
         icon={<MdMenu />}
       />
-      <Drawer
+      <AppDrawer
         anchor={'left'}
         open={navDrawerOpen}
-        ModalProps={{ disableScrollLock: true }}
         onClose={() => setNavDrawerOpen(false)}
-        sx={{
-          zIndex: 1500,
-          '& .MuiDrawer-paper': { backgroundColor: colors.white },
-        }}
+        closeAriaLabel="close menu"
+        closeTestId="cy-closeMenuIcon"
       >
-        <Nav
-          handleNavClick={handleNavClick}
-          onClose={() => setNavDrawerOpen(false)}
-        />
-      </Drawer>
+        <Nav handleNavClick={handleNavClick} />
+      </AppDrawer>
       <Link to={'/'}>
         <Logo alt="OceanCanvas logo" src={logo} />
       </Link>
@@ -74,18 +67,15 @@ const Header = () => {
             </AmountIndicator>
           )}
         </div>
-        <Drawer
+        <AppDrawer
           anchor={'right'}
           open={cartDrawerOpen}
-          ModalProps={{ disableScrollLock: true }}
           onClose={() => setCartDrawerOpen(false)}
-          sx={{
-            zIndex: 1500,
-            '& .MuiDrawer-paper': { backgroundColor: colors.white },
-          }}
+          closeAriaLabel="close cart"
+          closeTestId="cy-closeCartIcon"
         >
           <Cart setCartDrawerOpen={setCartDrawerOpen} />
-        </Drawer>
+        </AppDrawer>
       </FlexWrapper>
     </HeaderWrapper>
   );

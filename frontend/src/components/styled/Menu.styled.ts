@@ -22,14 +22,6 @@ export const MenuItem = styled.button`
   text-align: left;
   cursor: pointer;
 
-  &:first-child {
-    margin-top: 75px;
-
-    @media (min-width: 768px) {
-      margin-top: 100px;
-    }
-  }
-
   &:hover {
     background-color: #eee;
   }

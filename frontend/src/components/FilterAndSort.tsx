@@ -7,7 +7,7 @@ import {
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { memo, useEffect, useState } from 'react';
 import { MenuItem } from './styled/Menu.styled';
-import Drawer from '@mui/material/Drawer';
+import AppDrawer from './AppDrawer';
 import { getCategories } from '@/services/categoryService';
 import { ICategory } from '@/models/IProduct';
 
@@ -46,11 +46,11 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
           Categories
           <MdKeyboardArrowDown />
         </button>
-        <Drawer
+        <AppDrawer
           anchor={'left'}
-          ModalProps={{ disableScrollLock: true }}
           open={openCategories}
           onClose={() => setOpenCategories(false)}
+          closeAriaLabel="close categories"
         >
           {categories?.map((category) => (
             <MenuItem
@@ -66,7 +66,7 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
               {category.category}
             </MenuItem>
           ))}
-        </Drawer>
+        </AppDrawer>
         <button
           data-cy="filtersBtn"
           onClick={() => setOpenFilters(!openFilters)}
@@ -74,15 +74,15 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
           Filters
           <MdKeyboardArrowDown />
         </button>
-        <Drawer
+        <AppDrawer
           anchor={'right'}
-          ModalProps={{ disableScrollLock: true }}
           open={openFilters}
           onClose={() => setOpenFilters(false)}
+          closeAriaLabel="close filters"
         >
           <MenuItem data-cy="filterBtn">Horisontal</MenuItem>
           <MenuItem data-cy="filterBtn">Vertical</MenuItem>
-        </Drawer>
+        </AppDrawer>
       </FirstFlexItem>
 
       <SecondFlexItem>
