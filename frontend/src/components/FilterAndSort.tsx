@@ -52,6 +52,17 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
           onClose={() => setOpenCategories(false)}
           closeAriaLabel="close categories"
         >
+          <MenuItem
+            onClick={() => {
+              setFilters({
+                ...filters,
+                category: '',
+              });
+              setOpenCategories(false);
+            }}
+          >
+            All categories
+          </MenuItem>
           {categories?.map((category) => (
             <MenuItem
               key={category._id}
