@@ -16,6 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { memo, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import { getOptimizedImageUrl } from '@/utils/cloudinary';
 
 const Product = () => {
   const { addToCart } = useCartContext();
@@ -84,7 +85,14 @@ const Product = () => {
 
   return (
     <StyledProduct>
-      <img src={product?.imageUrl} onLoad={handleOnLoad} alt={product?.title} />
+      <img
+        src={getOptimizedImageUrl(product?.imageUrl, { width: 800 })}
+        onLoad={handleOnLoad}
+        alt={product?.title}
+        loading="eager"
+        fetchPriority="high"
+        decoding="async"
+      />
       <Heading2>{product?.title}</Heading2>
       <FormControl sx={{ minWidth: 250, maxWidth: 350 }}>
         <Select

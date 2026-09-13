@@ -22,15 +22,16 @@ const Home = () => {
       <HeroBanner
         alt="Whale Shark Print"
         image={
-          'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto/Whaleshark'
+          'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto,dpr_auto,w_1000,c_limit/Whaleshark'
         }
         buttonText="Explore All Prints"
         onClick={() => navigate('/products', { state: { category: '' } })}
+        priority
       />
       <HeroBanner
         alt="Sardine Tornado Print"
         image={
-          'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto/Fish%202'
+          'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto,dpr_auto,w_1000,c_limit/Fish%202'
         }
         buttonText="Explore Fish Prints"
         onClick={() => navigate('/products', { state: { category: 'fish' } })}
@@ -38,7 +39,7 @@ const Home = () => {
       <HeroBanner
         alt="Coral Print"
         image={
-          'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto/mgipxlvzqk6st7p2lg6l'
+          'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto,dpr_auto,w_1000,c_limit/mgipxlvzqk6st7p2lg6l'
         }
         buttonText="Explore Coral Prints"
         onClick={() => navigate('/products', { state: { category: 'corals' } })}

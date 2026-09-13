@@ -8,9 +8,10 @@ interface Props {
   buttonText: string;
   onClick: React.MouseEventHandler;
   alt: string;
+  priority?: boolean;
 }
 
-const HeroBanner = ({ image, buttonText, onClick, alt }: Props) => {
+const HeroBanner = ({ image, buttonText, onClick, alt, priority }: Props) => {
   return (
     <HeroWrapper>
       <Box
@@ -23,7 +24,13 @@ const HeroBanner = ({ image, buttonText, onClick, alt }: Props) => {
           {buttonText}
         </Button>
       </Box>
-      <Image alt={alt} src={image} />
+      <Image
+        alt={alt}
+        src={image}
+        loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={priority ? 'high' : 'auto'}
+        decoding="async"
+      />
     </HeroWrapper>
   );
 };

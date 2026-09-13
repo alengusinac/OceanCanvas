@@ -21,8 +21,8 @@ const About = () => {
         shared desire to bring that beauty to the world.
       </BodyText>
       <ImagesContainer>
-        <img src={photographer1} alt="" />
-        <img src={photographer2} alt="" />
+        <img src={photographer1} alt="" loading="lazy" decoding="async" />
+        <img src={photographer2} alt="" loading="lazy" decoding="async" />
       </ImagesContainer>
       <Heading4>Our Mission: Capturing the Essence of the Ocean</Heading4>
       <BodyText>

@@ -6,6 +6,7 @@ import {
 } from './styled/Products.styled';
 import { Heading4, SmallBodyText } from './styled/Text.styled';
 import { memo } from 'react';
+import { getOptimizedImageUrl } from '@/utils/cloudinary';
 
 interface Props {
   item: IProduct;
@@ -13,13 +14,15 @@ interface Props {
 }
 
 const ProductCard = ({ item, onClick }: Props) => {
-  const cloudinaryUrl =
-    'https://res.cloudinary.com/dkoejzei7/image/upload/f_auto,q_auto/';
-
   return (
     <StyledProductCard data-cy="productCard" onClick={onClick}>
       <ImageContainer>
-        <ProductImage alt={item.title} src={`${cloudinaryUrl}${item.title}`} />
+        <ProductImage
+          alt={item.title}
+          src={getOptimizedImageUrl(item.imageUrl, { width: 200 })}
+          loading="lazy"
+          decoding="async"
+        />
       </ImageContainer>
       <Heading4>{item.title}</Heading4>
       <SmallBodyText>From ${item.sizes[0].price}</SmallBodyText>

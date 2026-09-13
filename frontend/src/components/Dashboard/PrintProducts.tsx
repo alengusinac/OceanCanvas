@@ -4,6 +4,7 @@ import { BodyText, Heading4 } from '../styled/Text.styled';
 import MaterialIconButton from '../MaterialIconButton';
 import { deleteProduct } from '@/services/productService';
 import { MdDeleteForever } from 'react-icons/md';
+import { getOptimizedImageUrl } from '@/utils/cloudinary';
 
 interface Props {
   products: IProduct[];
@@ -15,7 +16,14 @@ const PrintProducts = ({ products, getProductsAsync }: Props) => {
     <>
       {products.map((product) => (
         <TableRow key={product._id}>
-          <img src={product.imageUrl} alt="" width={100} height={75} />
+          <img
+            src={getOptimizedImageUrl(product.imageUrl, { width: 150 })}
+            alt=""
+            width={100}
+            height={75}
+            loading="lazy"
+            decoding="async"
+          />
           <Heading4>{product.title}</Heading4>
           <BodyText>{product.priceMultiplier}</BodyText>
           <MaterialIconButton

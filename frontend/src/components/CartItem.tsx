@@ -17,6 +17,7 @@ import {
 import { FlexWrapper } from './styled/Flex.styled';
 import { useCartContext } from '@/hooks/useCartContext';
 import { memo } from 'react';
+import { getOptimizedImageUrl } from '@/utils/cloudinary';
 
 interface Props {
   item: ICartItem;
@@ -30,7 +31,12 @@ const CartItem = ({ item }: Props) => {
     <StyledCartItem data-cy="cartItem">
       <FlexWrapper>
         <CartImageContainer>
-          <ProductImage src={product.imageUrl} />
+          <ProductImage
+            alt={product.title}
+            src={getOptimizedImageUrl(product.imageUrl, { width: 150 })}
+            loading="lazy"
+            decoding="async"
+          />
         </CartImageContainer>
         <div>
           <BodyText>{product.title}</BodyText>
