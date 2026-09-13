@@ -80,8 +80,24 @@ const FilterAndSort = ({ totalProducts, filters, setFilters }: Props) => {
           onClose={() => setOpenFilters(false)}
           closeAriaLabel="close filters"
         >
-          <MenuItem data-cy="filterBtn">Horisontal</MenuItem>
-          <MenuItem data-cy="filterBtn">Vertical</MenuItem>
+          <MenuItem
+            data-cy="filterBtn"
+            onClick={() => {
+              setFilters({ ...filters, orientation: 'landscape' });
+              setOpenFilters(false);
+            }}
+          >
+            Landscape
+          </MenuItem>
+          <MenuItem
+            data-cy="filterBtn"
+            onClick={() => {
+              setFilters({ ...filters, orientation: 'portrait' });
+              setOpenFilters(false);
+            }}
+          >
+            Portrait
+          </MenuItem>
         </AppDrawer>
       </FirstFlexItem>
 

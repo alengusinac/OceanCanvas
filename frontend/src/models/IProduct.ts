@@ -6,6 +6,7 @@ export interface IProduct {
   imageUrl: string;
   categories: string[];
   sizes: ISizeWithPrize[];
+  orientation?: 'portrait' | 'landscape';
 }
 
 export interface ISizeWithPrize {

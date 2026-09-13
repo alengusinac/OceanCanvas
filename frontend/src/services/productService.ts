@@ -26,6 +26,9 @@ export const getProducts = async (
       filters.category && url.searchParams.append('category', filters.category);
 
       filters.sort && url.searchParams.append('sort', filters.sort);
+
+      filters.orientation &&
+        url.searchParams.append('orientation', filters.orientation);
     }
 
     const response = await get<IProductsResponse>(url.href);

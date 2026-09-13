@@ -89,7 +89,6 @@ const Product = () => {
     <StyledProduct>
       <img
         src={getOptimizedImageUrl(product?.imageUrl, { width: 800 })}
-        onLoad={handleOnLoad}
         alt={product?.title}
         loading="eager"
         fetchPriority="high"
