@@ -1,6 +1,11 @@
 import logo from '@/assets/oceancanvas-logo.png';
 import Newsletter from './Newsletter';
-import { FooterWrapper } from './styled/Footer.styled';
+import {
+  FooterCopyright,
+  FooterMain,
+  FooterSection,
+  FooterWrapper,
+} from './styled/Footer.styled';
 import { LogoWrapper } from './styled/Logo.styled';
 import SocialIcons from './SocialIcons';
 import { memo } from 'react';
@@ -8,12 +13,23 @@ import { memo } from 'react';
 const Footer = () => {
   return (
     <FooterWrapper>
-      <LogoWrapper alt="OceanCanvas logo" src={logo} />
+      <FooterMain>
+        <FooterSection>
+          <LogoWrapper alt="OceanCanvas logo" src={logo} />
+        </FooterSection>
 
-      <Newsletter />
-      <SocialIcons />
+        <FooterSection>
+          <Newsletter />
+        </FooterSection>
 
-      <p>&copy;2023 Alen Gusinac. All rights reserved.</p>
+        <FooterSection>
+          <SocialIcons />
+        </FooterSection>
+      </FooterMain>
+
+      <FooterCopyright>
+        &copy;2023 Alen Gusinac. All rights reserved.
+      </FooterCopyright>
     </FooterWrapper>
   );
 };
