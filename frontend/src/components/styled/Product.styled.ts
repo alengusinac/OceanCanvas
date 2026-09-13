@@ -27,11 +27,11 @@ export const StyledProduct = styled.div`
   padding: 1rem;
 
   img {
-    width: 100%;
-    max-width: 700px;
+    display: block;
+    width: auto;
     height: auto;
-    max-height: 700px;
-    object-fit: contain;
+    max-width: 700px;
+    max-height: 50vh;
     margin: 1rem 0;
     border: 5px solid #000;
     box-shadow: 0 0 10px #000;
