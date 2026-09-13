@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe, StripeCardNumberElementChangeEvent, StripeCardExpiryElementChangeEvent, StripeCardCvcElementChangeEvent } from '@stripe/stripe-js';
 import {
   Elements,
-  CardElement,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
@@ -11,7 +13,18 @@ import { postOrder } from '@/services/orderService';
 import { IOrder } from '@/models/IOrder';
 import { IAddress } from '@/models/IAddress';
 import Button from '@mui/material/Button';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { ErrorText } from '@/components/styled/Text.styled';
+import { colors, fonts } from '@/styles/variables';
+import {
+  CardFormWrapper,
+  FieldRow,
+  FieldGroup,
+  FieldLabel,
+  ElementBox,
+  FieldError,
+  SecureNotice,
+} from '@/components/styled/StripePayment.styled';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY, {
   locale: 'en'
@@ -26,20 +39,21 @@ interface StripePaymentProps {
   onError: (error: string) => void;
 }
 
-const cardElementOptions = {
-  style: {
-    base: {
-      fontSize: '16px',
-      color: '#424770',
-      '::placeholder': {
-        color: '#aab7c4',
-      },
-    },
-    invalid: {
-      color: '#9e2146',
+const elementStyle = {
+  base: {
+    fontFamily: fonts.body,
+    fontSize: '16px',
+    color: colors.darkBlue,
+    '::placeholder': {
+      color: colors.lightGrey,
     },
   },
+  invalid: {
+    color: colors.coral,
+  },
 };
+
+type FieldName = 'cardNumber' | 'cardExpiry' | 'cardCvc';
 
 const CheckoutForm: React.FC<{
   totalPrice: number;
@@ -60,6 +74,34 @@ const CheckoutForm: React.FC<{
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [focusedField, setFocusedField] = useState<FieldName | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<FieldName, string | null>>({
+    cardNumber: null,
+    cardExpiry: null,
+    cardCvc: null,
+  });
+  const [fieldsComplete, setFieldsComplete] = useState<Record<FieldName, boolean>>({
+    cardNumber: false,
+    cardExpiry: false,
+    cardCvc: false,
+  });
+
+  const handleFieldChange = (
+    field: FieldName
+  ) => (
+    event:
+      | StripeCardNumberElementChangeEvent
+      | StripeCardExpiryElementChangeEvent
+      | StripeCardCvcElementChangeEvent
+  ) => {
+    setFieldErrors((prev) => ({
+      ...prev,
+      [field]: event.error ? event.error.message : null,
+    }));
+    setFieldsComplete((prev) => ({ ...prev, [field]: event.complete }));
+  };
+
+  const allFieldsComplete = Object.values(fieldsComplete).every(Boolean);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -90,7 +132,7 @@ const CheckoutForm: React.FC<{
       const { error: stripeError, paymentIntent } =
         await stripe.confirmCardPayment(clientSecret, {
           payment_method: {
-            card: elements.getElement(CardElement)!,
+            card: elements.getElement(CardNumberElement)!,
           },
         });
 
@@ -138,21 +180,83 @@ const CheckoutForm: React.FC<{
 
   return (
     <form onSubmit={handleSubmit}>
-      <div style={{ marginBottom: '20px' }}>
-        <CardElement options={cardElementOptions} />
-      </div>
+      <CardFormWrapper>
+        <FieldGroup>
+          <FieldLabel htmlFor="card-number">Card Number</FieldLabel>
+          <ElementBox
+            $focused={focusedField === 'cardNumber'}
+            $invalid={!!fieldErrors.cardNumber}
+          >
+            <CardNumberElement
+              id="card-number"
+              options={{ style: elementStyle, showIcon: true }}
+              onChange={handleFieldChange('cardNumber')}
+              onFocus={() => setFocusedField('cardNumber')}
+              onBlur={() => setFocusedField(null)}
+            />
+          </ElementBox>
+          {fieldErrors.cardNumber && (
+            <FieldError>{fieldErrors.cardNumber}</FieldError>
+          )}
+        </FieldGroup>
 
-      {error && <ErrorText>{error}</ErrorText>}
+        <FieldRow>
+          <FieldGroup>
+            <FieldLabel htmlFor="card-expiry">Expiration Date</FieldLabel>
+            <ElementBox
+              $focused={focusedField === 'cardExpiry'}
+              $invalid={!!fieldErrors.cardExpiry}
+            >
+              <CardExpiryElement
+                id="card-expiry"
+                options={{ style: elementStyle }}
+                onChange={handleFieldChange('cardExpiry')}
+                onFocus={() => setFocusedField('cardExpiry')}
+                onBlur={() => setFocusedField(null)}
+              />
+            </ElementBox>
+            {fieldErrors.cardExpiry && (
+              <FieldError>{fieldErrors.cardExpiry}</FieldError>
+            )}
+          </FieldGroup>
 
-      <Button
-        type="submit"
-        disabled={!stripe || loading}
-        variant="contained"
-        fullWidth
-        style={{ marginTop: '20px' }}
-      >
-        {loading ? 'Processing...' : `Pay $${totalPrice.toFixed(2)}`}
-      </Button>
+          <FieldGroup>
+            <FieldLabel htmlFor="card-cvc">CVC</FieldLabel>
+            <ElementBox
+              $focused={focusedField === 'cardCvc'}
+              $invalid={!!fieldErrors.cardCvc}
+            >
+              <CardCvcElement
+                id="card-cvc"
+                options={{ style: elementStyle }}
+                onChange={handleFieldChange('cardCvc')}
+                onFocus={() => setFocusedField('cardCvc')}
+                onBlur={() => setFocusedField(null)}
+              />
+            </ElementBox>
+            {fieldErrors.cardCvc && (
+              <FieldError>{fieldErrors.cardCvc}</FieldError>
+            )}
+          </FieldGroup>
+        </FieldRow>
+
+        <SecureNotice>
+          <LockOutlinedIcon fontSize="inherit" />
+          Payments are securely processed by Stripe
+        </SecureNotice>
+
+        {error && <ErrorText>{error}</ErrorText>}
+
+        <Button
+          type="submit"
+          disabled={!stripe || loading || !allFieldsComplete}
+          variant="contained"
+          fullWidth
+          style={{ marginTop: '20px', backgroundColor: colors.aquaBlue }}
+        >
+          {loading ? 'Processing...' : `Pay $${totalPrice.toFixed(2)}`}
+        </Button>
+      </CardFormWrapper>
     </form>
   );
 };

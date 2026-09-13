@@ -1,14 +1,18 @@
 import Cart from '@/components/Cart';
 import StripePayment from '@/components/StripePayment';
-import { StyledCheckout } from '@/components/styled/Checkout.styled';
-import { StyledForm } from '@/components/styled/Form.styled';
+import {
+  ShippingForm,
+  ShippingTextField,
+  StyledCheckout,
+} from '@/components/styled/Checkout.styled';
+import { PanelWrapper } from '@/components/styled/Panel.styled';
 import { Heading1, Heading4 } from '@/components/styled/Text.styled';
 import { useCartContext } from '@/hooks/useCartContext';
 import { useUserContext } from '@/hooks/useUserContext';
 import { IAddress } from '@/models/IAddress';
+import { colors } from '@/styles/variables';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import TextField from '@mui/material/TextField';
 import { memo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -68,68 +72,69 @@ const Checkout = () => {
       <Divider />
       <div>
         <Heading4>Shipping Information</Heading4>
-        <StyledForm onSubmit={verifyShipping} onChange={onAddressChangeInput}>
-          <TextField
-            name="email"
-            type="email"
-            value={addressFormValues.email}
-            label="E-mail"
-            variant="filled"
-            required
-          />
-          <TextField
-            name="firstname"
-            value={addressFormValues.firstname}
-            label="Firstname"
-            variant="filled"
-            required
-          />
-          <TextField
-            name="lastname"
-            value={addressFormValues.lastname}
-            label="Lastname"
-            variant="filled"
-            required
-          />
-          <TextField
-            name="address"
-            value={addressFormValues.address}
-            label="Address"
-            variant="filled"
-            required
-          />
-          <TextField
-            name="zipcode"
-            value={addressFormValues.zipcode}
-            label="Zipcode"
-            variant="filled"
-            required
-          />
-          <TextField
-            name="city"
-            value={addressFormValues.city}
-            label="City"
-            variant="filled"
-            required
-          />
-          <TextField
-            name="country"
-            value={addressFormValues.country}
-            label="Country"
-            variant="filled"
-            required
-          />
-          <TextField
-            name="phone"
-            value={addressFormValues.phone}
-            label="Phone number"
-            variant="filled"
-            required
-          />
-          <Button type="submit" variant="contained">
-            Continue
-          </Button>
-        </StyledForm>
+        <PanelWrapper>
+          <ShippingForm
+            onSubmit={verifyShipping}
+            onChange={onAddressChangeInput}
+          >
+            <ShippingTextField
+              name="email"
+              type="email"
+              value={addressFormValues.email}
+              label="E-mail"
+              required
+            />
+            <ShippingTextField
+              name="firstname"
+              value={addressFormValues.firstname}
+              label="Firstname"
+              required
+            />
+            <ShippingTextField
+              name="lastname"
+              value={addressFormValues.lastname}
+              label="Lastname"
+              required
+            />
+            <ShippingTextField
+              name="address"
+              value={addressFormValues.address}
+              label="Address"
+              required
+            />
+            <ShippingTextField
+              name="zipcode"
+              value={addressFormValues.zipcode}
+              label="Zipcode"
+              required
+            />
+            <ShippingTextField
+              name="city"
+              value={addressFormValues.city}
+              label="City"
+              required
+            />
+            <ShippingTextField
+              name="country"
+              value={addressFormValues.country}
+              label="Country"
+              required
+            />
+            <ShippingTextField
+              name="phone"
+              value={addressFormValues.phone}
+              label="Phone number"
+              required
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              style={{ backgroundColor: colors.aquaBlue, marginTop: '8px' }}
+            >
+              Continue
+            </Button>
+          </ShippingForm>
+        </PanelWrapper>
       </div>
       <Divider />
       {openPayment && (
