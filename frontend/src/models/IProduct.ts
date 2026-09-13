@@ -8,7 +8,7 @@ export interface IProduct {
   sizes: ISizeWithPrize[];
 }
 
-interface ISizeWithPrize {
+export interface ISizeWithPrize {
   _id: string;
   size: string;
   price: number;

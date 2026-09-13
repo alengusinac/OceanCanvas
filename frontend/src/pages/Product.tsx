@@ -8,7 +8,7 @@ import {
 } from '@/components/styled/Text.styled';
 import { useCartContext } from '@/hooks/useCartContext';
 import { ICartItem } from '@/models/IItem';
-import { IProduct } from '@/models/IProduct';
+import { IProduct, ISizeWithPrize } from '@/models/IProduct';
 import { getProduct } from '@/services/productService';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
@@ -18,6 +18,9 @@ import { memo, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { getOptimizedImageUrl } from '@/utils/cloudinary';
 
+const sortSizesByPrice = (sizes: ISizeWithPrize[]) =>
+  [...sizes].sort((a, b) => a.price - b.price);
+
 const Product = () => {
   const { addToCart } = useCartContext();
   const { state } = useLocation();
@@ -25,9 +28,12 @@ const Product = () => {
   const [product, setProduct] = useState<IProduct | undefined>(
     state?.product || undefined
   );
-  const [size, setSize] = useState<string>(state?.product.sizes[0].size || '');
+  const sortedSizes = product ? sortSizesByPrice(product.sizes) : [];
+  const [size, setSize] = useState<string>(
+    sortSizesByPrice(state?.product?.sizes || [])[0]?.size || ''
+  );
   const [price, setPrice] = useState<number>(
-    state?.product.sizes[0].price || 0
+    sortSizesByPrice(state?.product?.sizes || [])[0]?.price || 0
   );
 
   useEffect(() => {
@@ -43,8 +49,9 @@ const Product = () => {
       if (response) {
         setProduct(response);
 
-        setSize(response?.sizes[0].size);
-        setPrice(response?.sizes[0].price);
+        const cheapest = sortSizesByPrice(response.sizes)[0];
+        setSize(cheapest.size);
+        setPrice(cheapest.price);
       }
     } catch (error) {
       console.log('Get Product Error: ', error);
@@ -113,7 +120,7 @@ const Product = () => {
             },
           }}
         >
-          {product?.sizes.map((sizeOption) => (
+          {sortedSizes.map((sizeOption) => (
             <MenuItem key={sizeOption.size} value={sizeOption.size}>
               <FlexWrapper
                 style={{
